@@ -1,0 +1,47 @@
+---
+title: "How to extract the serial interval distribution from a systematic review?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+Conditions:
+- Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015 to quantify the time-varying reproduction number.
+
+```{r}
+#| warning: false
+
+# Load required packages
+library(epiparameter)
+library(tidyverse)
+
+# Load the library of parameters as an epiparam object
+epiparam_all <- epiparam()
+
+# Filter by disease, epi_distribution, region, and year
+epiparam_ebola <- epiparam_all %>% 
+  filter(str_detect(disease,"Ebola")) %>% 
+  filter(epi_distribution == "serial_interval") %>% 
+  filter(region == "West Africa") %>% 
+  filter(year == 2015)
+
+epiparam_ebola
+
+# Convert a row to an epidist class object
+epidist_ebola <- as_epidist(epiparam_ebola)
+
+epidist_ebola
+
+# Plot the epidist object
+plot(epidist_ebola,day_range = 0:50)
+```
+
+## Related
+
+- Explanation on epidemiological distributions

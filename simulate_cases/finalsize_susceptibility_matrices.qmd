@@ -1,0 +1,54 @@
+---
+title: "How to create the susceptibility matrices for a scenario where the susceptibility varies between and within groups?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+This scenario assumes that, in the population, there is different susceptibility to the infection:
+
+- between individuals of different age groups from 20% (infants) to 100% (65+), and
+- within individuals of the same age group due the immunization effect of 25% to the 40% of each of the age groups.
+
+Additionally, 10% of individuals in each of the age groups have 100% susceptibility, due to no immunization or not exposed to similar pathogens previously.
+
+```{r}
+library(tidyverse)
+
+demography_groups <- c("[0,5)", "[5,18)", "[18,40)", "[40,65)", "65+")
+immunization_effect <- 0.25
+
+# susceptibility matrix
+susceptibility <- tibble(
+  age_group = demography_groups,
+  susceptible = c(1.0, 1.0, 1.0, 1.0, 1.0),
+  unimmunised = c(0.2, 0.5, 0.6, 0.9, 1.0)
+) %>%
+  mutate(immunised = unimmunised * (1 - immunization_effect)) %>%
+  column_to_rownames(var = "age_group") %>%
+  as.matrix()
+
+susceptibility
+
+# demography-in-susceptibility matrix
+p_susceptibility <- tibble(
+  age_group = demography_groups,
+  susceptible = c(0.1, 0.1, 0.1, 0.1, 0.1),
+  immunised = c(0.4, 0.4, 0.4, 0.4, 0.4)
+) %>%
+  mutate(unimmunised = 1 - immunised - susceptible) %>%
+  column_to_rownames(var = "age_group") %>%
+  as.matrix()
+
+p_susceptibility
+```
+
+## Related
+
+- [Explanation of susceptibility matrices for the finalsize package](https://epiverse-trace.github.io/finalsize/articles/susceptibility_matrices.html#primer-on-susceptibility-matrices)

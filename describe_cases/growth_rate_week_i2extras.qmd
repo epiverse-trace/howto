@@ -1,0 +1,75 @@
+---
+title: "How to estimate the weekly growth rate using the date of infection?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+Question: How to calculate the weekly growth rate of an outbreak? 
+
+Conditions: 
+- Use the first list element from the Simulated Ebola outbreak ebola_sim_clean object from the outbreaks R package. The name of the first element is linelist.
+- Use the "date of onset" column to calculate the weekly growth rate. 
+- Keep the first 20 weeks of the period of the analysis.
+
+```{r}
+#| warning: false
+
+# Calculate the weekly growth rate of an outbreak
+
+# Load required packages
+library(outbreaks)
+library(i2extras)
+library(dplyr)
+
+# Load the simulated Ebola outbreak data
+data(ebola_sim_clean)
+
+# Extract the first element of the list
+linelist <- ebola_sim_clean[[1]]
+
+# Convert the data to an incidence2 object
+incidence2_data <- incidence2::incidence(
+  x = linelist, 
+  date_index = "date_of_onset",
+  interval = "week"
+)
+
+# Filter the dataset to keep the first 20 weeks. 
+incidence2_filter <- incidence2_data[1:20,]
+
+# Model the incidence
+incidence2_fit <- fit_curve(incidence2_filter, model = "poisson", alpha = 0.05)
+
+# Print the result
+growth_rate(incidence2_fit)
+
+# Plot the result
+plot(incidence2_fit)
+```
+
+- The `outbreaks` package is loaded to access the simulated Ebola outbreak data.
+- The `ebola_sim_clean` object from the package contains the simulated outbreak data.
+- The `linelist` object contains the first list element from `ebola_sim_clean`.
+- The `incidence()` function from the `incidence2` package converts the data object `linelist` to an `incidence2` class object.
+- The `date_of_onset` column is used in the `date_index` argument as the onset dates of the outbreak.
+- The `"week"` text string is used to count number of cases per week interval to calculate the weekly growth rate.  
+- The `incidence2` object provides observations arranged in descendant order with respect to the `date_index`.
+- The number of weeks to consider is set to 20 and stored in the `dat_filter` object.
+- The `fit_curve()` function from the `i2extras` package fits a Poisson linear regression model to the epicurve in the `dat_filter` object with an alpha value of `0.05` to calculate the 95% confidence intervals.
+- The `growth_rate()` function calculate the weekly growth/decay rate.
+- The `plot()` function plot the fitted epicurve.
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on incidence, growth rate, doubling time, and Poisson model](https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#28)

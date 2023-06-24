@@ -1,0 +1,85 @@
+---
+title: "How to simulate the effective reproductive number accounting for heterogeneous social contact and homogeneous susceptibility in all age groups?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r}
+library(finalsize)
+library(socialmixr)
+library(tidyverse)
+
+# get UK polymod data
+polymod <- socialmixr::polymod
+contact_data <- socialmixr::contact_matrix(
+  polymod,
+  countries = "United Kingdom",
+  age.limits = c(0, 5, 18, 40, 65),
+  symmetric = TRUE
+)
+
+# get the contact matrix and demography data
+contact_matrix <- t(contact_data$matrix)
+
+# scale the contact matrix so the largest eigenvalue is 1.0
+# this is to ensure that the overall epidemic dynamics correctly reflect
+# the assumed value of R0
+contact_matrix_scaled <- contact_matrix / max(Re(eigen(contact_matrix)$values))
+
+# Define population in each age group
+demography_vector <- contact_data$demography$population
+demography_groups <- contact_data$demography$age.group
+
+demography_vector
+demography_groups
+
+# divide each row of the contact matrix by the corresponding demography
+# this reflects the assumption that each individual in group {j} make contacts
+# at random with individuals in group {i}
+contact_matrix_random <- contact_matrix_scaled / demography_vector
+
+# Define susceptibility of each group
+# susceptibility matrix
+susceptibility <- tibble(
+  age_group = demography_groups,
+  susceptible = c(0.8, 0.8, 0.8, 0.8, 0.8)
+) %>%
+  column_to_rownames(var = "age_group") %>%
+  as.matrix()
+
+susceptibility
+
+# Assume uniform susceptibility within age groups
+# demography-in-susceptibility matrix
+p_susceptibility <- tibble(
+  age_group = demography_groups,
+  susceptible = c(1.0, 1.0, 1.0, 1.0, 1.0)
+) %>%
+  column_to_rownames(var = "age_group") %>%
+  as.matrix()
+
+p_susceptibility
+
+# R0 of the disease
+r0 <- 1.5 # assumed for pandemic influenza
+
+# calculate the effective R0 using `r_eff()`
+r_eff(
+  r0 = r0,
+  contact_matrix = contact_matrix_random,
+  demography_vector = demography_vector,
+  susceptibility = susceptibility,
+  p_susceptibility = p_susceptibility
+)
+```
+
+## Related
+
+- Explanation on effective reproductive number

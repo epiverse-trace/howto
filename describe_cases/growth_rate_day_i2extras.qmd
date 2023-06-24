@@ -1,0 +1,75 @@
+---
+title: "How to estimate the daily growth rate using the date of report stratified by groups?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r}
+#| warning: false
+
+library(tidyverse)
+library(covidregionaldata)
+library(i2extras)
+library(incidence2)
+
+raw_dat <- covidregionaldataUK %>% as_tibble() %>% 
+  filter(magrittr::is_in(region,c("England", "Scotland", 
+                                  "Northern Ireland", "Wales"))) %>% 
+  filter(date > lubridate::ymd(20200701)) %>%
+  filter(date < lubridate::ymd(20201101))
+
+raw_dat %>%
+  ggplot() +
+  aes(x = date, y = cases_new, col = region) +
+  geom_line(alpha = 0.4)
+
+# Convert the data to an incidence object
+dat <- incidence(
+  x = raw_dat, 
+  counts = "cases_new",
+  date_index = "date",
+  interval = "day"
+)
+
+dat
+
+# Model the incidence
+out <- fit_curve(dat, model = "poisson", alpha = 0.05)
+
+# Print the result
+growth_rate(out)
+
+# Plot the result
+plot(out)
+
+# Stratify analysis by groups
+dat_group <- incidence(
+  x = raw_dat, 
+  counts = "cases_new",
+  date_index = "date",
+  interval = "day",
+  groups = "region"
+)
+
+dat_group
+
+# Model the incidence
+out_group <- fit_curve(dat_group, model = "poisson", alpha = 0.05)
+
+# Print the result
+growth_rate(out_group)
+
+# Plot the result
+plot(out_group)
+```
+
+## Related
+
+- [Explanation on incidence, growth rate, doubling time, and Poisson model](https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#28)

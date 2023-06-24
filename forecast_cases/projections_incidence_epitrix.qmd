@@ -1,0 +1,121 @@
+---
+title: "How to forecast the future trajectory of the outbreak?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r}
+#| warning: false
+
+# Forecast the future trajectory of the outbreak
+
+# Load required packages
+library(outbreaks)
+library(i2extras)
+library(epiparameter)
+library(projections)
+library(tidyverse)
+
+# Load the simulated Ebola outbreak data
+data(ebola_sim_clean)
+
+# Extract the first element of the list
+linelist <- ebola_sim_clean$linelist
+
+# Convert the data to an incidence2 object
+incidence2_data <- incidence2::incidence(
+  x = linelist, 
+  date_index = "date_of_onset",
+  interval = "day"
+)
+
+# Filter the incidence2 object to keep the first 48 weeks. 
+incidence2_filter <- incidence2_data[1:48,]
+
+# Convert the filtered incidence2 object to an incidence object
+incidence1_filter <- incidence2_filter %>% 
+  uncount(count) %>% 
+  pull(date_index) %>% 
+  incidence::incidence()
+
+# Model the incidence
+incidence2_fit <- fit_curve(
+  x = incidence2_filter,
+  model = "poisson",
+  alpha = 0.05
+)
+
+# Extract parameter by disease, distribution, author
+epidist_ebola_si <- epidist_db(
+  disease = "Ebola",
+  epi_dist = "serial_interval",
+  author = "WHO_Ebola_Response_Team"
+)
+
+discrete_ebola_si <- discretise(epidist_ebola_si)
+
+reproductive_basic <- 
+  epitrix::lm2R0_sample(
+    x = incidence2_fit %>% pull(model) %>% pluck(1),
+    w = discrete_ebola_si$prob_dist,
+    n = 500
+  )
+
+sample_function <- 
+  function(x = reproductive_basic, n_sim = 1000){
+    mu <- mean(x)
+    sigma <- sd(x)
+    shape_scale <- epitrix::gamma_mucv2shapescale(
+      mu = mu, 
+      cv = sigma / mu
+    )
+    sample_result <- rgamma(
+      n = n_sim, 
+      shape = shape_scale$shape, 
+      scale = shape_scale$scale
+    )
+    return(sample_result)
+  }
+
+reproductive_basic_sample <- 
+  sample_function(
+    x = reproductive_basic,
+    n_sim = 1000
+  )
+
+hist(reproductive_basic_sample)
+
+distcrete_ebola_si <- 
+  distcrete::distcrete(
+    name = "gamma",
+    shape = discrete_ebola_si$prob_dist$parameters$shape,
+    scale = discrete_ebola_si$prob_dist$parameters$scale,
+    interval = discrete_ebola_si$prob_dist$interval,
+    w = discrete_ebola_si$prob_dist$w
+  )
+
+incidence1_projection <- 
+  project(
+    x = incidence1_filter, 
+    R = reproductive_basic_sample,
+    si = distcrete_ebola_si, 
+    n_sim = 1000, 
+    n_days = 14, 
+    R_fix_within = TRUE
+  )
+
+plot(incidence1_filter) %>% 
+  add_projections(x = incidence1_projection,
+                  quantiles = c(0.025, 0.5, 0.975))
+```
+
+Related:
+
+- Explanation on projections
