@@ -1,11 +1,47 @@
 ---
-title: "howto"
+title: "Get started"
+fig-cap-location: top
+listing: 
+  - id: describe-cases
+    contents: "describe_cases/*.qmd"
+    type: table
+    fields: [title]
+  - id: quantify-transmission
+    contents: "quantify_transmission/*.qmd"
+    type: table
+    fields: [title]
+  - id: forecast-cases
+    contents: "forecast_cases/*.qmd"
+    type: table
+    fields: [title]
+  - id: simulate-cases
+    contents: "simulate_cases/*.qmd"
+    type: table
+    fields: [title]
 ---
 
-This is a Quarto website.
+The goal of `howto` is to collect reproducible How to guides of Outbreak data analysis tasks using `R` packages.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+## Describe case data
 
-```{r}
-1 + 1
-```
+:::{#describe-cases}
+:::
+
+## Quantify transmission
+
+:::{#quantify-transmission}
+:::
+
+## Create short-term forecast
+
+:::{#forecast-cases}
+:::
+
+## Simulate transmission scenarios
+
+:::{#simulate-cases}
+:::
+
+## More
+
+Refer to the [About](about.qmd) page for more details about the rationale behind the design of this site.
