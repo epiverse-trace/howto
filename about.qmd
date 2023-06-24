@@ -2,8 +2,38 @@
 title: "About"
 ---
 
-About this site
+## What will you learn?
 
-```{r}
-1 + 1
-```
+- ...
+
+## Who are these for?
+
+In the creation of these materials, we though in:
+
+-   [Juan](https://epiverse-trace.github.io/personas/juan-datero.html), a Data Analyst and R user in a National Health Agency with constant deployment to outbreak response.
+-   Celina, a Post-doc and fluent R user who needs to keep up-to-date with the latest package developments.
+-   Daniel, a Trainer that wants to remix content to create specific training materials for public health practitioners.
+
+## Design Principles
+
+- Provide a ["How-to" guides](https://documentation.divio.com/how-to-guides/) as single point solutions to specific problems.
+- Add links to related [Explanation](https://documentation.divio.com/explanation/) documentation.
+- Show the context (part of the pipeline), ingredients (packages) and steps.
+- Add brief interpretation templates.
+- Functions, as in package websites, should have [code-link](https://downlit.r-lib.org/) to their [Reference](https://documentation.divio.com/reference/) documentation.
+- Provide a "search by keyword" to find what a user needs.
+-   Show the `R` code needed to solve Outbreak Analytics [tasks](index.qmd).
+-   Show how [Epidemiology `R` packages](https://cran.r-project.org/web/views/Epidemiology.html) are integrated in [pipelines](index.qmd).
+-   Help to identify which coding task can be replaced by new `R` packages.
+-   Provide various infectious disease scenarios by world regions and data sources.
+-   Refer to external learning resources.
+-   Refer to a glossary of terms.
+-   Refer to good coding practices.
+
+## Reproducibility
+
+-   Non-invasive package management with [`{renv}`](https://rstudio.github.io/renv/)
+
+## Related projects
+
+-   [epirecipes](http://epirecip.es/epicookbook/)
