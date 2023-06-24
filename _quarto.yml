@@ -1,5 +1,9 @@
 project:
   type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "!internal/"
 
 website:
   title: "howto"
@@ -8,12 +12,19 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+    tools:
+      - icon: github
+        menu:
+          - text: Source Code
+            url:  https://github.com/epiverse-trace/howto
+          - text: Report a Bug
+            url:  https://github.com/epiverse-trace/howto/issues
+  repo-url: https://github.com/epiverse-trace/howto/
+  repo-actions: [edit, issue]
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
-
-
 
