@@ -32,26 +32,35 @@ library(dplyr)
 data(ebola_sim_clean)
 
 # Extract the first element of the list
-linelist <- ebola_sim_clean[[1]]
+linelist <- ebola_sim_clean$linelist
 
 # Convert the data to an incidence2 object
-incidence2_data <- incidence2::incidence(
-  x = linelist, 
-  date_index = "date_of_onset",
-  interval = "week"
-)
+incidence2_data <- 
+  incidence2::incidence(
+    x = linelist, 
+    date_index = "date_of_onset",
+    interval = "week"
+  )
 
 # Filter the dataset to keep the first 20 weeks. 
 incidence2_filter <- incidence2_data[1:20,]
 
 # Model the incidence
-incidence2_fit <- fit_curve(incidence2_filter, model = "poisson", alpha = 0.05)
+incidence2_fit <- 
+  i2extras::fit_curve(
+    incidence2_filter, 
+    model = "poisson", 
+    alpha = 0.05
+  )
 
 # Print the result
-growth_rate(incidence2_fit)
+i2extras::growth_rate(incidence2_fit)
 
-# Plot the result
-plot(incidence2_fit)
+# Plot the result with prediction intervals
+plot(incidence2_fit, pi = TRUE)
+
+# Read plot documentation for an incidence2_fit object
+# ?plot.incidence2_fit
 ```
 
 - The `outbreaks` package is loaded to access the simulated Ebola outbreak data.
