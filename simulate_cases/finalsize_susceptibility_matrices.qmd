@@ -1,5 +1,5 @@
 ---
-title: "How to create the susceptibility matrices for a scenario where the susceptibility varies between and within groups?"
+title: "How to create heterogeneous susceptibility matrices?"
 format: 
   html:
     code-link: true
