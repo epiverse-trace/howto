@@ -19,7 +19,9 @@ library(covidregionaldata)
 library(i2extras)
 library(incidence2)
 
-raw_dat <- covidregionaldataUK %>% as_tibble() %>% 
+raw_dat <- 
+  covidregionaldataUK %>% 
+  as_tibble() %>% 
   filter(magrittr::is_in(region,c("England", "Scotland", 
                                   "Northern Ireland", "Wales"))) %>% 
   filter(date > lubridate::ymd(20200701)) %>%
@@ -28,46 +30,58 @@ raw_dat <- covidregionaldataUK %>% as_tibble() %>%
 raw_dat %>%
   ggplot() +
   aes(x = date, y = cases_new, col = region) +
-  geom_line(alpha = 0.4)
+  geom_line()
 
 # Convert the data to an incidence object
-dat <- incidence(
-  x = raw_dat, 
-  counts = "cases_new",
-  date_index = "date",
-  interval = "day"
-)
+dat <- 
+  incidence2::incidence(
+    x = raw_dat, 
+    counts = "cases_new",
+    date_index = "date",
+    interval = "day"
+  )
 
 dat
 
 # Model the incidence
-out <- fit_curve(dat, model = "poisson", alpha = 0.05)
+out <- 
+  i2extras::fit_curve(
+    dat, 
+    model = "poisson", 
+    alpha = 0.05
+  )
 
 # Print the result
-growth_rate(out)
+i2extras::growth_rate(out)
 
-# Plot the result
-plot(out)
+# Plot the result with prediction intervals
+plot(out, pi = TRUE)
 
 # Stratify analysis by groups
-dat_group <- incidence(
-  x = raw_dat, 
-  counts = "cases_new",
-  date_index = "date",
-  interval = "day",
-  groups = "region"
-)
+dat_group <- 
+  incidence2::incidence(
+    x = raw_dat, 
+    counts = "cases_new",
+    date_index = "date",
+    interval = "day",
+    groups = "region"
+  )
 
 dat_group
 
 # Model the incidence
-out_group <- fit_curve(dat_group, model = "poisson", alpha = 0.05)
+out_group <- 
+  i2extras::fit_curve(
+    dat_group, 
+    model = "poisson", 
+    alpha = 0.05
+  )
 
 # Print the result
-growth_rate(out_group)
+i2extras::growth_rate(out_group)
 
-# Plot the result
-plot(out_group)
+# Plot the result with prediction intervals
+plot(out_group, pi = TRUE)
 ```
 
 ## Related
