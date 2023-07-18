@@ -1,5 +1,5 @@
 ---
-title: "How to forecast the future trajectory of the outbreak?"
+title: "How to project the future trajectory of the outbreak?"
 format: 
   html:
     code-link: true
