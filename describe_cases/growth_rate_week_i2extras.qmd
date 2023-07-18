@@ -1,5 +1,5 @@
 ---
-title: "How to estimate the weekly growth rate using the date of infection?"
+title: "How to estimate the growth rate?"
 format: 
   html:
     code-link: true
@@ -11,12 +11,10 @@ toc: true
 toc_float: true
 ---
 
-Question: How to calculate the weekly growth rate of an outbreak? 
-
 Conditions: 
-- Use the first list element from the Simulated Ebola outbreak ebola_sim_clean object from the outbreaks R package. The name of the first element is linelist.
-- Use the "date of onset" column to calculate the weekly growth rate. 
-- Keep the first 20 weeks of the period of the analysis.
+- Calculate the weekly growth rate.
+- Use the date of onset of symptoms.
+- Keep the first 20 weeks as period of analysis.
 
 ```{r}
 #| warning: false

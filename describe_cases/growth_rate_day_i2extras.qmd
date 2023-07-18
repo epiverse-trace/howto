@@ -1,5 +1,5 @@
 ---
-title: "How to estimate the daily growth rate using the date of report stratified by groups?"
+title: "How to estimate the growth rate stratified by groups?"
 format: 
   html:
     code-link: true
@@ -10,6 +10,12 @@ date: last-modified
 toc: true
 toc_float: true
 ---
+
+Conditions:
+
+- Calculate the daily growth rate.
+- Use the date of report.
+- Keep the first 4 months as period of analysis.
 
 ```{r}
 #| warning: false
