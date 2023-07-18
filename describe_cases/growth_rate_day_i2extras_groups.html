@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.3.333">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="dcterms.date" content="2023-07-18">
-<title>howto - How to estimate the growth rate?</title>
+<title>howto - How to estimate the growth rate stratified by groups?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -140,11 +140,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
 <li><a href="#related" id="toc-related" class="nav-link active" data-scroll-target="#related">Related</a></li>
-  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/epiverse-trace/howto/edit/main/describe_cases/growth_rate_week_i2extras.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/epiverse-trace/howto/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/epiverse-trace/howto/edit/main/describe_cases/growth_rate_day_i2extras_groups.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/epiverse-trace/howto/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">How to estimate the growth rate?</h1>
+<h1 class="title">How to estimate the growth rate stratified by groups?</h1>
 </div>
 
 
@@ -163,73 +163,88 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header><p>Conditions: - Calculate the weekly growth rate. - Use the date of onset of symptoms. - Keep the first 20 weeks as period of analysis.</p>
+</header><p>Conditions:</p>
+<ul>
+<li>Calculate the daily growth rate.</li>
+<li>Use the date of report.</li>
+<li>Keep the first 4 months as period of analysis.</li>
+</ul>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate the weekly growth rate of an outbreak</span></span>
-<span></span>
-<span><span class="co"># Load required packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconverse/outbreaks">outbreaks</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://epiforecasts.io/covidregionaldata/">covidregionaldata</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.reconverse.org/i2extras/">i2extras</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconverse/incidence2">incidence2</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Load the simulated Ebola outbreak data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ebola_sim_clean</span><span class="op">)</span></span>
+<span><span class="va">raw_dat</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">covidregionaldataUK</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu">magrittr</span><span class="fu">::</span><span class="fu"><a href="https://magrittr.tidyverse.org/reference/aliases.html">is_in</a></span><span class="op">(</span><span class="va">region</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"England"</span>, <span class="st">"Scotland"</span>, </span>
+<span>                                  <span class="st">"Northern Ireland"</span>, <span class="st">"Wales"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">&gt;</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="fl">20200701</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">&lt;</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="fl">20201101</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Extract the first element of the list</span></span>
-<span><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">ebola_sim_clean</span><span class="op">$</span><span class="va">linelist</span></span>
-<span></span>
-<span><span class="co"># Convert the data to an incidence2 object</span></span>
-<span><span class="va">incidence2_data</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">raw_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">cases_new</span>, col <span class="op">=</span> <span class="va">region</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="growth_rate_day_i2extras_groups_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Convert the data to an incidence object stratified by groups</span></span>
+<span><span class="va">dat_group</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">incidence2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/incidence2/man/incidence.html">incidence</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">linelist</span>, </span>
-<span>    date_index <span class="op">=</span> <span class="st">"date_of_onset"</span>,</span>
-<span>    interval <span class="op">=</span> <span class="st">"week"</span></span>
+<span>    x <span class="op">=</span> <span class="va">raw_dat</span>, </span>
+<span>    counts <span class="op">=</span> <span class="st">"cases_new"</span>,</span>
+<span>    date_index <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>    interval <span class="op">=</span> <span class="st">"day"</span>,</span>
+<span>    groups <span class="op">=</span> <span class="st">"region"</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Filter the dataset to keep the first 20 weeks. </span></span>
-<span><span class="va">incidence2_filter</span> <span class="op">&lt;-</span> <span class="va">incidence2_data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>,<span class="op">]</span></span>
-<span></span>
-<span><span class="co"># Model the incidence</span></span>
-<span><span class="va">incidence2_fit</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">dat_group</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># incidence:  488 x 4
+# count vars: cases_new
+# groups:     region
+   date_index region           count_variable count
+ * &lt;date&gt;     &lt;chr&gt;            &lt;fct&gt;          &lt;dbl&gt;
+ 1 2020-07-02 England          cases_new        565
+ 2 2020-07-02 Northern Ireland cases_new          3
+ 3 2020-07-02 Scotland         cases_new         13
+ 4 2020-07-02 Wales            cases_new         28
+ 5 2020-07-03 England          cases_new        543
+ 6 2020-07-03 Northern Ireland cases_new          8
+ 7 2020-07-03 Scotland         cases_new          6
+ 8 2020-07-03 Wales            cases_new         19
+ 9 2020-07-04 England          cases_new        386
+10 2020-07-04 Northern Ireland cases_new          1
+# ℹ 478 more rows</code></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Model the incidence</span></span>
+<span><span class="va">out_group</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">i2extras</span><span class="fu">::</span><span class="fu"><a href="http://www.reconverse.org/i2extras/reference/fit_curve.html">fit_curve</a></span><span class="op">(</span></span>
-<span>    <span class="va">incidence2_filter</span>, </span>
+<span>    <span class="va">dat_group</span>, </span>
 <span>    model <span class="op">=</span> <span class="st">"poisson"</span>, </span>
 <span>    alpha <span class="op">=</span> <span class="fl">0.05</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print the result</span></span>
-<span><span class="fu">i2extras</span><span class="fu">::</span><span class="fu"><a href="http://www.reconverse.org/i2extras/reference/growth_rate.html">growth_rate</a></span><span class="op">(</span><span class="va">incidence2_fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">i2extras</span><span class="fu">::</span><span class="fu"><a href="http://www.reconverse.org/i2extras/reference/growth_rate.html">growth_rate</a></span><span class="op">(</span><span class="va">out_group</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 9
-  count_variable model      r r_lower r_upper growth_or_decay  time time_lower
-  &lt;chr&gt;          &lt;list&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;
-1 date_of_onset  &lt;glm&gt;  0.184   0.168   0.200 doubling         3.77       3.46
-# ℹ 1 more variable: time_upper &lt;dbl&gt;</code></pre>
+<pre><code># A tibble: 4 × 10
+  count_variable region       model      r r_lower r_upper growth_or_decay  time
+  &lt;fct&gt;          &lt;chr&gt;        &lt;lis&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;
+1 cases_new      England      &lt;glm&gt; 0.0385  0.0384  0.0386 doubling         18.0
+2 cases_new      Northern Ir… &lt;glm&gt; 0.0438  0.0433  0.0443 doubling         15.8
+3 cases_new      Scotland     &lt;glm&gt; 0.0406  0.0402  0.0410 doubling         17.1
+4 cases_new      Wales        &lt;glm&gt; 0.0447  0.0443  0.0452 doubling         15.5
+# ℹ 2 more variables: time_lower &lt;dbl&gt;, time_upper &lt;dbl&gt;</code></pre>
 </div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot the result with prediction intervals</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">incidence2_fit</span>, pi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot the result with prediction intervals</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">out_group</span>, pi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="growth_rate_week_i2extras_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="growth_rate_day_i2extras_groups_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read plot documentation for an incidence2_fit object</span></span>
-<span><span class="co"># ?plot.incidence2_fit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ul>
-<li>The <code>outbreaks</code> package is loaded to access the simulated Ebola outbreak data.</li>
-<li>The <code>ebola_sim_clean</code> object from the package contains the simulated outbreak data.</li>
-<li>The <code>linelist</code> object contains the first list element from <code>ebola_sim_clean</code>.</li>
-<li>The <code><a href="https://rdrr.io/pkg/incidence2/man/incidence.html">incidence()</a></code> function from the <code>incidence2</code> package converts the data object <code>linelist</code> to an <code>incidence2</code> class object.</li>
-<li>The <code>date_of_onset</code> column is used in the <code>date_index</code> argument as the onset dates of the outbreak.</li>
-<li>The <code>"week"</code> text string is used to count number of cases per week interval to calculate the weekly growth rate.<br>
-</li>
-<li>The <code>incidence2</code> object provides observations arranged in descendant order with respect to the <code>date_index</code>.</li>
-<li>The number of weeks to consider is set to 20 and stored in the <code>dat_filter</code> object.</li>
-<li>The <code><a href="http://www.reconverse.org/i2extras/reference/fit_curve.html">fit_curve()</a></code> function from the <code>i2extras</code> package fits a Poisson linear regression model to the epicurve in the <code>dat_filter</code> object with an alpha value of <code>0.05</code> to calculate the 95% confidence intervals.</li>
-<li>The <code><a href="http://www.reconverse.org/i2extras/reference/growth_rate.html">growth_rate()</a></code> function calculate the weekly growth/decay rate.</li>
-<li>The <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> function plot the fitted epicurve.</li>
-</ul>
-<p>Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the <code>install.packages("pak")</code> function and then the <code><a href="http://pak.r-lib.org/reference/pak.html">pak::pak()</a></code> function for both packages in CRAN or GitHub before loading them with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>.</p>
-<p>Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.</p>
 <section id="related" class="level2"><h2 class="anchored" data-anchor-id="related">Related</h2>
 <ul>
 <li><a href="https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#28">Explanation on incidence, growth rate, doubling time, and Poisson model</a></li>
