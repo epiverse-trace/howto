@@ -38,32 +38,7 @@ raw_dat %>%
   aes(x = date, y = cases_new, col = region) +
   geom_line()
 
-# Convert the data to an incidence object
-dat <- 
-  incidence2::incidence(
-    x = raw_dat, 
-    counts = "cases_new",
-    date_index = "date",
-    interval = "day"
-  )
-
-dat
-
-# Model the incidence
-out <- 
-  i2extras::fit_curve(
-    dat, 
-    model = "poisson", 
-    alpha = 0.05
-  )
-
-# Print the result
-i2extras::growth_rate(out)
-
-# Plot the result with prediction intervals
-plot(out, pi = TRUE)
-
-# Stratify analysis by groups
+# Convert the data to an incidence object stratified by groups
 dat_group <- 
   incidence2::incidence(
     x = raw_dat, 
