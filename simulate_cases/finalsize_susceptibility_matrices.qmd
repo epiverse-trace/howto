@@ -11,43 +11,74 @@ toc: true
 toc_float: true
 ---
 
-This scenario assumes that, in the population, there is different susceptibility to the infection:
+Conditions:
 
-- between individuals of different age groups from 20% (infants) to 100% (65+), and
-- within individuals of the same age group due the immunization effect of 25% to the 40% of each of the age groups.
-
-Additionally, 10% of individuals in each of the age groups have 100% susceptibility, due to no immunization or not exposed to similar pathogens previously.
+- Create the two susceptibility matrices needed for the `finalsize` package.
+- The population is divided into five age groups: 0 – 4, 5 – 17, 18 – 39, 40 – 64, and 65 and over.
+- An immunization campaign generated within age group variation in susceptibility.
+- The immunization effect for all age groups is 25%.
+- The infection susceptibility between age group differs in the following way:
+    - 20% in age group 0 – 4, 
+    - 50% in age group 5 – 17,
+    - 60% in age group 18 – 39,
+    - 90% in age group 40 – 64,
+    - 100% in age group of 65 and over,
+- The percentage of the unimmunized population in all age groups is 60%.
 
 ```{r}
+#| warning: false
+
+# Load required packages
 library(tidyverse)
 
-demography_groups <- c("[0,5)", "[5,18)", "[18,40)", "[40,65)", "65+")
+# Define the immunization effect
 immunization_effect <- 0.25
 
-# susceptibility matrix
-susceptibility <- tibble(
-  age_group = demography_groups,
-  susceptible = c(1.0, 1.0, 1.0, 1.0, 1.0),
-  unimmunised = c(0.2, 0.5, 0.6, 0.9, 1.0)
-) %>%
+# Create the susceptibility matrix
+susceptibility <- 
+  tribble(
+    ~age_group, ~unimmunised,
+       "[0,5)",          0.2,
+      "[5,18)",          0.5,
+     "[18,40)",          0.6,
+     "[40,65)",          0.9,
+         "65+",            1
+  ) %>%
   mutate(immunised = unimmunised * (1 - immunization_effect)) %>%
   column_to_rownames(var = "age_group") %>%
   as.matrix()
 
 susceptibility
 
-# demography-in-susceptibility matrix
-p_susceptibility <- tibble(
-  age_group = demography_groups,
-  susceptible = c(0.1, 0.1, 0.1, 0.1, 0.1),
-  immunised = c(0.4, 0.4, 0.4, 0.4, 0.4)
-) %>%
-  mutate(unimmunised = 1 - immunised - susceptible) %>%
+# Create the demography-in-susceptibility matrix
+p_susceptibility <- 
+  tribble(
+    ~age_group, ~unimmunised,
+       "[0,5)",          0.6,
+      "[5,18)",          0.6,
+     "[18,40)",          0.6,
+     "[40,65)",          0.6,
+         "65+",          0.6
+  ) %>%
+  mutate(immunised = 1 - unimmunised) %>%
   column_to_rownames(var = "age_group") %>%
   as.matrix()
 
 p_susceptibility
 ```
+
+- The `tidyverse` package is loaded to create matrices from data frame operations.
+- The `immunization_effect` contains the 0.25 effect from the immunization campaign.
+- The `susceptibility` object is a matrix that contains the susceptibility or probability of infection. Each row-column element in the matrix represents the susceptibility of individuals in demographic groups (rows) and susceptibility groups (columns).
+- The `tribble()` function creates a tibble with a row-by-row layout. The "age_group" column contains all age groups, and the "unimmunized" column has its corresponding susceptibility values.
+- The `mutate()` function creates the "immunized" column by multiplying the susceptibility values from the "unimmunized" column times the new susceptibility after the `immunization_effect`.
+- The `column_to_rownames()` function creates data frame row names from the explicit column "age_group".
+- The `as.matrix()` function turns the data frame into a matrix.
+- The `p_susceptibility` object is a matrix that contains the proportion or probability that individuals in a demographic group are also in a specific susceptibility group. Each row-column element in the matrix represents the proportion of each demographic group (rows) that falls into the susceptibility group (columns). Consequently, each of its rows must always sum to 1.0.
+- The `tribble()` function creates a tibble with a row-by-row layout. The "age_group" column contains all age groups, and the "unimmunized" column proportion of the unimmunized population in all age groups equals 0.6.
+- The `mutate()` function creates the "immunized" column by getting the complement proportion of the unimmunized".
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
 
 ## Related
 
