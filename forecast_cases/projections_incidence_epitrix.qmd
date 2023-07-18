@@ -30,34 +30,38 @@ data(ebola_sim_clean)
 linelist <- ebola_sim_clean$linelist
 
 # Convert the data to an incidence2 object
-incidence2_data <- incidence2::incidence(
-  x = linelist, 
-  date_index = "date_of_onset",
-  interval = "day"
-)
+incidence2_data <- 
+  incidence2::incidence(
+    x = linelist, 
+    date_index = "date_of_onset",
+    interval = "day"
+  )
 
 # Filter the incidence2 object to keep the first 48 weeks. 
 incidence2_filter <- incidence2_data[1:48,]
 
 # Convert the filtered incidence2 object to an incidence object
-incidence1_filter <- incidence2_filter %>% 
-  uncount(count) %>% 
-  pull(date_index) %>% 
+incidence1_filter <- 
+  incidence2_filter %>% 
+  tidyr::uncount(count) %>% 
+  dplyr::pull(date_index) %>% 
   incidence::incidence()
 
 # Model the incidence
-incidence2_fit <- fit_curve(
-  x = incidence2_filter,
-  model = "poisson",
-  alpha = 0.05
-)
+incidence2_fit <- 
+  i2extras::fit_curve(
+    x = incidence2_filter,
+    model = "poisson",
+    alpha = 0.05
+  )
 
 # Extract parameter by disease, distribution, author
-epidist_ebola_si <- epidist_db(
-  disease = "Ebola",
-  epi_dist = "serial_interval",
-  author = "WHO_Ebola_Response_Team"
-)
+epidist_ebola_si <- 
+  epidist_db(
+    disease = "Ebola",
+    epi_dist = "serial_interval",
+    author = "WHO_Ebola_Response_Team"
+  )
 
 discrete_ebola_si <- discretise(epidist_ebola_si)
 
@@ -111,9 +115,12 @@ incidence1_projection <-
     R_fix_within = TRUE
   )
 
-plot(incidence1_filter) %>% 
-  add_projections(x = incidence1_projection,
-                  quantiles = c(0.025, 0.5, 0.975))
+incidence1_filter %>% 
+  plot() %>% 
+  add_projections(
+    x = incidence1_projection,
+    quantiles = c(0.025, 0.5, 0.975)
+  )
 ```
 
 Related:
