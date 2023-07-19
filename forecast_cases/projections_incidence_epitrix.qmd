@@ -11,15 +11,28 @@ toc: true
 toc_float: true
 ---
 
+Conditions:
+
+- Project the future daily incidence based of past incidence, a selection of plausible basic reproduction numbers, and the distribution of the serial interval, using the `{projections}` package.
+- Get the basic reproductive number from the growth rate, given a generation time distribution, using the `{epitrix}` package.
+- Use the serial interval time as proxy of the generation time.
+- Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015.
+- Use the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the `{outbreaks}` R package.
+- Keep the first 48 weeks as period of analysis.
+- Use the `date of onset` column to calculate the daily growth rate. 
+
 ```{r}
 #| warning: false
 
-# Forecast the future trajectory of the outbreak
+# Project the future trajectory of the outbreak
 
 # Load required packages
 library(outbreaks)
+library(incidence2)
 library(i2extras)
 library(epiparameter)
+library(distcrete)
+library(epitrix)
 library(projections)
 library(tidyverse)
 
@@ -57,21 +70,46 @@ incidence2_fit <-
 
 # Extract parameter by disease, distribution, author
 epidist_ebola_si <- 
-  epidist_db(
+  epiparameter::epidist_db(
     disease = "Ebola",
     epi_dist = "serial_interval",
     author = "WHO_Ebola_Response_Team"
   )
 
-discrete_ebola_si <- discretise(epidist_ebola_si)
+# Read epidist class object
+# Read distribution: gamma
+epidist_ebola_si
 
+# Discretise the distribution
+discrete_ebola_si <- epiparameter::discretise(epidist_ebola_si)
+
+# Now read distribution: discrete gamma
+discrete_ebola_si
+
+# Transform from 'epidist' class to 'distcrete' class object
+distcrete_ebola_si <- 
+  distcrete::distcrete(
+    name = "gamma",
+    shape = discrete_ebola_si$prob_dist$parameters$shape,
+    scale = discrete_ebola_si$prob_dist$parameters$scale,
+    interval = discrete_ebola_si$prob_dist$interval,
+    w = discrete_ebola_si$prob_dist$w
+  )
+
+# Read distcrete class object
+distcrete_ebola_si
+
+# Transform growth rate into reproductive number
 reproductive_basic <- 
   epitrix::lm2R0_sample(
-    x = incidence2_fit %>% pull(model) %>% pluck(1),
+    x = incidence2_fit %>% 
+      pull(model) %>% 
+      pluck(1),
     w = discrete_ebola_si$prob_dist,
     n = 500
   )
 
+# Write function to sample replicates of reproductive number
 sample_function <- 
   function(x = reproductive_basic, n_sim = 1000){
     mu <- mean(x)
@@ -88,25 +126,20 @@ sample_function <-
     return(sample_result)
   }
 
+# Run function to sample replicates of reproductive number
 reproductive_basic_sample <- 
   sample_function(
     x = reproductive_basic,
     n_sim = 1000
   )
 
+# Plot the sample distribution
 hist(reproductive_basic_sample)
 
-distcrete_ebola_si <- 
-  distcrete::distcrete(
-    name = "gamma",
-    shape = discrete_ebola_si$prob_dist$parameters$shape,
-    scale = discrete_ebola_si$prob_dist$parameters$scale,
-    interval = discrete_ebola_si$prob_dist$interval,
-    w = discrete_ebola_si$prob_dist$w
-  )
-
+# Project the future incidence 
+# from incidence object and sample of basic reproductive number
 incidence1_projection <- 
-  project(
+  projections::project(
     x = incidence1_filter, 
     R = reproductive_basic_sample,
     si = distcrete_ebola_si, 
@@ -115,6 +148,7 @@ incidence1_projection <-
     R_fix_within = TRUE
   )
 
+# Plot the incidence object with the projection
 incidence1_filter %>% 
   plot() %>% 
   add_projections(
