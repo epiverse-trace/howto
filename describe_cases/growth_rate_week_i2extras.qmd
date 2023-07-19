@@ -24,6 +24,7 @@ Conditions:
 
 # Load required packages
 library(outbreaks)
+library(incidence2)
 library(i2extras)
 library(dplyr)
 
@@ -52,10 +53,10 @@ incidence2_fit <-
     alpha = 0.05
   )
 
-# Print the result
+# Print the model result
 i2extras::growth_rate(incidence2_fit)
 
-# Plot the result with prediction intervals
+# Plot the model result with prediction intervals
 plot(incidence2_fit, ci = FALSE, pi = TRUE)
 
 # Read plot documentation for an incidence2_fit object
