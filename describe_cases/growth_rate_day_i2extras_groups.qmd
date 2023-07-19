@@ -62,7 +62,7 @@ out_group <-
 i2extras::growth_rate(out_group)
 
 # Plot the result with prediction intervals
-plot(out_group, pi = TRUE)
+plot(out_group, ci = FALSE, pi = TRUE)
 ```
 
 ## Related

@@ -55,7 +55,7 @@ incidence2_fit <-
 i2extras::growth_rate(incidence2_fit)
 
 # Plot the result with prediction intervals
-plot(incidence2_fit, pi = TRUE)
+plot(incidence2_fit, ci = FALSE, pi = TRUE)
 
 # Read plot documentation for an incidence2_fit object
 # ?plot.incidence2_fit
