@@ -1,5 +1,5 @@
 ---
-title: "How to simulate the final size of an epidemic accounting for heterogeneous social contact and heterogeneous susceptibility between and within age groups given immunization?"
+title: "How to simulate the final size with heterogeneity in social contact and infection susceptibility?"
 format: 
   html:
     code-link: true
@@ -11,11 +11,15 @@ toc: true
 toc_float: true
 ---
 
-This scenario assumes that, in the population, there is different susceptibility to the infection:
-- between individuals of different age groups from 20% (infants) to 100% (65+), and
-- within individuals of the same age group due the immunization effect of 25%.
+This scenario assumes that, in the population, there is: 
 
-The immunization uptake rate is also different for each of the age groups: immunization increases with age from 20% (infants) to 90% (65+)
+- Heterogeneous social contact
+- Different susceptibility to the infection:
+
+  - Between individuals of different age groups from 20% (infants) to 100% (65+), and
+  - Within individuals of the same age group due the immunization effect of 25%.
+
+- The immunization uptake rate is also different for each of the age groups: immunization increases with age from 20% (infants) to 90% (65+)
 
 ```{r}
 library(finalsize)
