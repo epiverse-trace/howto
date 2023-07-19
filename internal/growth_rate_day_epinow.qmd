@@ -1,0 +1,65 @@
+---
+title: "How to estimate the daily growth rate using the date of report stratified by groups accounting for delays?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(covidregionaldata)
+library(incidence2)
+library(EpiNow2)
+
+generation_time <- get_generation_time(
+  disease = "SARS-CoV-2", source = "ganyani", max = 10, fixed = TRUE
+)
+
+raw_dat <- covidregionaldataUK %>% as_tibble() %>% 
+  filter(magrittr::is_in(region,c("England", "Scotland", 
+                                  "Northern Ireland", "Wales"))) %>% 
+  filter(date > lubridate::ymd(20200701)) %>%
+  filter(date < lubridate::ymd(20201101))
+
+# Convert the data to an incidence object
+dat <- incidence(
+  x = raw_dat, 
+  counts = "cases_new",
+  date_index = "date",
+  interval = "day"
+)
+
+# # Adapt the column names for epinow2
+reported_cases <- dat %>%
+  dplyr::select(
+    date    = date_index,
+    confirm = count
+  )
+
+# estimates <- epinow(
+#   reported_cases = reported_cases,
+#   generation_time = generation_time_opts(generation_time),
+#   rt = rt_opts(prior = list(mean = 2, sd = 0.2)),
+#   horizon = 0,
+#   CrIs = c(0.5, 0.95),
+#   stan = stan_opts(samples = 1e3, cores = 4, control = list(adapt_delta = 0.99),),
+#   verbose = interactive()
+# )
+# names(estimates)
+# 
+# knitr::kable(summary(estimates))
+# 
+# plot(estimates)
+```
+
+## Related
+
+- [Explanation on delays](https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#14)
