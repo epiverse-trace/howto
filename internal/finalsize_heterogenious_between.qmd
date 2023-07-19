@@ -1,5 +1,5 @@
 ---
-title: "How to simulate the final size of an epidemic accounting for heterogeneous social contact and heterogeneous susceptibility between age groups?"
+title: "How to simulate the final size accounting for heterogeneous susceptibility between age groups only?"
 format: 
   html:
     code-link: true
@@ -11,7 +11,10 @@ toc: true
 toc_float: true
 ---
 
-This scenario assumes that, in the population, there is different susceptibility to the infection between individuals of different age groups, from 20% (infants) to 100% (65+).
+This scenario assumes that, in the population, there is 
+
+- Heterogeneous social contact,
+- Different susceptibility to the infection between individuals of different age groups, from 20% (infants) to 100% (65+).
 
 ```{r}
 library(finalsize)
