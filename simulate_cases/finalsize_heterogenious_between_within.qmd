@@ -15,13 +15,15 @@ This scenario assumes that, in the population, there is:
 
 - Heterogeneous social contact
 - Different susceptibility to the infection:
-
   - Between individuals of different age groups from 20% (infants) to 100% (65+), and
   - Within individuals of the same age group due the immunization effect of 25%.
-
 - The immunization uptake rate is also different for each of the age groups: immunization increases with age from 20% (infants) to 90% (65+)
 
 ```{r}
+#| warning: false
+
+# Simulate final size with heterogeneity in social contact and infection susceptibility
+
 library(finalsize)
 library(socialmixr)
 library(tidyverse)
