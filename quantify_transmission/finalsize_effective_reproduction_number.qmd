@@ -1,5 +1,5 @@
 ---
-title: "How to simulate the effective reproductive number (R~eff~) accounting for heterogeneous social contact?"
+title: "How to simulate the effective reproductive number (R~eff~) with heterogeneity in social contact?"
 format: 
   html:
     code-link: true
@@ -17,6 +17,8 @@ Conditions:
 - Account for homogeneous susceptibility in all age groups
 
 ```{r}
+#| warning: false
+
 library(finalsize)
 library(socialmixr)
 library(tidyverse)
