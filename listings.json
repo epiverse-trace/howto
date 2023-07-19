@@ -6,12 +6,10 @@
       "/describe_cases/growth_rate_week_i2extras.html",
       "/describe_cases/epiparameter_extract_epiparam.html",
       "/quantify_transmission/reproduction_number_basic_epiestim_parametric.html",
+      "/quantify_transmission/finalsize_effective_reproduction_number.html",
       "/forecast_cases/projections_incidence_epitrix.html",
       "/simulate_cases/finalsize_susceptibility_matrices.html",
-      "/simulate_cases/finalsize_effective_reproduction_number.html",
-      "/simulate_cases/finalsize_heterogenious_between.html",
-      "/simulate_cases/finalsize_heterogenious_between_within.html",
-      "/simulate_cases/finalsize_homogenious.html"
+      "/simulate_cases/finalsize_heterogenious_between_within.html"
     ]
   }
 ]

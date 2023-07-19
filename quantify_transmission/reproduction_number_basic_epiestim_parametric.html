@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.333">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="dcterms.date" content="2023-07-18">
-<title>howto - How to quantify the time-varying reproduction number (Rt) of the outbreak?</title>
+<meta name="dcterms.date" content="2023-07-19">
+<title>howto - How to quantify the time-varying reproduction number (Rt)?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -139,13 +139,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#a3" id="toc-a3" class="nav-link active" data-scroll-target="#a3">A3</a></li>
-  <li><a href="#related" id="toc-related" class="nav-link" data-scroll-target="#related">Related</a></li>
+<li><a href="#related" id="toc-related" class="nav-link active" data-scroll-target="#related">Related</a></li>
   </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/epiverse-trace/howto/edit/main/quantify_transmission/reproduction_number_basic_epiestim_parametric.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/epiverse-trace/howto/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">How to quantify the time-varying reproduction number (Rt) of the outbreak?</h1>
+<h1 class="title">How to quantify the time-varying reproduction number (R<sub>t</sub>)?</h1>
 </div>
 
 
@@ -156,7 +155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 18, 2023</p>
+      <p class="date">July 19, 2023</p>
     </div>
   </div>
   
@@ -164,8 +163,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header><p>Conditions: - Use the first list element from the Simulated Ebola outbreak ebola_sim_clean object from the outbreaks R package. The name of the first element is linelist. - Use the “date of onset” column to calculate the weekly growth rate. - Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015 to quantify the time-varying reproduction number. - Assume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying reproduction number.</p>
-<section id="a3" class="level3"><h3 class="anchored" data-anchor-id="a3">A3</h3>
+</header><p>Conditions:</p>
+<ul>
+<li>Use the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the <a href="https://github.com/reconverse/outbreaks">outbreaks</a> R package.</li>
+<li>Use the <code>date of onset</code> column to calculate the weekly growth rate.</li>
+<li>Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015 to quantify the time-varying reproduction number.</li>
+<li>Assume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying reproduction number.</li>
+</ul>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Quantify the time-varying reproduction number (Rt) of the outbreak</span></span>
 <span></span>
@@ -220,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the <code>install.packages("pak")</code> function and then the <code><a href="http://pak.r-lib.org/reference/pak.html">pak::pak()</a></code> function for both packages in CRAN or GitHub before loading them with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>.</p>
 <p>Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.</p>
-</section><section id="related" class="level2"><h2 class="anchored" data-anchor-id="related">Related</h2>
+<section id="related" class="level2"><h2 class="anchored" data-anchor-id="related">Related</h2>
 <ul>
 <li>Explanation on effective reproductive number</li>
 </ul>

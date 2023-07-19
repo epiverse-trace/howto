@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.333">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="dcterms.date" content="2023-07-18">
+<meta name="dcterms.date" content="2023-07-19">
 <title>howto - How to project the future trajectory of the outbreak?</title>
 <style>
 code{white-space: pre-wrap;}
@@ -151,7 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 18, 2023</p>
+      <p class="date">July 19, 2023</p>
     </div>
   </div>
   
@@ -159,13 +159,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header><div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Forecast the future trajectory of the outbreak</span></span>
+</header><p>Conditions:</p>
+<ul>
+<li>Project the future daily incidence based of past incidence, a selection of plausible basic reproduction numbers, and the distribution of the serial interval, using the <a href="https://www.repidemicsconsortium.org/projections/">projections</a> package.</li>
+<li>Get the basic reproductive number from the growth rate, given a generation time distribution, using the <a href="http://www.repidemicsconsortium.org/epitrix/">epitrix</a> package.</li>
+<li>Use the serial interval time as proxy of the generation time.</li>
+<li>Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015.</li>
+<li>Use the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the <a href="https://github.com/reconverse/outbreaks">outbreaks</a> R package.</li>
+<li>Keep the first 48 weeks as period of analysis.</li>
+<li>Use the <code>date of onset</code> column to calculate the daily growth rate.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Project the future trajectory of the outbreak</span></span>
 <span></span>
 <span><span class="co"># Load required packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconverse/outbreaks">outbreaks</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconverse/incidence2">incidence2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.reconverse.org/i2extras/">i2extras</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/epiverse-trace/epiparameter">epiparameter</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconhub/distcrete">distcrete</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.repidemicsconsortium.org/epitrix/">epitrix</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.repidemicsconsortium.org/projections/">projections</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
@@ -203,21 +216,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="co"># Extract parameter by disease, distribution, author</span></span>
 <span><span class="va">epidist_ebola_si</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://epiverse-trace.github.io/epiparameter/reference/epidist_db.html">epidist_db</a></span><span class="op">(</span></span>
+<span>  <span class="fu">epiparameter</span><span class="fu">::</span><span class="fu"><a href="https://epiverse-trace.github.io/epiparameter/reference/epidist_db.html">epidist_db</a></span><span class="op">(</span></span>
 <span>    disease <span class="op">=</span> <span class="st">"Ebola"</span>,</span>
 <span>    epi_dist <span class="op">=</span> <span class="st">"serial_interval"</span>,</span>
 <span>    author <span class="op">=</span> <span class="st">"WHO_Ebola_Response_Team"</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="va">discrete_ebola_si</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://epiverse-trace.github.io/epiparameter/reference/discretise.html">discretise</a></span><span class="op">(</span><span class="va">epidist_ebola_si</span><span class="op">)</span></span>
+<span><span class="co"># Read epidist class object</span></span>
+<span><span class="co"># Read distribution: gamma</span></span>
+<span><span class="va">epidist_ebola_si</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Disease: Ebola Virus Disease
+Pathogen: Ebola Virus
+Epi Distribution: serial interval
+Study: WHO Ebola Response Team (2015) &lt;10.1056/NEJMc1414992&gt; PMID: 25539446
+Distribution: gamma
+Parameters:
+  shape: 2.188
+  scale: 6.490</code></pre>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Discretise the distribution</span></span>
+<span><span class="va">discrete_ebola_si</span> <span class="op">&lt;-</span> <span class="fu">epiparameter</span><span class="fu">::</span><span class="fu"><a href="https://epiverse-trace.github.io/epiparameter/reference/discretise.html">discretise</a></span><span class="op">(</span><span class="va">epidist_ebola_si</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Now read distribution: discrete gamma</span></span>
+<span><span class="va">discrete_ebola_si</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Disease: Ebola Virus Disease
+Pathogen: Ebola Virus
+Epi Distribution: serial interval
+Study: WHO Ebola Response Team (2015) &lt;10.1056/NEJMc1414992&gt; PMID: 25539446
+Distribution: discrete gamma
+Parameters:
+  shape: 2.188
+  scale: 6.490</code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Transform from 'epidist' class to 'distcrete' class object</span></span>
+<span><span class="va">distcrete_ebola_si</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">distcrete</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/distcrete/man/distcrete.html">distcrete</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"gamma"</span>,</span>
+<span>    shape <span class="op">=</span> <span class="va">discrete_ebola_si</span><span class="op">$</span><span class="va">prob_dist</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">shape</span>,</span>
+<span>    scale <span class="op">=</span> <span class="va">discrete_ebola_si</span><span class="op">$</span><span class="va">prob_dist</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">scale</span>,</span>
+<span>    interval <span class="op">=</span> <span class="va">discrete_ebola_si</span><span class="op">$</span><span class="va">prob_dist</span><span class="op">$</span><span class="va">interval</span>,</span>
+<span>    w <span class="op">=</span> <span class="va">discrete_ebola_si</span><span class="op">$</span><span class="va">prob_dist</span><span class="op">$</span><span class="va">w</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Read distcrete class object</span></span>
+<span><span class="va">distcrete_ebola_si</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A discrete distribution
+  name: gamma
+  parameters:
+    shape: 2.18793402777778
+    scale: 6.49014084507042</code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Transform growth rate into reproductive number</span></span>
 <span><span class="va">reproductive_basic</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">epitrix</span><span class="fu">::</span><span class="fu"><a href="http://www.repidemicsconsortium.org/epitrix/reference/r2R0.html">lm2R0_sample</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">incidence2_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>    x <span class="op">=</span> <span class="va">incidence2_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>      <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>    w <span class="op">=</span> <span class="va">discrete_ebola_si</span><span class="op">$</span><span class="va">prob_dist</span>,</span>
 <span>    n <span class="op">=</span> <span class="fl">500</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Write function to sample replicates of reproductive number</span></span>
 <span><span class="va">sample_function</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">x</span> <span class="op">=</span> <span class="va">reproductive_basic</span>, <span class="va">n_sim</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span><span class="op">{</span></span>
 <span>    <span class="va">mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
@@ -234,27 +296,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">sample_result</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span></span>
+<span><span class="co"># Run function to sample replicates of reproductive number</span></span>
 <span><span class="va">reproductive_basic_sample</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">sample_function</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">reproductive_basic</span>,</span>
 <span>    n_sim <span class="op">=</span> <span class="fl">1000</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Plot the sample distribution</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">reproductive_basic_sample</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="projections_incidence_epitrix_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">distcrete_ebola_si</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">distcrete</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/distcrete/man/distcrete.html">distcrete</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"gamma"</span>,</span>
-<span>    shape <span class="op">=</span> <span class="va">discrete_ebola_si</span><span class="op">$</span><span class="va">prob_dist</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">shape</span>,</span>
-<span>    scale <span class="op">=</span> <span class="va">discrete_ebola_si</span><span class="op">$</span><span class="va">prob_dist</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">scale</span>,</span>
-<span>    interval <span class="op">=</span> <span class="va">discrete_ebola_si</span><span class="op">$</span><span class="va">prob_dist</span><span class="op">$</span><span class="va">interval</span>,</span>
-<span>    w <span class="op">=</span> <span class="va">discrete_ebola_si</span><span class="op">$</span><span class="va">prob_dist</span><span class="op">$</span><span class="va">w</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Project the future incidence </span></span>
+<span><span class="co"># from incidence object and sample of basic reproductive number</span></span>
 <span><span class="va">incidence1_projection</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://www.repidemicsconsortium.org/projections/reference/project.html">project</a></span><span class="op">(</span></span>
+<span>  <span class="fu">projections</span><span class="fu">::</span><span class="fu"><a href="https://www.repidemicsconsortium.org/projections/reference/project.html">project</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">incidence1_filter</span>, </span>
 <span>    R <span class="op">=</span> <span class="va">reproductive_basic_sample</span>,</span>
 <span>    si <span class="op">=</span> <span class="va">distcrete_ebola_si</span>, </span>
@@ -263,6 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    R_fix_within <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Plot the incidence object with the projection</span></span>
 <span><span class="va">incidence1_filter</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://www.repidemicsconsortium.org/projections/reference/plot.projections.html">add_projections</a></span><span class="op">(</span></span>
