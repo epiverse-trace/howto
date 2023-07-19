@@ -20,11 +20,15 @@ Conditions:
 ```{r}
 #| warning: false
 
+# Calculate the daily growth rate of an outbreak stratified by groups
+
+# Load required packages
 library(tidyverse)
 library(covidregionaldata)
-library(i2extras)
 library(incidence2)
+library(i2extras)
 
+# Load covid outbreak data
 raw_dat <- 
   covidregionaldataUK %>% 
   as_tibble() %>% 
@@ -33,10 +37,12 @@ raw_dat <-
   filter(date > lubridate::ymd(20200701)) %>%
   filter(date < lubridate::ymd(20201101))
 
+# Plot the raw data
 raw_dat %>%
   ggplot() +
-  aes(x = date, y = cases_new, col = region) +
-  geom_line()
+  aes(x = date, y = cases_new) +
+  geom_line() +
+  facet_wrap(vars(region))
 
 # Convert the data to an incidence object stratified by groups
 dat_group <- 
@@ -58,11 +64,14 @@ out_group <-
     alpha = 0.05
   )
 
-# Print the result
+# Print the model result
 i2extras::growth_rate(out_group)
 
-# Plot the result with prediction intervals
+# Plot the model result with prediction intervals
 plot(out_group, ci = FALSE, pi = TRUE)
+
+# Read plot documentation for an incidence2_fit object
+# ?plot.incidence2_fit
 ```
 
 ## Related
