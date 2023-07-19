@@ -12,6 +12,7 @@ toc_float: true
 ---
 
 Conditions:
+
 - Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015 to quantify the time-varying reproduction number.
 
 ```{r}

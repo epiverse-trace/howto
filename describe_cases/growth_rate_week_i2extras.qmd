@@ -12,6 +12,7 @@ toc_float: true
 ---
 
 Conditions: 
+
 - Calculate the weekly growth rate.
 - Use the date of onset of symptoms.
 - Keep the first 20 weeks as period of analysis.
