@@ -4,7 +4,7 @@ title: "About"
 
 ## What will you learn?
 
-- ...
+-   You will learn how to complete a specific outbreak analytic task following concrete steps to solve a real-world problem.
 
 ## Who are these for?
 
