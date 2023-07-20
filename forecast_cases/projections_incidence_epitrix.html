@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.333">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="dcterms.date" content="2023-07-19">
+<meta name="dcterms.date" content="2023-07-20">
 <title>howto - How to project the future trajectory of the outbreak?</title>
 <style>
 code{white-space: pre-wrap;}
@@ -136,7 +136,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#ingredients" id="toc-ingredients" class="nav-link active" data-scroll-target="#ingredients">Ingredients</a></li>
+  <li><a href="#steps-in-code" id="toc-steps-in-code" class="nav-link" data-scroll-target="#steps-in-code">Steps in code</a></li>
+  <li><a href="#steps-in-detail" id="toc-steps-in-detail" class="nav-link" data-scroll-target="#steps-in-detail">Steps in detail</a></li>
+  <li><a href="#related" id="toc-related" class="nav-link" data-scroll-target="#related">Related</a></li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/epiverse-trace/howto/edit/main/forecast_cases/projections_incidence_epitrix.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/epiverse-trace/howto/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
@@ -151,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 19, 2023</p>
+      <p class="date">July 20, 2023</p>
     </div>
   </div>
   
@@ -159,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header><p>Conditions:</p>
+</header><section id="ingredients" class="level2"><h2 class="anchored" data-anchor-id="ingredients">Ingredients</h2>
 <ul>
 <li>Project the future daily incidence based of past incidence, a selection of plausible basic reproduction numbers, and the distribution of the serial interval, using the <a href="https://www.repidemicsconsortium.org/projections/">projections</a> package.</li>
 <li>Get the basic reproductive number from the growth rate, given a generation time distribution, using the <a href="http://www.repidemicsconsortium.org/epitrix/">epitrix</a> package.</li>
@@ -168,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Use the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the <a href="https://github.com/reconverse/outbreaks">outbreaks</a> R package.</li>
 <li>Keep the first 48 weeks as period of analysis.</li>
 <li>Use the <code>date of onset</code> column to calculate the daily growth rate.</li>
-</ul>
+</ul></section><section id="steps-in-code" class="level2"><h2 class="anchored" data-anchor-id="steps-in-code">Steps in code</h2>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Project the future trajectory of the outbreak</span></span>
 <span></span>
@@ -331,14 +338,17 @@ Parameters:
 <p><img src="projections_incidence_epitrix_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Related:</p>
+</section><section id="steps-in-detail" class="level2"><h2 class="anchored" data-anchor-id="steps-in-detail">Steps in detail</h2>
 <ul>
-<li>Explanation on projections</li>
+<li>(pending)</li>
+</ul></section><section id="related" class="level2"><h2 class="anchored" data-anchor-id="related">Related</h2>
+<ul>
+<li><a href="https://www.reconlearn.org/post/projections.html">Explanation on projections</a></li>
+<li><a href="https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#14">Explanation on epidemiological distributions</a></li>
 </ul>
 
 
-
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -575,4 +585,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/epiverse-trace/howto/edit/main/forecast_cases/projections_incidence_epitrix.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/epiverse-trace/howto/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
+</body></html>

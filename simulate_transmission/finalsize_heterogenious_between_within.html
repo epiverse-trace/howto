@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.3.333">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="dcterms.date" content="2023-07-20">
-<title>howto - How to estimate the growth rate?</title>
+<title>howto - How to simulate the final size with heterogeneity in social contact and infection susceptibility?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,11 +143,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#steps-in-code" id="toc-steps-in-code" class="nav-link" data-scroll-target="#steps-in-code">Steps in code</a></li>
   <li><a href="#steps-in-detail" id="toc-steps-in-detail" class="nav-link" data-scroll-target="#steps-in-detail">Steps in detail</a></li>
   <li><a href="#related" id="toc-related" class="nav-link" data-scroll-target="#related">Related</a></li>
-  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/epiverse-trace/howto/edit/main/describe_cases/growth_rate_week_i2extras.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/epiverse-trace/howto/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/epiverse-trace/howto/edit/main/simulate_transmission/finalsize_heterogenious_between_within.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/epiverse-trace/howto/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">How to estimate the growth rate?</h1>
+<h1 class="title">How to simulate the final size with heterogeneity in social contact and infection susceptibility?</h1>
 </div>
 
 
@@ -167,102 +167,129 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 </header><section id="ingredients" class="level2"><h2 class="anchored" data-anchor-id="ingredients">Ingredients</h2>
+<p>This scenario assumes that, in the population, there is:</p>
 <ul>
-<li>Calculate the weekly growth rate from daily collected data.</li>
-<li>Use the <code>linelist</code> object in the <code>ebola_sim_clean</code> list from the <a href="https://github.com/reconverse/outbreaks">outbreaks</a> R package. <code>linelist</code> is an outbreak data set.</li>
-<li>Use the <code>date_of _onset</code> column of <code>linelist</code> to calculate the case counts.</li>
-<li>Keep the first 20 weeks in <code>linelist</code> as period of analysis.</li>
+<li>Heterogeneous social contact</li>
+<li>Different susceptibility to the infection:
+<ul>
+<li>Between individuals of different age groups from 20% (infants) to 100% (65+), and</li>
+<li>Within individuals of the same age group due the immunization effect of 25%.</li>
+</ul>
+</li>
+<li>The immunization uptake rate is also different for each of the age groups: immunization increases with age from 20% (infants) to 90% (65+)</li>
 </ul></section><section id="steps-in-code" class="level2"><h2 class="anchored" data-anchor-id="steps-in-code">Steps in code</h2>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate the weekly growth rate of an outbreak</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Simulate final size with heterogeneity in social contact and infection susceptibility</span></span>
 <span></span>
-<span><span class="co"># Load required packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconverse/outbreaks">outbreaks</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconverse/incidence2">incidence2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.reconverse.org/i2extras/">i2extras</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/epiverse-trace/finalsize">finalsize</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/epiforecasts/socialmixr">socialmixr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Load the simulated Ebola outbreak data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ebola_sim_clean</span><span class="op">)</span></span>
+<span><span class="co"># get UK polymod data</span></span>
+<span><span class="va">polymod</span> <span class="op">&lt;-</span> <span class="fu">socialmixr</span><span class="fu">::</span><span class="va"><a href="https://epiforecasts.io/socialmixr/reference/polymod.html">polymod</a></span></span>
+<span><span class="va">contact_data</span> <span class="op">&lt;-</span> <span class="fu">socialmixr</span><span class="fu">::</span><span class="fu"><a href="https://epiforecasts.io/socialmixr/reference/contact_matrix.html">contact_matrix</a></span><span class="op">(</span></span>
+<span>  <span class="va">polymod</span>,</span>
+<span>  countries <span class="op">=</span> <span class="st">"United Kingdom"</span>,</span>
+<span>  age.limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">18</span>, <span class="fl">40</span>, <span class="fl">65</span><span class="op">)</span>,</span>
+<span>  symmetric <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Extract the first element of the list</span></span>
-<span><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">ebola_sim_clean</span><span class="op">$</span><span class="va">linelist</span></span>
+<span><span class="co"># get the contact matrix and demography data</span></span>
+<span><span class="va">contact_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">contact_data</span><span class="op">$</span><span class="va">matrix</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Get an incidence2 object with case counts per week</span></span>
-<span><span class="co"># from data collected per day</span></span>
-<span><span class="va">incidence2_week</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">incidence2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/incidence2/man/incidence.html">incidence</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">linelist</span>, </span>
-<span>    date_index <span class="op">=</span> <span class="st">"date_of_onset"</span>,</span>
-<span>    interval <span class="op">=</span> <span class="st">"week"</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="co"># scale the contact matrix so the largest eigenvalue is 1.0</span></span>
+<span><span class="co"># this is to ensure that the overall epidemic dynamics correctly reflect</span></span>
+<span><span class="co"># the assumed value of R0</span></span>
+<span><span class="va">contact_matrix_scaled</span> <span class="op">&lt;-</span> <span class="va">contact_matrix</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/complex.html">Re</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">contact_matrix</span><span class="op">)</span><span class="op">$</span><span class="va">values</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Read case counts per week</span></span>
-<span><span class="va">incidence2_week</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># Define population in each age group</span></span>
+<span><span class="va">demography_vector</span> <span class="op">&lt;-</span> <span class="va">contact_data</span><span class="op">$</span><span class="va">demography</span><span class="op">$</span><span class="va">population</span></span>
+<span><span class="va">demography_groups</span> <span class="op">&lt;-</span> <span class="va">contact_data</span><span class="op">$</span><span class="va">demography</span><span class="op">$</span><span class="va">age.group</span></span>
+<span></span>
+<span><span class="va">demography_vector</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># incidence:  56 x 3
-# count vars: date_of_onset
-   date_index count_variable count
- * &lt;isowk&gt;    &lt;chr&gt;          &lt;int&gt;
- 1 2014-W15   date_of_onset      1
- 2 2014-W16   date_of_onset      1
- 3 2014-W17   date_of_onset      5
- 4 2014-W18   date_of_onset      4
- 5 2014-W19   date_of_onset     12
- 6 2014-W20   date_of_onset     17
- 7 2014-W21   date_of_onset     15
- 8 2014-W22   date_of_onset     19
- 9 2014-W23   date_of_onset     23
-10 2014-W24   date_of_onset     21
-# ℹ 46 more rows</code></pre>
+<pre><code>[1]  3453670  9761554 18110368 19288101  9673058</code></pre>
 </div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Filter the dataset to keep the first 20 weeks. </span></span>
-<span><span class="va">incidence2_filter</span> <span class="op">&lt;-</span> <span class="va">incidence2_week</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>,<span class="op">]</span></span>
-<span></span>
-<span><span class="co"># Model the incidence</span></span>
-<span><span class="va">incidence2_fit</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">i2extras</span><span class="fu">::</span><span class="fu"><a href="http://www.reconverse.org/i2extras/reference/fit_curve.html">fit_curve</a></span><span class="op">(</span></span>
-<span>    <span class="va">incidence2_filter</span>, </span>
-<span>    model <span class="op">=</span> <span class="st">"poisson"</span>, </span>
-<span>    alpha <span class="op">=</span> <span class="fl">0.05</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Print the model result</span></span>
-<span><span class="fu">i2extras</span><span class="fu">::</span><span class="fu"><a href="http://www.reconverse.org/i2extras/reference/growth_rate.html">growth_rate</a></span><span class="op">(</span><span class="va">incidence2_fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">demography_groups</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 9
-  count_variable model      r r_lower r_upper growth_or_decay  time time_lower
-  &lt;chr&gt;          &lt;list&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;
-1 date_of_onset  &lt;glm&gt;  0.184   0.168   0.200 doubling         3.77       3.46
-# ℹ 1 more variable: time_upper &lt;dbl&gt;</code></pre>
+<pre><code>[1] "[0,5)"   "[5,18)"  "[18,40)" "[40,65)" "65+"    </code></pre>
 </div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot the model result with prediction intervals</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">incidence2_fit</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, pi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="growth_rate_week_i2extras_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># divide each row of the contact matrix by the corresponding demography</span></span>
+<span><span class="co"># this reflects the assumption that each individual in group {j} make contacts</span></span>
+<span><span class="co"># at random with individuals in group {i}</span></span>
+<span><span class="va">contact_matrix_random</span> <span class="op">&lt;-</span> <span class="va">contact_matrix_scaled</span> <span class="op">/</span> <span class="va">demography_vector</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Set and immunization effect</span></span>
+<span><span class="va">immunization_effect</span> <span class="op">&lt;-</span> <span class="fl">0.25</span></span>
+<span></span>
+<span><span class="co"># susceptibility matrix</span></span>
+<span><span class="va">susceptibility</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  age_group <span class="op">=</span> <span class="va">demography_groups</span>,</span>
+<span>  unimmunised <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>, <span class="fl">1.0</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>immunised <span class="op">=</span> <span class="va">unimmunised</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">immunization_effect</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"age_group"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">susceptibility</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        unimmunised immunised
+[0,5)           0.2     0.150
+[5,18)          0.5     0.375
+[18,40)         0.6     0.450
+[40,65)         0.9     0.675
+65+             1.0     0.750</code></pre>
 </div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read plot documentation for an incidence2_fit object</span></span>
-<span><span class="co"># ?plot.incidence2_fit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># demography-in-susceptibility matrix</span></span>
+<span><span class="va">p_susceptibility</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  age_group <span class="op">=</span> <span class="va">demography_groups</span>,</span>
+<span>  immunised <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.9</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>unimmunised <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">immunised</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"age_group"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p_susceptibility</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        immunised unimmunised
+[0,5)         0.2         0.8
+[5,18)        0.4         0.6
+[18,40)       0.6         0.4
+[40,65)       0.7         0.3
+65+           0.9         0.1</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R0 of the disease</span></span>
+<span><span class="va">r0</span> <span class="op">&lt;-</span> <span class="fl">1.5</span> <span class="co"># assumed for pandemic influenza</span></span>
+<span></span>
+<span><span class="co"># Calculate the proportion of individuals infected in each age group</span></span>
+<span><span class="fu"><a href="https://epiverse-trace.github.io/finalsize/reference/final_size.html">final_size</a></span><span class="op">(</span></span>
+<span>  r0 <span class="op">=</span> <span class="va">r0</span>,</span>
+<span>  contact_matrix <span class="op">=</span> <span class="va">contact_matrix_random</span>,</span>
+<span>  demography_vector <span class="op">=</span> <span class="va">demography_vector</span>,</span>
+<span>  susceptibility <span class="op">=</span> <span class="va">susceptibility</span>,</span>
+<span>  p_susceptibility <span class="op">=</span> <span class="va">p_susceptibility</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   demo_grp    susc_grp susceptibility   p_infected
+1     [0,5) unimmunised          0.200 4.499231e-08
+2    [5,18) unimmunised          0.500 2.406152e-07
+3   [18,40) unimmunised          0.600 2.247908e-07
+4   [40,65) unimmunised          0.900 2.849580e-07
+5       65+ unimmunised          1.000 1.847858e-07
+6     [0,5)   immunised          0.150 3.374423e-08
+7    [5,18)   immunised          0.375 1.804614e-07
+8   [18,40)   immunised          0.450 1.685931e-07
+9   [40,65)   immunised          0.675 2.137185e-07
+10      65+   immunised          0.750 1.385893e-07</code></pre>
+</div>
 </div>
 </section><section id="steps-in-detail" class="level2"><h2 class="anchored" data-anchor-id="steps-in-detail">Steps in detail</h2>
 <ul>
-<li>The <code>outbreaks</code> package is loaded to access the simulated Ebola outbreak data.</li>
-<li>The <code>ebola_sim_clean</code> object from the package contains the simulated outbreak data.</li>
-<li>The <code>linelist</code> object contains the first list element from <code>ebola_sim_clean</code>.</li>
-<li>The <code><a href="https://rdrr.io/pkg/incidence2/man/incidence.html">incidence()</a></code> function from the <code>incidence2</code> package converts the data object <code>linelist</code> to an <code>incidence2</code> class object.</li>
-<li>The <code>date_of_onset</code> column is used in the <code>date_index</code> argument as the onset dates of the outbreak.</li>
-<li>The <code>"week"</code> text string is used in the <code>interval</code> argument to count number of cases per week interval.</li>
-<li>The <code>incidence2</code> object provides observations arranged in descendant order with respect to the <code>date_index</code>.</li>
-<li>The number of weeks to consider is set to 20 and stored in the <code>dat_filter</code> object.</li>
-<li>The <code><a href="http://www.reconverse.org/i2extras/reference/fit_curve.html">fit_curve()</a></code> function from the <code>i2extras</code> package fits a Poisson linear regression model to the epicurve in the <code>dat_filter</code> object with an alpha value of <code>0.05</code> to calculate the 95% confidence intervals.</li>
-<li>The <code><a href="http://www.reconverse.org/i2extras/reference/growth_rate.html">growth_rate()</a></code> function calculate the weekly growth/decay rate.</li>
-<li>The <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> function plot the fitted epicurve.</li>
-</ul>
-<p>Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the <code>install.packages("pak")</code> function and then the <code><a href="http://pak.r-lib.org/reference/pak.html">pak::pak()</a></code> function for both packages in CRAN or GitHub before loading them with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>.</p>
-<p>Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.</p>
-</section><section id="related" class="level2"><h2 class="anchored" data-anchor-id="related">Related</h2>
+<li>(pending)</li>
+</ul></section><section id="related" class="level2"><h2 class="anchored" data-anchor-id="related">Related</h2>
 <ul>
-<li><a href="https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#28">Explanation on incidence, growth rate, doubling time, and Poisson model</a></li>
+<li><a href="https://epiverse-trace.github.io/finalsize/articles/varying_susceptibility.html#primer-on-heterogeneous-susceptibility">Explanation on heterogeneous susceptibility</a></li>
 </ul>
 
 
