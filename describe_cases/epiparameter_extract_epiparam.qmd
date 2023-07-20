@@ -43,6 +43,18 @@ epidist_ebola
 plot(epidist_ebola,day_range = 0:50)
 ```
 
+## Steps in detail
+
+- The `epiparameter` package is loaded to access the library of epidemiological parameters.
+- The `epidist_db()` function extract a parameter by specifying the disease name in the `disease` argument, epidemiological distribution in the `epi_dist` argument, and author name in the `author` argument.
+- The `epidist_db()` function creates an `epidist` object.
+- The `plot` function creates a plot from `epidist` objects. 
+- The `epiparam()` functions provide access to a data frame with all the names of diseases, epidemiological distribution, and authors.
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
 ## Related
 
 - [Explanation on epidemiological distributions](https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#14)
