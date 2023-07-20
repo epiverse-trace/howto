@@ -14,8 +14,8 @@ listing:
     contents: "forecast_cases/*.qmd"
     type: table
     fields: [title]
-  - id: simulate-cases
-    contents: "simulate_cases/*.qmd"
+  - id: simulate-transmission
+    contents: "simulate_transmission/*.qmd"
     type: table
     fields: [title]
 ---
@@ -39,7 +39,7 @@ The goal of `howto` is to collect reproducible How to guides of Outbreak data an
 
 ## Simulate transmission scenarios
 
-:::{#simulate-cases}
+:::{#simulate-transmission}
 :::
 
 ## More
