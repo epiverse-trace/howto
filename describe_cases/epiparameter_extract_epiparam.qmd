@@ -13,7 +13,7 @@ toc_float: true
 
 Conditions:
 
-- Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015 to quantify the time-varying reproduction number.
+- Use the distribution estimated from the WHO Ebola Response Team in 2015.
 
 ```{r}
 #| warning: false
@@ -45,4 +45,4 @@ plot(epidist_ebola,day_range = 0:50)
 
 ## Related
 
-- Explanation on epidemiological distributions
+- [Explanation on epidemiological distributions](https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#14)
