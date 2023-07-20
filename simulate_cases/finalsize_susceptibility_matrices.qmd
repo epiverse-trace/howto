@@ -11,6 +11,8 @@ toc: true
 toc_float: true
 ---
 
+## Ingredients
+
 Conditions:
 
 - Create the two susceptibility matrices needed for the `finalsize` package.
@@ -24,6 +26,8 @@ Conditions:
     - 90% in age group 40 – 64,
     - 100% in age group of 65 and over,
 - The percentage of the unimmunized population in all age groups is 60%.
+
+## Steps in code
 
 ```{r}
 #| warning: false
@@ -66,6 +70,8 @@ p_susceptibility <-
 
 p_susceptibility
 ```
+
+## Steps in detail
 
 - The `tidyverse` package is loaded to create matrices from data frame operations.
 - The `immunization_effect` contains the 0.25 effect from the immunization campaign.

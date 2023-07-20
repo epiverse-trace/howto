@@ -11,10 +11,12 @@ toc: true
 toc_float: true
 ---
 
-Conditions:
+## Ingredients
 
 - Account for heterogeneous social contact
-- Account for homogeneous susceptibility in all age groups
+- Assume homogeneous susceptibility in all age groups
+
+## Steps in code
 
 ```{r}
 #| warning: false
@@ -87,6 +89,11 @@ r_eff(
 )
 ```
 
+## Steps in detail
+
+- (pending)
+
 ## Related
 
-- Explanation on effective reproductive number
+- [Explanation on heterogeneity in social contact](https://epiverse-trace.github.io/finalsize/articles/varying_contacts.html)
+- [Explanation on effective reproductive number with heterogeneity in social contact](https://epiverse-trace.github.io/finalsize/articles/varying_susceptibility.html#calculate-the-effective-r_0)

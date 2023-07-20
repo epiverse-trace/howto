@@ -11,7 +11,7 @@ toc: true
 toc_float: true
 ---
 
-Conditions:
+## Ingredients
 
 - Project the future daily incidence based of past incidence, a selection of plausible basic reproduction numbers, and the distribution of the serial interval, using the `{projections}` package.
 - Get the basic reproductive number from the growth rate, given a generation time distribution, using the `{epitrix}` package.
@@ -20,6 +20,8 @@ Conditions:
 - Use the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the `{outbreaks}` R package.
 - Keep the first 48 weeks as period of analysis.
 - Use the `date of onset` column to calculate the daily growth rate. 
+
+## Steps in code
 
 ```{r}
 #| warning: false
@@ -157,7 +159,11 @@ incidence1_filter %>%
   )
 ```
 
-Related:
+## Steps in detail
+
+- (pending)
+
+## Related
 
 - [Explanation on projections](https://www.reconlearn.org/post/projections.html)
 - [Explanation on epidemiological distributions](https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#14)

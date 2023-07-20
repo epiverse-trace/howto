@@ -11,11 +11,14 @@ toc: true
 toc_float: true
 ---
 
-Conditions:
+## Ingredients
 
-- Calculate the daily growth rate.
-- Use the date of report.
-- Keep the first 4 months as period of analysis.
+- Calculate the daily growth rate stratified by groups.
+- Use the `covidregionaldataUK` data set from the `{covidregionaldata}` R package.
+- Use the "date of report" in `cases_new` column of `covidregionaldataUK` to calculate the case counts.
+- Keep the first 4 months in `covidregionaldataUK` as period of analysis.
+
+## Steps in code
 
 ```{r}
 #| warning: false
@@ -73,6 +76,10 @@ plot(out_group, ci = FALSE, pi = TRUE)
 # Read plot documentation for an incidence2_fit object
 # ?plot.incidence2_fit
 ```
+
+## Steps in detail
+
+- (pending)
 
 ## Related
 

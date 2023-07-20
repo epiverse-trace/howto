@@ -11,11 +11,13 @@ toc: true
 toc_float: true
 ---
 
-Conditions: 
+## Ingredients
 
-- Get weekly case counts from daily collected.
+- Get weekly case counts from daily collected data.
 - Use the `linelist` object in the `ebola_sim_clean` list from the `{outbreaks}` R package. `linelist` is an outbreak data set. 
 - Use the `date_of _onset` column of `linelist` to calculate the case counts. 
+
+## Steps in code
 
 ```{r}
 #| warning: false
@@ -66,6 +68,8 @@ incidence2_week
 # Plot incidence2 object with case counts per week
 plot(incidence2_week)
 ```
+
+## Steps in detail
 
 - The `outbreaks` package is loaded to access the simulated Ebola outbreak data.
 - The `ebola_sim_clean` object from the package contains the simulated outbreak data.

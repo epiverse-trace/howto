@@ -11,6 +11,8 @@ toc: true
 toc_float: true
 ---
 
+## Ingredients
+
 This scenario assumes that, in the population, there is: 
 
 - Heterogeneous social contact
@@ -18,6 +20,8 @@ This scenario assumes that, in the population, there is:
   - Between individuals of different age groups from 20% (infants) to 100% (65+), and
   - Within individuals of the same age group due the immunization effect of 25%.
 - The immunization uptake rate is also different for each of the age groups: immunization increases with age from 20% (infants) to 90% (65+)
+
+## Steps in code
 
 ```{r}
 #| warning: false
@@ -96,7 +100,9 @@ final_size(
 )
 ```
 
-## Related
+## Steps in detail
+
+- (pending)
 
 ## Related
 

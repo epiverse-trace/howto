@@ -11,12 +11,14 @@ toc: true
 toc_float: true
 ---
 
-Conditions:
+## Ingredients
 
-- Use the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the `{outbreaks}` R package.
-- Use the `date of onset` column to calculate the weekly growth rate. 
-- Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015 to quantify the time-varying reproduction number.
+- Use the `linelist` object in the `ebola_sim_clean` list from the `{outbreaks}` R package. `linelist` is an outbreak data set. 
+- Use the `date_of _onset` column of `linelist` to calculate the case counts. 
+- Use the distribution estimated from the WHO Ebola Response Team in 2015.
 - Assume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying reproduction number.
+
+## Steps in code
 
 ```{r}
 #| warning: false
@@ -60,6 +62,8 @@ epiestim_output <- estimate_R(
 plot(epiestim_output)
 ```
 
+## Steps in detail
+
 - The `outbreaks` package is loaded to access the simulated Ebola outbreak data.
 - The `epiparameter` package is loaded to access the library of epidemiological parameters.
 
@@ -78,4 +82,4 @@ Additionally, make sure to adjust the serial interval distribution parameters ac
 
 ## Related
 
-- Explanation on effective reproductive number
+- [Explanation on effective reproductive number](https://mrc-ide.github.io/EpiEstim/articles/full_EpiEstim_vignette.html)
