@@ -16,7 +16,7 @@ toc_float: true
 - Use the `linelist` object in the `ebola_sim_clean` list from the `{outbreaks}` R package. `linelist` is an outbreak data set. 
 - Use the `date_of _onset` column of `linelist` to calculate the case counts. 
 - Use the distribution estimated from the WHO Ebola Response Team in 2015.
-- Assume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying reproduction number.
+- Assume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying effective reproduction number.
 
 ## Steps in code
 
@@ -82,4 +82,4 @@ Additionally, make sure to adjust the serial interval distribution parameters ac
 
 ## Related
 
-- [Explanation on effective reproductive number](https://mrc-ide.github.io/EpiEstim/articles/full_EpiEstim_vignette.html)
+- [Explanation on the time-varying effective reproductive number](https://mrc-ide.github.io/EpiEstim/articles/full_EpiEstim_vignette.html)
