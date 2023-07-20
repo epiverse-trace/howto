@@ -159,4 +159,5 @@ incidence1_filter %>%
 
 Related:
 
-- Explanation on projections
+- [Explanation on projections](https://www.reconlearn.org/post/projections.html)
+- [Explanation on epidemiological distributions](https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#14)
