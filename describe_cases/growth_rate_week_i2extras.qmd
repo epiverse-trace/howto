@@ -73,7 +73,7 @@ plot(incidence2_fit, ci = FALSE, pi = TRUE)
 - The `linelist` object contains the first list element from `ebola_sim_clean`.
 - The `incidence()` function from the `incidence2` package converts the data object `linelist` to an `incidence2` class object.
 - The `date_of_onset` column is used in the `date_index` argument as the onset dates of the outbreak.
-- The `"week"` text string is used to count number of cases per week interval to calculate the weekly growth rate.  
+- The `"week"` text string is used in the `interval` argument to count number of cases per week interval. 
 - The `incidence2` object provides observations arranged in descendant order with respect to the `date_index`.
 - The number of weeks to consider is set to 20 and stored in the `dat_filter` object.
 - The `fit_curve()` function from the `i2extras` package fits a Poisson linear regression model to the epicurve in the `dat_filter` object with an alpha value of `0.05` to calculate the 95% confidence intervals.
