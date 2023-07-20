@@ -1,0 +1,85 @@
+---
+title: "How to get an incidence object from days to weeks?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+Conditions: 
+
+- Get weekly case counts from daily collected.
+- Use the `linelist` object in the `ebola_sim_clean` list from the `{outbreaks}` R package. `linelist` is an outbreak data set. 
+- Use the `date_of _onset` column of `linelist` to calculate the case counts. 
+
+```{r}
+#| warning: false
+
+# Get the weekly growth rate of an outbreak
+
+# Load required packages
+library(outbreaks)
+library(incidence2)
+library(dplyr)
+
+# Load the simulated Ebola outbreak data
+data(ebola_sim_clean)
+
+# Extract the first element of the list
+linelist <- ebola_sim_clean$linelist
+
+# Read data collected per day
+as_tibble(linelist)
+
+# Get an incidence2 object with case counts per day
+# from data collected per day
+incidence2_day <- 
+  incidence2::incidence(
+    x = linelist, 
+    date_index = "date_of_onset",
+    interval = "day"
+  )
+
+# Read case counts per day
+incidence2_day
+
+# Plot incidence2 object with case counts per day
+plot(incidence2_day)
+
+# Get an incidence2 object with case counts per week
+# from data collected per day
+incidence2_week <- 
+  incidence2::incidence(
+    x = linelist, 
+    date_index = "date_of_onset",
+    interval = "week"
+  )
+
+# Read case counts per week
+incidence2_week
+
+# Plot incidence2 object with case counts per week
+plot(incidence2_week)
+```
+
+- The `outbreaks` package is loaded to access the simulated Ebola outbreak data.
+- The `ebola_sim_clean` object from the package contains the simulated outbreak data.
+- The `linelist` object contains the first list element from `ebola_sim_clean`.
+- The `incidence()` function from the `incidence2` package converts the data object `linelist` to an `incidence2` class object.
+- The `date_of_onset` column is used in the `date_index` argument as the onset dates of the outbreak.
+- The `"day"` text string is used in the `interval` argument to count number of cases per day interval.
+- The `"week"` text string is used in the `interval` argument to count number of cases per week interval.  
+- The `incidence2` object provides observations arranged in descendant order with respect to the `date_index`.
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on incidence](https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#28)
