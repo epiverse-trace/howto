@@ -37,6 +37,9 @@ data(ebola_sim_clean)
 # Extract the first element of the list
 linelist <- ebola_sim_clean$linelist
 
+# Read linelist data
+linelist
+
 # Get an incidence2 object with case counts per week
 # from data collected per day
 incidence2_week <- 

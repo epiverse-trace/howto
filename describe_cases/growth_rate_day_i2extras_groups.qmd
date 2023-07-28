@@ -40,6 +40,9 @@ raw_dat <-
   filter(date > lubridate::ymd(20200701)) %>%
   filter(date < lubridate::ymd(20201101))
 
+# Read covid outbreak data
+raw_dat
+
 # Plot the raw data
 raw_dat %>%
   ggplot() +
