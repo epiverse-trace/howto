@@ -1,0 +1,80 @@
+---
+title: "How to add multiple count variables in a incidence2 object?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+## Ingredients
+
+- Use the `covidregionaldataUK` data frame from the `{covidregionaldata}` R package.
+- Use the "date of report" in `cases_new` column of `covidregionaldataUK` to calculate the case counts.
+- Use `cases_new` and `deaths_new` columns of `covidregionaldataUK` to calculate the case and death counts per day one data frame.
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Calculate the daily growth rate of an outbreak stratified by groups
+
+# Load required packages
+library(tidyverse)
+library(covidregionaldata)
+library(incidence2)
+
+# Load covid outbreak data
+raw_dat <- 
+  covidregionaldataUK %>% 
+  as_tibble() %>% 
+  filter(magrittr::is_in(region,c("England", "Scotland", 
+                                  "Northern Ireland", "Wales"))) %>% 
+  filter(date > lubridate::ymd(20200701)) %>%
+  filter(date < lubridate::ymd(20201101))
+
+# Read covid outbreak data
+raw_dat
+
+# Create a incidence2 object with one variable in counts argument
+incidence2::incidence(
+  x = raw_dat, 
+  counts = "cases_new",
+  date_index = "date",
+  interval = "day",
+  groups = "region"
+)
+
+# Create a incidence2 object with two variables in counts argument
+incidence2::incidence(
+  x = raw_dat, 
+  counts = c("cases_new","deaths_new"),
+  date_index = "date",
+  interval = "day",
+  groups = "region"
+)
+```
+
+## Steps in detail
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- The `x` argument of the `incidence()` function must be a tidy and linelist data frame
+- The `counts` argument of the `incidence()` function can tolerate more than one variable from a tidy and linelist data frame.
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on topic](link)
