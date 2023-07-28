@@ -26,11 +26,12 @@ toc_float: true
 
 # Load required packages
 library(tidyverse)
+library(outbreaks)
 library(covidregionaldata)
 library(incidence2)
 
 # Load covid outbreak data
-raw_dat <- 
+covid_dat <- 
   covidregionaldataUK %>% 
   as_tibble() %>% 
   filter(magrittr::is_in(region,c("England", "Scotland", 
@@ -39,25 +40,32 @@ raw_dat <-
   filter(date < lubridate::ymd(20201101))
 
 # Read covid outbreak data
-raw_dat
-
-# Create a incidence2 object with one variable in counts argument
-incidence2::incidence(
-  x = raw_dat, 
-  counts = "cases_new",
-  date_index = "date",
-  interval = "day",
-  groups = "region"
-)
+covid_dat
 
 # Create a incidence2 object with two variables in counts argument
-incidence2::incidence(
-  x = raw_dat, 
+covid_dat_counts <- incidence2::incidence(
+  x = covid_dat, 
   counts = c("cases_new","deaths_new"),
   date_index = "date",
-  interval = "day",
-  groups = "region"
+  interval = "day"
 )
+
+plot(covid_dat_counts)
+
+# Load the simulated Ebola outbreak data
+data(ebola_sim_clean)
+
+# Extract the first element of the list
+linelist <- outbreaks::ebola_sim_clean$linelist
+
+# Create a incidence2 object with two variables in date_interval argument
+linelist_dates <- incidence2::incidence(
+  x = linelist, 
+  date_index = c("date_of_onset","date_of_outcome"),
+  interval = "day"
+)
+
+plot(linelist_dates)
 ```
 
 ## Steps in detail
