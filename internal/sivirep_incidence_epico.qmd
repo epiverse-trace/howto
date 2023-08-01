@@ -1,0 +1,55 @@
+---
+title: "How to (active verb) ... ?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+## Ingredients
+
+- Nouns
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load required packages
+library(sivirep)
+library(incidence)
+library(epiCo)
+
+# data 
+# https://github.com/avallecam/epichannel#example
+
+# https://epiverse-trace.github.io/sivirep/reference/import_data_canal_endemico.html
+
+# https://epiverse-trace.github.io/epiCo/reference/auto_endemic_channel.html
+
+
+
+```
+
+## Steps in detail
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- `tidyverse` package is loaded to manage data frame objects.
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on topic](link)
