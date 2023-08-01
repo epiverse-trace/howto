@@ -123,7 +123,7 @@ incidence2::incidence(
 #' [test]
 # Convert from incidence2 to incidence1
 # Using weeks
-#' [status] not optima
+#' [status] not optimal
 #' [better] start from data input if you need incidence1
 
 # incidence2 in weeks object came from linelist_week
@@ -150,7 +150,7 @@ incidence2_week_to_day %>%
 # Convert from incidence2 to incidence1
 # Using days
 # Using groups
-#' [status] the group gets broker
+#' [status] extensive solution
 #' [better] start from data input if you need incidence1 by groups
 
 # incidence2 in day object came from linelist_day 
@@ -162,6 +162,29 @@ incidence::incidence(
   groups = linelist_day$gender,
   interval = "1 week"
 )
+
+# Extensive solution
+
+incidence2_day_groups <- 
+  incidence2::incidence(
+    x = linelist_day,
+    date_index = "date_of_onset",
+    groups = "gender"
+  )
+
+incidence2_day_groups
+
+incidence2_day_groups_uncount <- 
+  incidence2_day_groups %>% 
+  tidyr::uncount(count)
+
+incidence::incidence(
+  dates = incidence2_day_groups_uncount$date_index,
+  groups = incidence2_day_groups_uncount$gender)
+
+#' why I would like to prefer to keep a nice transition from inc2 to inc1
+#' - to facilitate inc2 + epiestim + projections + epico integration
+#' - to filter date rows given a number of dates, instead of an explicit range of dates. (is this the best way to do it?)
 ```
 
 ## Steps in detail
