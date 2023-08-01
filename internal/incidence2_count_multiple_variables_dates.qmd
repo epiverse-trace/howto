@@ -13,7 +13,7 @@ toc_float: true
 
 ## Ingredients
 
-- Use the `covidregionaldataUK` data frame from the `{covidregionaldata}` R package.
+- `covidregionaldataUK` data frame from the `{covidregionaldata}` R package. `covidregionaldataUK` is a count-format data frame.
 - Use the "date of report" in `cases_new` column of `covidregionaldataUK` to calculate the case counts.
 - Use `cases_new` and `deaths_new` columns of `covidregionaldataUK` to calculate the case and death counts per day one data frame.
 
