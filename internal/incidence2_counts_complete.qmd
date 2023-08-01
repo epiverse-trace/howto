@@ -1,0 +1,72 @@
+---
+title: "How to get an incidence object from count data?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+## Ingredients
+
+- Count format data frame
+- `count` argument of `incidence()` function from `{incidence2}`
+- `complete_dates()` function from `{incidence2}`
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load required packages
+library(incidence2)
+library(tidyverse)
+
+# Create a data frame with dates, groups, and 
+# count of cases per date and group
+x <- tibble(
+  dates = Sys.Date() + c(1,3,4),
+  groups = c("grp1","grp2", "grp1"),
+  counts = 1:3
+)
+
+x
+
+# Create an incidence object with counts argument
+i <- incidence(
+  x = x, 
+  date_index = "dates", 
+  groups = "groups", 
+  counts = "counts"
+  )
+
+i
+
+# Complete dates for all groups combinations
+# and fill counts with 0
+complete_dates(i)
+```
+
+## Steps in detail
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- `tidyverse` package is loaded to manage data frame objects.
+- Use de `count` argument of `incidence()` function from `{incidence2}` to use a count-format data frame.
+- Use `complete_dates()` function from `{incidence2}` to complete dates from grouped data.
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on topic](link)
