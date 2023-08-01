@@ -1,0 +1,179 @@
+---
+title: "How to (active verb) ... ?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+## Ingredients
+
+- `linelist` object in the `ebola_sim_clean` list from the `{outbreaks}` R package. `linelist` is an incidence data frame.
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load required packages
+library(outbreaks)
+library(incidence)
+library(incidence2)
+library(tidyverse)
+
+# Load the simulated Ebola outbreak data
+data(ebola_sim_clean)
+
+# Get linelist with patient reports per day
+
+linelist_day <- 
+  ebola_sim_clean$linelist %>% 
+  as_tibble() %>% 
+  select(case_id,date_of_onset,gender)
+
+linelist_day
+
+# Simulate linelist with patient reports per week
+
+linelist_week <- 
+  linelist_day %>% 
+  mutate(week_of_onset = grates::as_isoweek(date_of_onset)) %>% 
+  select(-date_of_onset)
+
+linelist_week
+
+# Convert to incidence1 or incidence2
+
+# Convert the data to an incidence1 object
+# Convert to days
+incidence1_day <- 
+  incidence::incidence(
+    dates = linelist_day$date_of_onset)
+
+# Convert the data to an incidence2 object
+# Convert to days
+incidence2_day <- 
+  incidence2::incidence(
+    x = linelist_day, 
+    date_index = "date_of_onset"
+  )
+
+# Convert data to incidence2 object
+# from linelist_week
+
+incidence2_week <- 
+  incidence2::incidence(
+    x = linelist_week,
+    date_index = "week_of_onset"
+  )
+
+# Read all objects
+
+# Read incidence data in Week
+incidence1_day
+
+# Read incidence2 data in Day
+incidence2_day
+
+# Read incidence2 data in Week from Week
+incidence2_week
+
+# Test how to convert
+
+#' [test]
+# Convert from incidence2 to incidence1
+# Using days
+#' [status] Works!
+
+incidence1_from_incidence2_day <- 
+  incidence2_day %>% 
+  tidyr::uncount(count) %>% 
+  dplyr::pull(date_index) %>% 
+  incidence::incidence()
+
+incidence1_from_incidence2_day
+
+# Test for differences
+all.equal(incidence1_day,incidence1_from_incidence2_day)
+
+#' [test]
+# Convert from incidence1 to incidence2
+# Using days
+#' [status] not necessary
+#' [better] start from data input if you need incidence2
+
+# incidence1 in day object came from linelist_day
+incidence1_day
+
+# Use linelist_day to convert days to weeks
+incidence2::incidence(
+  x = linelist_day,
+  date_index = "date_of_onset"
+)
+
+#' [test]
+# Convert from incidence2 to incidence1
+# Using weeks
+#' [status] not optima
+#' [better] start from data input if you need incidence1
+
+# incidence2 in weeks object came from linelist_week
+incidence2_week
+
+# Convert input in weeks to days
+incidence2_week_to_day <- 
+  incidence2::incidence(
+    x = linelist_week,
+    date_index = "week_of_onset",
+    interval = "day"
+  )
+
+incidence2_week_to_day
+
+# Convert from incidence2 to incidence1
+# Use the argument interval = "1 week" of incidence::incidence()
+incidence2_week_to_day %>% 
+  tidyr::uncount(count) %>% 
+  dplyr::pull(date_index) %>% 
+  incidence::incidence(interval = "1 week")
+
+#' [test]
+# Convert from incidence2 to incidence1
+# Using days
+# Using groups
+#' [status] the group gets broker
+#' [better] start from data input
+
+# incidence2 in day object came from linelist_day 
+incidence2_day
+
+# Use the groups argument from gender
+incidence::incidence(
+  dates = linelist_day$date_of_onset,
+  groups = linelist_day$gender,
+  interval = "1 week"
+)
+```
+
+## Steps in detail
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- `tidyverse` package is loaded to manage data frame objects.
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on topic](link)
