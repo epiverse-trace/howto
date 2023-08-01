@@ -170,7 +170,7 @@ incidence::incidence(
 
 - Create an `incidence` class object from `incidence2` class object with `uncount()` from `{tidyr}` package
 
-- Create a `incidence` class object in week format from `incidence2` class object in week format the data input for `{incidence2}`.
+- Create a `incidence` class object in week format from `incidence2` class object in week format with the data input for `{incidence2}`.
 
 - Create a `incidence` class object in groups from `incidence2` class object in groups with the data input for `{incidence2}`.
 
