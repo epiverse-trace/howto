@@ -13,7 +13,11 @@ toc_float: true
 
 ## Ingredients
 
-- `linelist` object in the `ebola_sim_clean` list from the `{outbreaks}` R package. `linelist` is an incidence data frame.
+- `linelist` object in the `ebola_sim_clean` list from the `{outbreaks}` R package. `linelist` is an incidence-format data frame.
+- `incidence()` from `{incidence}` package.
+- `incidence()` from `{incidence2}` package.
+- `uncount()` from `{tidyr}` package.
+- `as_isoweek()` from `{grates}` package
 
 ## Steps in code
 
@@ -147,7 +151,7 @@ incidence2_week_to_day %>%
 # Using days
 # Using groups
 #' [status] the group gets broker
-#' [better] start from data input
+#' [better] start from data input if you need incidence1 by groups
 
 # incidence2 in day object came from linelist_day 
 incidence2_day
@@ -164,7 +168,13 @@ incidence::incidence(
 
 <!-- reduce length of strings with a large language model like chatgpt -->
 
-- `tidyverse` package is loaded to manage data frame objects.
+- Create an `incidence` class object from `incidence2` class object with `uncount()` from `{tidyr}` package
+
+- Create a `incidence` class object in week format from `incidence2` class object in week format the data input for `{incidence2}`.
+
+- Create a `incidence` class object in groups from `incidence2` class object in groups with the data input for `{incidence2}`.
+
+- Create a `incidence2` class object in week format from `incidence` class object in week format with the data input for `{incidence}`.
 
 <!-- must: keep to warn users on how to install packages -->
 
