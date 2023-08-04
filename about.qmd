@@ -18,6 +18,7 @@ In the creation of these materials, we though in:
 
 - Provide a ["How-to" guides](https://documentation.divio.com/how-to-guides/) as single point solutions to specific problems.
 - Add links to related [Explanation](https://documentation.divio.com/explanation/) documentation.
+- Leverage the ecosystem: Facilitate the Accessibility to the Outbreak analytics ecosystem by using the Tidyverse. This provides a consistent and smoother learning experience to users. Aligned with the [datasciencebox design principles](https://datasciencebox.org/01-design-principles.html#leverage-the-ecosystem) and [FAIR principles for software ecosystems](https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.15409).
 - Show the context (part of the pipeline), ingredients (packages) and steps.
 - Add brief interpretation templates.
 - Functions, as in package websites, should have [code-link](https://downlit.r-lib.org/) to their [Reference](https://documentation.divio.com/reference/) documentation.
