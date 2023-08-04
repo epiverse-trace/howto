@@ -1,0 +1,75 @@
+---
+title: "How to (active verb) ... ?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+## Ingredients
+
+- Nouns
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+library(incidence2)
+library(cfr)
+library(tidyverse)
+
+# Load covid outbreak data
+ts_covid_uk <- 
+  incidence2::covidregionaldataUK %>% 
+  filter(date <= "2020-12-31")
+
+# Create {cfr} input data from time-series data
+ts_covid_uk_cfr_input <- 
+  
+  # Create a incidence2 object
+  # use two variables in counts argument
+  incidence2::incidence(
+    x = ts_covid_uk, 
+    counts = c("cases_new","deaths_new"),
+    date_index = "date"
+  ) %>% 
+  
+  # Prepare incidence2 object to {cfr} input data
+  cfr::prepare_data(
+    cases_variable = "cases_new",
+    deaths_variable = "deaths_new",
+    fill_NA = TRUE
+  )
+
+# Read {cfr} input data
+# ts_covid_uk_cfr_input
+
+# Estimate naive case fatality ratio
+cfr::estimate_static(data = ts_covid_uk_cfr_input)
+#>   severity_me severity_lo severity_hi
+#> 1  0.02885153  0.02870385  0.02899978
+```
+
+## Steps in detail
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- `tidyverse` package is loaded to manage data frame objects.
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on topic](link)
