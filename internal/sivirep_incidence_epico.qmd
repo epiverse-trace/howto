@@ -21,9 +21,9 @@ toc_float: true
 #| warning: false
 
 # Load required packages
-library(sivirep)
-library(incidence)
-library(epiCo)
+# library(sivirep)
+# library(incidence)
+# library(epiCo)
 
 # data 
 # https://github.com/avallecam/epichannel#example
