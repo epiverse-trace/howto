@@ -44,4 +44,6 @@ The goal of `howto` is to collect reproducible How to guides of Outbreak data an
 
 ## More
 
+Follow our guidelines on [Getting help](https://github.com/epiverse-trace/howto/blob/main/.github/SUPPORT.md) with and [Contributing](https://github.com/epiverse-trace/howto/blob/main/.github/CONTRIBUTING.md) to the `howto` repository.
+
 Refer to the [About](about.qmd) page for more details about the rationale behind the design of this site.
