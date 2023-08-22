@@ -482,6 +482,25 @@
       ],
       "Hash": "f61dbaec772ccd2e17705c1e872e9e7c"
     },
+    "cfr": {
+      "Package": "cfr",
+      "Version": "0.1",
+      "Source": "GitHub",
+      "Remotes": "epiverse-trace/epiparameter",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "cfr",
+      "RemoteUsername": "epiverse-trace",
+      "RemotePkgRef": "epiverse-trace/cfr",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "66bfa793e6d2a6f51f8de5a1ad6056b74c54350a",
+      "Requirements": [
+        "R",
+        "checkmate",
+        "stats"
+      ],
+      "Hash": "1b59bbda90bdf26e48b7504970c5ef4e"
+    },
     "checkmate": {
       "Package": "checkmate",
       "Version": "2.2.0",
