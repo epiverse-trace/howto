@@ -18,28 +18,35 @@
     "href": "about.html#who-are-these-for",
     "title": "About",
     "section": "Who are these for?",
-    "text": "Who are these for?\nIn the creation of these materials, we though in:\n\nJuan, a Data Analyst at a National Health Agency that wants quick code solutions reminders for outbreak analytics. Read more about Juan.\nPatricia, a PhD student with MATLAB expertise and needs to translate theory to practice with R. Read more about Patricia. \nDanielle, an Instructor that wants to remix content to create specific training materials for public health practitioners. Read more about Danielle."
+    "text": "Who are these for?\nIn the creation of these materials, we though in:\n\nJuan, a Statistician. He supports the data analysis tasks in the outbreak response team of a National Health Agency. He wants quick code solutions reminders for outbreak analytics. Read more about Juan.\nPatricia, a PhD student. She has a Master in Epidemiology with a focus on Modelling of Infectious Diseases Dynamics using MATLAB. She wants to translate theory to practice with R. Read more about Patricia. \nDanielle, an Instructor. She has outbreak analytics experience at the Ministry of Health and now develops training materials for her colleagues. She wants to remix content to create specific training materials for public health practitioners like Field epidemiologists and research degree students. Read more about Danielle."
   },
   {
     "objectID": "about.html#design-principles",
     "href": "about.html#design-principles",
     "title": "About",
     "section": "Design Principles",
-    "text": "Design Principles\n\nProvide a “How-to” guides as single point solutions to specific problems.\nAdd links to related Explanation documentation.\nLeverage the ecosystem: Facilitate the Accessibility to the Outbreak analytics ecosystem by using the Tidyverse. This provides a consistent and smoother learning experience to users. Aligned with the datasciencebox design principles and FAIR principles for software ecosystems.\nShow the context (part of the pipeline), ingredients (packages) and steps.\nAdd brief interpretation templates.\nFunctions, as in package websites, should have code-link to their Reference documentation.\nProvide a “search by keyword” to find what a user needs.\nShow the R code needed to solve Outbreak Analytics tasks.\nShow how Epidemiology R packages are integrated in pipelines.\nHelp to identify which coding task can be replaced by new R packages.\nProvide various infectious disease scenarios by world regions and data sources.\nRefer to external learning resources.\nRefer to a glossary of terms.\nRefer to good coding practices."
+    "text": "Design Principles\n\nProvide a “How-to” guides as single point solutions to specific problems.\nAdd links to related Explanation documentation.\nLeverage the ecosystem: Facilitate the Accessibility to the Outbreak analytics ecosystem by using the Tidyverse. This provides a consistent and smoother learning experience to users. Aligned with the datasciencebox design principles and FAIR principles for software ecosystems.\nShow the context (part of the pipeline), ingredients (packages) and steps.\nAdd brief interpretation templates.\nFunctions, as in package websites, should have code-link to their Reference documentation.\nProvide a “search by keyword” to find what a user needs.\nShow the R code needed to solve Outbreak Analytics tasks.\nShow how Epidemiology R packages are integrated in pipelines.\nHelp to identify which coding task can be replaced by new R packages.\nProvide various infectious disease scenarios by world regions and data sources.\nRefer to external learning resources.\nRefer to a glossary of terms.\nRefer to good coding practices.\nNon-invasive package management with {renv}"
   },
   {
-    "objectID": "about.html#reproducibility",
-    "href": "about.html#reproducibility",
+    "objectID": "about.html#contributing",
+    "href": "about.html#contributing",
     "title": "About",
-    "section": "Reproducibility",
-    "text": "Reproducibility\n\nNon-invasive package management with {renv}"
+    "section": "Contributing",
+    "text": "Contributing\nContributions are always welcome!\nSee our Contributing guide for ways to get started.\nPlease adhere to this project’s Code of Conduct."
+  },
+  {
+    "objectID": "about.html#support",
+    "href": "about.html#support",
+    "title": "About",
+    "section": "Support",
+    "text": "Support\nPlease see our Getting help guide for support."
   },
   {
     "objectID": "about.html#related-projects",
     "href": "about.html#related-projects",
     "title": "About",
     "section": "Related projects",
-    "text": "Related projects\n\nepirecipes"
+    "text": "Related projects\n\nepirecipes\nHow To Articles by Posit Support"
   },
   {
     "objectID": "describe_cases/epiparameter_extract_epiparam.html",
