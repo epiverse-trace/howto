@@ -9,12 +9,13 @@ Start by making a minimal **repr**oducible **ex**ample using the  [reprex](https
 If you haven't heard of or used reprex before, you're in for a treat! 
 Seriously, reprex will make all of your R-question-asking endeavors easier (which is a pretty insane ROI for the five to ten minutes it'll take you to learn what it's all about). 
 For additional reprex pointers, check out the [Get help!](https://www.tidyverse.org/help/) section of the tidyverse site.
+You can also check out the [How to make a reproducible R code example](https://community.appliedepi.org/t/how-to-make-a-reproducible-r-code-example/167/1) of the AppliedEpi community site.
 
 ## Where to ask?
 
 Armed with your reprex, the next step is to figure out [where to ask](https://www.tidyverse.org/help/#where-to-ask). 
 
-*   If it's a question: start with [community.rstudio.com](https://community.rstudio.com/), and/or StackOverflow. There are more people there to answer questions.  
+*   If it's a question: start with [the GitHub Discussions](https://github.com/epiverse-trace/howto/discussions), and/or [community.appliedepi.org](https://community.appliedepi.org/). There are more people there to answer questions.  
 
 *   If it's a bug: you're in the right place, [file an issue](https://github.com/epiverse-trace/howto/issues/new).  
   
@@ -28,7 +29,7 @@ For example, you'd simply remove `is:open` to search _all_ issues in the repo, o
 
 ## What happens next?
 
-To be as efficient as possible, development of tidyverse packages tends to be very bursty, so you shouldn't worry if you don't get an immediate response.
+To be as efficient as possible, development of epiverse-trace projects tends to be very bursty, so you shouldn't worry if you don't get an immediate response.
 Typically we don't look at a repo until a sufficient quantity of issues accumulates, then there’s a burst of intense activity as we focus our efforts. 
 That makes development more efficient because it avoids expensive context switching between problems, at the cost of taking longer to get back to you. 
 This process makes a good reprex particularly important because it might be multiple months between your initial report and when we start working on it. 
