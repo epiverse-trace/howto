@@ -36,3 +36,19 @@ Please see our [Getting help guide](/.github/SUPPORT.md) for support.
 ## License
 
 [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
+
+## Citation
+
+    #> 
+    #> Valle A (2023). "howto: How-To Guides For Outbreak Analytics R
+    #> Packages."
+    #> 
+    #> A BibTeX entry for LaTeX users is
+    #> 
+    #>   @Misc{epiversehowto,
+    #>     year = {2023},
+    #>     title = {howto: How-To Guides For Outbreak Analytics R Packages},
+    #>     author = {Andree Valle},
+    #>     abstract = {Collection of reproducible how-to guides of Outbreak data analysis tasks using R packages.},
+    #>     version = {0.0.0.9000},
+    #>   }

@@ -39,3 +39,9 @@ Please see our [Getting help guide](/.github/SUPPORT.md) for support.
 ## License
 
 [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
+
+## Citation
+
+```{r,echo=FALSE}
+readCitationFile(file = "inst/CITATION")
+```
