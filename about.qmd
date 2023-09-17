@@ -10,10 +10,10 @@ title: "About"
 
 In the creation of these materials, we though in:
 
--   __Juan__, a Data Analyst at a National Health Agency that wants quick code solutions reminders for outbreak analytics. [Read more about Juan](https://epiverse-trace.github.io/personas/juan-datero.html).
--   __Patricia__, a PhD student with MATLAB expertise and needs to translate theory to practice with R. [Read more about Patricia](https://epiverse-trace.github.io/personas/patricia-discoverer.html).
+-   __Juan__, a Statistician. He supports the data analysis tasks in the outbreak response team of a National Health Agency. He wants quick code solutions reminders for outbreak analytics. [Read more about Juan](https://epiverse-trace.github.io/personas/juan-datero.html).
+-   __Patricia__, a PhD student. She has a Master in Epidemiology with a focus on Modelling of Infectious Diseases Dynamics using MATLAB. She wants to translate theory to practice with R. [Read more about Patricia](https://epiverse-trace.github.io/personas/patricia-discoverer.html).
 <!-- -   Celina, a Post-doc and fluent R user who needs to keep up-to-date with the latest package developments. -->
-- __Danielle__, an Instructor that wants to remix content to create specific training materials for public health practitioners. [Read more about Danielle](danielle-entretrainer.qmd).
+- __Danielle__, an Instructor. She has outbreak analytics experience at the Ministry of Health and now develops training materials for her colleagues. She wants to remix content to create specific training materials for public health practitioners like Field epidemiologists and research degree students. [Read more about Danielle](https://epiverse-trace.github.io/personas/danielle-entretrainer.html).
 
 ## Design Principles
 
@@ -31,11 +31,21 @@ In the creation of these materials, we though in:
 -   Refer to external learning resources.
 -   Refer to a glossary of terms.
 -   Refer to good coding practices.
-
-## Reproducibility
-
 -   Non-invasive package management with [`{renv}`](https://rstudio.github.io/renv/)
+
+## Contributing
+
+Contributions are always welcome!
+
+See our [Contributing guide](https://github.com/epiverse-trace/howto/blob/main/.github/CONTRIBUTING.md) for ways to get started.
+
+Please adhere to this project's [Code of Conduct](https://github.com/epiverse-trace/howto/blob/main/.github/CODE_OF_CONDUCT.md).
+
+## Support
+
+Please see our [Getting help guide](https://github.com/epiverse-trace/howto/blob/main/.github/SUPPORT.md) for support.
 
 ## Related projects
 
 -   [epirecipes](http://epirecip.es/epicookbook/)
+-   [How To Articles by Posit Support](https://support.posit.co/hc/en-us/categories/200035113-How-To-Articles)
