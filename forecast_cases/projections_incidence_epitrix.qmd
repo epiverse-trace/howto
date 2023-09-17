@@ -72,11 +72,13 @@ incidence2_fit <-
 
 # Extract parameter by disease, distribution, author
 epidist_ebola_si <- 
-  epiparameter::epidist_db(
-    disease = "Ebola",
-    epi_dist = "serial_interval",
-    author = "WHO_Ebola_Response_Team"
-  )
+  epiparameter::epiparam() %>% 
+  filter(str_detect(disease,"Ebola")) %>% 
+  filter(epi_distribution == "serial_interval") %>% 
+  filter(region == "West Africa") %>% 
+  filter(author == "WHO_Ebola_Response_Team") %>% 
+  filter(year == 2015) %>% 
+  epiparameter::as_epidist()
 
 # Read epidist class object
 # Read distribution: gamma
