@@ -10,9 +10,10 @@ title: "About"
 
 In the creation of these materials, we though in:
 
--   [Juan](https://epiverse-trace.github.io/personas/juan-datero.html), a Data Analyst and R user in a National Health Agency with constant deployment to outbreak response.
--   Celina, a Post-doc and fluent R user who needs to keep up-to-date with the latest package developments.
--   Daniel, a Trainer that wants to remix content to create specific training materials for public health practitioners.
+-   __Juan__, a Data Analyst at a National Health Agency that wants quick code solutions reminders for outbreak analytics. [Read more about Juan](https://epiverse-trace.github.io/personas/juan-datero.html).
+-   __Patricia__, a PhD student with MATLAB expertise and needs to translate theory to practice with R. [Read more about Patricia](https://epiverse-trace.github.io/personas/patricia-discoverer.html).
+<!-- -   Celina, a Post-doc and fluent R user who needs to keep up-to-date with the latest package developments. -->
+- __Danielle__, an Instructor that wants to remix content to create specific training materials for public health practitioners. [Read more about Danielle](danielle-entretrainer.qmd).
 
 ## Design Principles
 
