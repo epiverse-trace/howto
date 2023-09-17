@@ -42,11 +42,11 @@ Folder structure and naming convention:
   - `describe_cases/` → Describe base data
   - `forecast_cases/` → Create short-term forecast
   - `quantify_transmission/` → Quantify transmission
-  - `simulate_transmission/` → simulate transmission scenarios
+  - `simulate_transmission/` → Simulate transmission scenarios
 
 - The `internal/` folder:
   - sandbox of work-in-progress ideas
-  - The `internal/` folder also has a template file named [template-package_action.qmd](https://github.com/epiverse-trace/howto/blob/main/internal/template-package_action.qmd)
+  - The `internal/` folder also has a template file named [`template-package_action.qmd`](https://github.com/epiverse-trace/howto/blob/main/internal/template-package_action.qmd)
 
 File structure and naming convention:
 
@@ -55,12 +55,13 @@ File structure and naming convention:
   - This template already has the components to obtain a standard output across entries, and writing suggestions.
 
 - File naming:
-  - As the template, start with the package name and then key words of the actions/verbs to solve the question, in snake case following ecosystem [naming standards](https://devguide.ropensci.org/building.html?q=snake#function-and-argument-naming).
+  - As in the template, start with the package name and then key words of the actions/verbs to solve the question.
+  - Use the snake case [naming standard](https://devguide.ropensci.org/building.html?q=snake#function-and-argument-naming).
 
 - File content:
-  - Ingredients (use nouns)
-  - Steps in code (use active verbs)
-  - Steps in detail (use active verbs)
+  - Ingredients → Use nouns.
+  - Steps in code → Use active verbs.
+  - Steps in detail → Use active verbs.
 
 - Current best example following this standard: [`incidence_convert_between_inc1_inc2.qmd`](https://github.com/epiverse-trace/howto/blob/5004d91ef22c63e8682878683d947dc75c96b8d4/internal/incidence_convert_between_inc1_inc2.qmd#L14-L21)
 
