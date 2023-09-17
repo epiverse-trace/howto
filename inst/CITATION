@@ -1,0 +1,9 @@
+
+bibentry(bibtype = "Misc",
+         key = "epiversehowto",
+         year = 2023,
+         title = "howto: How-To Guides For Outbreak Analytics R Packages",
+         author = person(given = "Andree",
+                         family = "Valle"),
+         abstract = "Collection of reproducible how-to guides of Outbreak data analysis tasks using R packages.",
+         version = "0.0.0.9000")

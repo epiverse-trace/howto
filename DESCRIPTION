@@ -1,0 +1,11 @@
+Package: howto
+Title: How-To Guides For Outbreak Analytics R Packages
+Version: 0.0.0.9000
+Authors@R: 
+    person("Andree", "Valle", , "andree.valle-campos@lshtm.ac.uk", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7779-481X"))
+Description: Collection of reproducible how-to guides of Outbreak data analysis tasks using R packages.
+License: CC BY 4.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.0.0
