@@ -13,3 +13,26 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 The goal of `{howto}` is to collect reproducible **how-to guides** of
 Outbreak data analysis tasks using `R` packages.
+
+## Usage
+
+Visualize this content as a webpage at
+<https://epiverse-trace.github.io/howto/>
+
+## Contributing
+
+Contributions are always welcome!
+
+See our [Contributing guide](/.github/CONTRIBUTING.md) for ways to get
+started.
+
+Please adhere to this project’s [Code of
+Conduct](/.github/CODE_OF_CONDUCT.md).
+
+## Support
+
+Please see our [Getting help guide](/.github/SUPPORT.md) for support.
+
+## License
+
+[CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
