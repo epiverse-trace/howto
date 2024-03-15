@@ -38,11 +38,18 @@ You can also check out the [How to make a reproducible R code example](https://c
 
 Folder structure and naming convention:
 
-- Folder names corresponds to each box of the [pipeline roadmap](https://github.com/epiverse-trace/epiverse-trace.github.io/pull/88), we currently have four:
-  - `describe_cases/` → Describe base data
+- Folder names corresponds to each box of the [pipeline roadmap](https://github.com/epiverse-trace/epiverse-trace.github.io/pull/88):
+  - `read_cases/` → Read case data
+  - `describe_cases/` → Describe case data
+  - `reconstruct_transmission/` → Reconstruct transmission chains
+  - `estimate_severity/` → Estimate severity
   - `forecast_cases/` → Create short-term forecast
   - `quantify_transmission/` → Quantify transmission
+  - `read_population/` → Read population data
   - `simulate_transmission/` → Simulate transmission scenarios
+  - `compare_intervention/` → Compare intervention scenarios
+  - `read_intervention/` → Read intervention data
+  - `compare_economic/` → Compare economic impacts
 
 - The `internal/` folder:
   - sandbox of work-in-progress ideas
