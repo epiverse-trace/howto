@@ -38,7 +38,7 @@ You can also check out the [How to make a reproducible R code example](https://c
 
 Folder structure and naming convention:
 
-- Folder names corresponds to each box of the [pipeline roadmap](https://github.com/epiverse-trace/epiverse-trace.github.io/pull/88):
+- Folder names corresponds to each box of the [pipeline roadmap](https://epiverse-trace.github.io/):
   - `read_cases/` → Read case data
   - `describe_cases/` → Describe case data
   - `reconstruct_transmission/` → Reconstruct transmission chains
