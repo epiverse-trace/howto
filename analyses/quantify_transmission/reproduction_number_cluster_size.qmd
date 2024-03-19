@@ -37,7 +37,6 @@ freq_df <- as.data.frame(table(mers_clusters)); names(freq_df) <- c("Cluster siz
 
 # Create a table for the HTML document
 knitr::kable(freq_df, caption = "Frequencies of MERS Clusters")
-
 # Define likelihood function
 lik_function <- function(param) {
   if (any(param <= 0)) return(-Inf) # Ensure positive parameters
@@ -61,7 +60,6 @@ lik_function <- function(param) {
   # Return log-posterior (log-likelihood + log-prior)
   return(log_likelihood + log_prior)
 }
-
 # Define number of MCMC iterations
 n_iter <- 1e4
 
@@ -70,7 +68,6 @@ n_burn <- 1e3
 
 # Initial guess for c(R,k):
 init_param <- c(R=0.5, k=0.5)
-
 # Run MCMC to estimate parameters
 result_mcmcpack <- MCMCmetrop1R(lik_function, 
                                 theta.init = init_param, 
@@ -83,7 +80,6 @@ ess_mcmcpack <- effectiveSize(result_mcmcpack)
 
 # Plot posterior estimates
 plot(result_mcmcpack)
-
 # Define helper function to calculate median and 95% credible interval from data.frame of MCMC samples
 get_param <- function(x){
   apply(x,2,function(y){val = signif(quantile(y,c(0.5,0.025,0.0975)),3);
