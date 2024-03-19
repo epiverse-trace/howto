@@ -30,6 +30,18 @@ immunization_effect <- 0.25
 immunization_effect
 ```
 
+```{r}
+# optionally, to read data
+# from 
+# https://github.com/epiverse-trace/cleanepi/blob/main/inst/extdata/test_df.RDS
+# right click the "View Raw" link, 
+# copy and paste that link below
+data_path <- "https://github.com/epiverse-trace/cleanepi/raw/main/inst/extdata/test_df.RDS"
+
+readr::read_rds(data_path)
+```
+
+
 ## Steps in detail
 
 <!-- OPTIONAL -->

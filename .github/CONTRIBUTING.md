@@ -75,6 +75,17 @@ We propose to use a minimal template. This is open to adapt for the needs of the
 
 - One reference example is in: [`incidence_convert_between_inc1_inc2.qmd`](https://github.com/epiverse-trace/howto/blob/5004d91ef22c63e8682878683d947dc75c96b8d4/internal/incidence_convert_between_inc1_inc2.qmd#L14-L21)
 
+#### 4. Reuse existing data
+
+To read data we suggest to rely on data already available in an R package like in `{outbreaks}` or similar. 
+
+Save any new input data in the `data/` folder.
+
+Optionally, one alternative to read data can be:
+
+- Copy the [View Raw](https://docs.github.com/en/enterprise-cloud@latest/repositories/working-with-files/using-files/viewing-a-file) link to make it directly 
+- Read data from that link. (Example in template)
+
 #### 3. Build locally 
 
 Use the [**Render** button](https://quarto.org/docs/get-started/hello/rstudio.html#rendering) in the RStudio IDE to render the file and preview the output with a single click or keyboard shortcut (⇧⌘K).
