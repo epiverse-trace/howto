@@ -4,14 +4,14 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "You will learn how to complete a specific outbreak analytic task following concrete steps to solve a real-world problem."
+    "text": "How-to guides will help you complete a specific outbreak analytic task following concrete steps to solve a real-world problem.\nA how to-guide is concerned with work - a task or problem, with a practical goal. Maintain focus on that goal.\nA how-to guide serves the work of the already-competent user, whom you can assume to know what they want to do, and to be able to follow your instructions correctly."
   },
   {
-    "objectID": "about.html#what-will-you-learn",
-    "href": "about.html#what-will-you-learn",
+    "objectID": "about.html#what-are-the-key-principles-of-a-how-to-guide",
+    "href": "about.html#what-are-the-key-principles-of-a-how-to-guide",
     "title": "About",
     "section": "",
-    "text": "You will learn how to complete a specific outbreak analytic task following concrete steps to solve a real-world problem."
+    "text": "How-to guides will help you complete a specific outbreak analytic task following concrete steps to solve a real-world problem.\nA how to-guide is concerned with work - a task or problem, with a practical goal. Maintain focus on that goal.\nA how-to guide serves the work of the already-competent user, whom you can assume to know what they want to do, and to be able to follow your instructions correctly."
   },
   {
     "objectID": "about.html#who-are-these-for",
@@ -49,179 +49,319 @@
     "text": "Related projects\n\nepirecipes\nHow To Articles by Posit Support"
   },
   {
-    "objectID": "describe_cases/epiparameter_extract_epiparam.html",
-    "href": "describe_cases/epiparameter_extract_epiparam.html",
+    "objectID": "analyses/describe_cases/epiparameter_extract_epiparam.html",
+    "href": "analyses/describe_cases/epiparameter_extract_epiparam.html",
     "title": "How to extract the serial interval distribution from a systematic review?",
     "section": "",
     "text": "Use the distribution estimated from the WHO Ebola Response Team in 2015."
   },
   {
-    "objectID": "describe_cases/epiparameter_extract_epiparam.html#ingredients",
-    "href": "describe_cases/epiparameter_extract_epiparam.html#ingredients",
+    "objectID": "analyses/describe_cases/epiparameter_extract_epiparam.html#ingredients",
+    "href": "analyses/describe_cases/epiparameter_extract_epiparam.html#ingredients",
     "title": "How to extract the serial interval distribution from a systematic review?",
     "section": "",
     "text": "Use the distribution estimated from the WHO Ebola Response Team in 2015."
   },
   {
-    "objectID": "describe_cases/epiparameter_extract_epiparam.html#steps-in-code",
-    "href": "describe_cases/epiparameter_extract_epiparam.html#steps-in-code",
+    "objectID": "analyses/describe_cases/epiparameter_extract_epiparam.html#steps-in-code",
+    "href": "analyses/describe_cases/epiparameter_extract_epiparam.html#steps-in-code",
     "title": "How to extract the serial interval distribution from a systematic review?",
     "section": "Steps in code",
     "text": "Steps in code\n\n# Load required packages\nlibrary(epiparameter)\nlibrary(tidyverse)\n\n# Load the library of parameters as an epiparam object\nepiparam_all &lt;- epiparam()\n\n# Filter by disease, epi_distribution, region, and year\nepiparam_ebola &lt;- epiparam_all %&gt;% \n  filter(str_detect(disease,\"Ebola\")) %&gt;% \n  filter(epi_distribution == \"serial_interval\") %&gt;% \n  filter(region == \"West Africa\") %&gt;% \n  filter(year == 2015)\n\nepiparam_ebola\n\nEpiparam object\nNumber of distributions in library: 1\nNumber of diseases: 1\nNumber of delay distributions: 1\nNumber of offspring distributions: 0\nNumber of studies in library: 1\n&lt;Head of library&gt;\n              disease epi_distribution prob_distribution\n1 Ebola Virus Disease  serial_interval             gamma\n&lt;0 more rows & 55 more cols not shown&gt;\n\n# Convert a row to an epidist class object\nepidist_ebola &lt;- as_epidist(epiparam_ebola)\n\nepidist_ebola\n\nDisease: Ebola Virus Disease\nPathogen: Ebola Virus\nEpi Distribution: serial interval\nStudy: WHO, Ebola, Response, Team (2015). \"West African Ebola Epidemic after\nOne Year — Slowing but Not Yet under Control.\" _The New England Journal\nof Medicine_. doi:10.1056/NEJMc1414992\n&lt;https://doi.org/10.1056/NEJMc1414992&gt;.\nDistribution: gamma\nParameters:\n  shape: 2.188\n  scale: 6.490\n\n# Plot the epidist object\nplot(epidist_ebola,day_range = 0:50)"
   },
   {
-    "objectID": "describe_cases/epiparameter_extract_epiparam.html#steps-in-detail",
-    "href": "describe_cases/epiparameter_extract_epiparam.html#steps-in-detail",
+    "objectID": "analyses/describe_cases/epiparameter_extract_epiparam.html#steps-in-detail",
+    "href": "analyses/describe_cases/epiparameter_extract_epiparam.html#steps-in-detail",
     "title": "How to extract the serial interval distribution from a systematic review?",
     "section": "Steps in detail",
     "text": "Steps in detail\n\nThe epiparameter package is loaded to access the library of epidemiological parameters.\nThe epidist_db() function extract a parameter by specifying the disease name in the disease argument, epidemiological distribution in the epi_dist argument, and author name in the author argument.\nThe epidist_db() function creates an epidist object.\nThe plot function creates a plot from epidist objects.\nThe epiparam() functions provide access to a data frame with all the names of diseases, epidemiological distribution, and authors.\n\nPlease note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the install.packages(\"pak\") function and then the pak::pak() function for both packages in CRAN or GitHub before loading them with library().\nAdditionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing."
   },
   {
-    "objectID": "describe_cases/epiparameter_extract_epiparam.html#related",
-    "href": "describe_cases/epiparameter_extract_epiparam.html#related",
+    "objectID": "analyses/describe_cases/epiparameter_extract_epiparam.html#related",
+    "href": "analyses/describe_cases/epiparameter_extract_epiparam.html#related",
     "title": "How to extract the serial interval distribution from a systematic review?",
     "section": "Related",
     "text": "Related\n\nExplanation on epidemiological distributions"
   },
   {
-    "objectID": "describe_cases/growth_rate_day_i2extras_groups.html",
-    "href": "describe_cases/growth_rate_day_i2extras_groups.html",
+    "objectID": "analyses/describe_cases/growth_rate_day_i2extras_groups.html",
+    "href": "analyses/describe_cases/growth_rate_day_i2extras_groups.html",
     "title": "How to estimate the growth rate stratified by groups?",
     "section": "",
     "text": "Calculate the daily growth rate stratified by groups.\nUse the covidregionaldataUK data set from the {covidregionaldata} R package.\nUse the “date of report” in cases_new column of covidregionaldataUK to calculate the case counts.\nKeep the first 4 months in covidregionaldataUK as period of analysis."
   },
   {
-    "objectID": "describe_cases/growth_rate_day_i2extras_groups.html#ingredients",
-    "href": "describe_cases/growth_rate_day_i2extras_groups.html#ingredients",
+    "objectID": "analyses/describe_cases/growth_rate_day_i2extras_groups.html#ingredients",
+    "href": "analyses/describe_cases/growth_rate_day_i2extras_groups.html#ingredients",
     "title": "How to estimate the growth rate stratified by groups?",
     "section": "",
     "text": "Calculate the daily growth rate stratified by groups.\nUse the covidregionaldataUK data set from the {covidregionaldata} R package.\nUse the “date of report” in cases_new column of covidregionaldataUK to calculate the case counts.\nKeep the first 4 months in covidregionaldataUK as period of analysis."
   },
   {
-    "objectID": "describe_cases/growth_rate_day_i2extras_groups.html#steps-in-code",
-    "href": "describe_cases/growth_rate_day_i2extras_groups.html#steps-in-code",
+    "objectID": "analyses/describe_cases/growth_rate_day_i2extras_groups.html#steps-in-code",
+    "href": "analyses/describe_cases/growth_rate_day_i2extras_groups.html#steps-in-code",
     "title": "How to estimate the growth rate stratified by groups?",
     "section": "Steps in code",
     "text": "Steps in code\n\n# Calculate the daily growth rate of an outbreak stratified by groups\n\n# Load required packages\nlibrary(tidyverse)\nlibrary(covidregionaldata)\nlibrary(incidence2)\nlibrary(i2extras)\n\n# Load covid outbreak data\nraw_dat &lt;- \n  covidregionaldataUK %&gt;% \n  as_tibble() %&gt;% \n  filter(magrittr::is_in(region,c(\"England\", \"Scotland\", \n                                  \"Northern Ireland\", \"Wales\"))) %&gt;% \n  filter(date &gt; lubridate::ymd(20200701)) %&gt;%\n  filter(date &lt; lubridate::ymd(20201101))\n\n# Read covid outbreak data\nraw_dat\n\n# A tibble: 488 × 13\n   date       region   region_code cases_new cases_total deaths_new deaths_total\n   &lt;date&gt;     &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;\n 1 2020-07-02 England  E92000001         565      245041         40        36172\n 2 2020-07-02 Norther… N92000002           3        5646          0          552\n 3 2020-07-02 Scotland S92000003          13       18297          0         2546\n 4 2020-07-02 Wales    W92000004          28       16647          3         1532\n 5 2020-07-03 England  E92000001         543      245584         26        36198\n 6 2020-07-03 Norther… N92000002           8        5654          2          554\n 7 2020-07-03 Scotland S92000003           6       18303          1         2547\n 8 2020-07-03 Wales    W92000004          19       16666          0         1532\n 9 2020-07-04 England  E92000001         386      245970         31        36229\n10 2020-07-04 Norther… N92000002           1        5655          0          554\n# ℹ 478 more rows\n# ℹ 6 more variables: recovered_new &lt;dbl&gt;, recovered_total &lt;dbl&gt;,\n#   hosp_new &lt;dbl&gt;, hosp_total &lt;dbl&gt;, tested_new &lt;dbl&gt;, tested_total &lt;dbl&gt;\n\n# Plot the raw data\nraw_dat %&gt;%\n  ggplot() +\n  aes(x = date, y = cases_new) +\n  geom_line() +\n  facet_wrap(vars(region))\n\n\n\n# Convert the data to an incidence object stratified by groups\ndat_group &lt;- \n  incidence2::incidence(\n    x = raw_dat, \n    counts = \"cases_new\",\n    date_index = \"date\",\n    interval = \"day\",\n    groups = \"region\"\n  )\n\ndat_group\n\n# incidence:  488 x 4\n# count vars: cases_new\n# groups:     region\n   date_index region           count_variable count\n * &lt;date&gt;     &lt;chr&gt;            &lt;fct&gt;          &lt;dbl&gt;\n 1 2020-07-02 England          cases_new        565\n 2 2020-07-02 Northern Ireland cases_new          3\n 3 2020-07-02 Scotland         cases_new         13\n 4 2020-07-02 Wales            cases_new         28\n 5 2020-07-03 England          cases_new        543\n 6 2020-07-03 Northern Ireland cases_new          8\n 7 2020-07-03 Scotland         cases_new          6\n 8 2020-07-03 Wales            cases_new         19\n 9 2020-07-04 England          cases_new        386\n10 2020-07-04 Northern Ireland cases_new          1\n# ℹ 478 more rows\n\n# Model the incidence\nout_group &lt;- \n  i2extras::fit_curve(\n    dat_group, \n    model = \"poisson\", \n    alpha = 0.05\n  )\n\n# Print the model result\ni2extras::growth_rate(out_group)\n\n# A tibble: 4 × 10\n  count_variable region       model      r r_lower r_upper growth_or_decay  time\n  &lt;fct&gt;          &lt;chr&gt;        &lt;lis&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;\n1 cases_new      England      &lt;glm&gt; 0.0385  0.0384  0.0386 doubling         18.0\n2 cases_new      Northern Ir… &lt;glm&gt; 0.0438  0.0433  0.0443 doubling         15.8\n3 cases_new      Scotland     &lt;glm&gt; 0.0406  0.0402  0.0410 doubling         17.1\n4 cases_new      Wales        &lt;glm&gt; 0.0447  0.0443  0.0452 doubling         15.5\n# ℹ 2 more variables: time_lower &lt;dbl&gt;, time_upper &lt;dbl&gt;\n\n# Plot the model result with prediction intervals\nplot(out_group, ci = FALSE, pi = TRUE)\n\n\n\n# Read plot documentation for an incidence2_fit object\n# ?plot.incidence2_fit"
   },
   {
-    "objectID": "describe_cases/growth_rate_day_i2extras_groups.html#steps-in-detail",
-    "href": "describe_cases/growth_rate_day_i2extras_groups.html#steps-in-detail",
+    "objectID": "analyses/describe_cases/growth_rate_day_i2extras_groups.html#steps-in-detail",
+    "href": "analyses/describe_cases/growth_rate_day_i2extras_groups.html#steps-in-detail",
     "title": "How to estimate the growth rate stratified by groups?",
     "section": "Steps in detail",
     "text": "Steps in detail\n\n(pending)"
   },
   {
-    "objectID": "describe_cases/growth_rate_day_i2extras_groups.html#related",
-    "href": "describe_cases/growth_rate_day_i2extras_groups.html#related",
+    "objectID": "analyses/describe_cases/growth_rate_day_i2extras_groups.html#related",
+    "href": "analyses/describe_cases/growth_rate_day_i2extras_groups.html#related",
     "title": "How to estimate the growth rate stratified by groups?",
     "section": "Related",
     "text": "Related\n\nExplanation on incidence, growth rate, doubling time, and Poisson model"
   },
   {
-    "objectID": "describe_cases/growth_rate_week_i2extras.html",
-    "href": "describe_cases/growth_rate_week_i2extras.html",
+    "objectID": "analyses/describe_cases/growth_rate_week_i2extras.html",
+    "href": "analyses/describe_cases/growth_rate_week_i2extras.html",
     "title": "How to estimate the growth rate?",
     "section": "",
     "text": "Calculate the weekly growth rate from daily collected data.\nUse the linelist object in the ebola_sim_clean list from the {outbreaks} R package. linelist is an outbreak data set.\nUse the date_of _onset column of linelist to calculate the case counts.\nKeep the first 20 weeks in linelist as period of analysis."
   },
   {
-    "objectID": "describe_cases/growth_rate_week_i2extras.html#ingredients",
-    "href": "describe_cases/growth_rate_week_i2extras.html#ingredients",
+    "objectID": "analyses/describe_cases/growth_rate_week_i2extras.html#ingredients",
+    "href": "analyses/describe_cases/growth_rate_week_i2extras.html#ingredients",
     "title": "How to estimate the growth rate?",
     "section": "",
     "text": "Calculate the weekly growth rate from daily collected data.\nUse the linelist object in the ebola_sim_clean list from the {outbreaks} R package. linelist is an outbreak data set.\nUse the date_of _onset column of linelist to calculate the case counts.\nKeep the first 20 weeks in linelist as period of analysis."
   },
   {
-    "objectID": "describe_cases/growth_rate_week_i2extras.html#steps-in-code",
-    "href": "describe_cases/growth_rate_week_i2extras.html#steps-in-code",
+    "objectID": "analyses/describe_cases/growth_rate_week_i2extras.html#steps-in-code",
+    "href": "analyses/describe_cases/growth_rate_week_i2extras.html#steps-in-code",
     "title": "How to estimate the growth rate?",
     "section": "Steps in code",
     "text": "Steps in code\n\n# Calculate the weekly growth rate of an outbreak\n\n# Load required packages\nlibrary(outbreaks)\nlibrary(incidence2)\nlibrary(i2extras)\nlibrary(dplyr)\n\n# Load the simulated Ebola outbreak data\ndata(ebola_sim_clean)\n\n# Extract the first element of the list\nlinelist &lt;- ebola_sim_clean$linelist\n\n# Read linelist data\nas_tibble(linelist)\n\n# A tibble: 5,829 × 11\n   case_id generation date_of_infection date_of_onset date_of_hospitalisation\n   &lt;chr&gt;        &lt;int&gt; &lt;date&gt;            &lt;date&gt;        &lt;date&gt;                 \n 1 d1fafd           0 NA                2014-04-07    2014-04-17             \n 2 53371b           1 2014-04-09        2014-04-15    2014-04-20             \n 3 f5c3d8           1 2014-04-18        2014-04-21    2014-04-25             \n 4 6c286a           2 NA                2014-04-27    2014-04-27             \n 5 0f58c4           2 2014-04-22        2014-04-26    2014-04-29             \n 6 49731d           0 2014-03-19        2014-04-25    2014-05-02             \n 7 f9149b           3 NA                2014-05-03    2014-05-04             \n 8 881bd4           3 2014-04-26        2014-05-01    2014-05-05             \n 9 e66fa4           2 NA                2014-04-21    2014-05-06             \n10 20b688           3 NA                2014-05-05    2014-05-06             \n# ℹ 5,819 more rows\n# ℹ 6 more variables: date_of_outcome &lt;date&gt;, outcome &lt;fct&gt;, gender &lt;fct&gt;,\n#   hospital &lt;fct&gt;, lon &lt;dbl&gt;, lat &lt;dbl&gt;\n\n# Get an incidence2 object with case counts per week\n# from data collected per day\nincidence2_week &lt;- \n  incidence2::incidence(\n    x = linelist, \n    date_index = \"date_of_onset\",\n    interval = \"week\"\n  )\n\n# Read case counts per week\nincidence2_week\n\n# incidence:  56 x 3\n# count vars: date_of_onset\n   date_index count_variable count\n * &lt;isowk&gt;    &lt;chr&gt;          &lt;int&gt;\n 1 2014-W15   date_of_onset      1\n 2 2014-W16   date_of_onset      1\n 3 2014-W17   date_of_onset      5\n 4 2014-W18   date_of_onset      4\n 5 2014-W19   date_of_onset     12\n 6 2014-W20   date_of_onset     17\n 7 2014-W21   date_of_onset     15\n 8 2014-W22   date_of_onset     19\n 9 2014-W23   date_of_onset     23\n10 2014-W24   date_of_onset     21\n# ℹ 46 more rows\n\n# Filter the dataset to keep the first 20 weeks. \nincidence2_filter &lt;- incidence2_week[1:20,]\n\n# Model the incidence\nincidence2_fit &lt;- \n  i2extras::fit_curve(\n    incidence2_filter, \n    model = \"poisson\", \n    alpha = 0.05\n  )\n\n# Print the model result\ni2extras::growth_rate(incidence2_fit)\n\n# A tibble: 1 × 9\n  count_variable model      r r_lower r_upper growth_or_decay  time time_lower\n  &lt;chr&gt;          &lt;list&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;\n1 date_of_onset  &lt;glm&gt;  0.184   0.168   0.200 doubling         3.77       3.46\n# ℹ 1 more variable: time_upper &lt;dbl&gt;\n\n# Plot the model result with prediction intervals\nplot(incidence2_fit, ci = FALSE, pi = TRUE)\n\n\n\n# Read plot documentation for an incidence2_fit object\n# ?plot.incidence2_fit"
   },
   {
-    "objectID": "describe_cases/growth_rate_week_i2extras.html#steps-in-detail",
-    "href": "describe_cases/growth_rate_week_i2extras.html#steps-in-detail",
+    "objectID": "analyses/describe_cases/growth_rate_week_i2extras.html#steps-in-detail",
+    "href": "analyses/describe_cases/growth_rate_week_i2extras.html#steps-in-detail",
     "title": "How to estimate the growth rate?",
     "section": "Steps in detail",
     "text": "Steps in detail\n\nThe outbreaks package is loaded to access the simulated Ebola outbreak data.\nThe ebola_sim_clean object from the package contains the simulated outbreak data.\nThe linelist object contains the first list element from ebola_sim_clean.\nThe incidence() function from the incidence2 package converts the data object linelist to an incidence2 class object.\nThe date_of_onset column is used in the date_index argument as the onset dates of the outbreak.\nThe \"week\" text string is used in the interval argument to count number of cases per week interval.\nThe incidence2 object provides observations arranged in descendant order with respect to the date_index.\nThe number of weeks to consider is set to 20 and stored in the dat_filter object.\nThe fit_curve() function from the i2extras package fits a Poisson linear regression model to the epicurve in the dat_filter object with an alpha value of 0.05 to calculate the 95% confidence intervals.\nThe growth_rate() function calculate the weekly growth/decay rate.\nThe plot() function plot the fitted epicurve.\n\nPlease note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the install.packages(\"pak\") function and then the pak::pak() function for both packages in CRAN or GitHub before loading them with library().\nAdditionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing."
   },
   {
-    "objectID": "describe_cases/growth_rate_week_i2extras.html#related",
-    "href": "describe_cases/growth_rate_week_i2extras.html#related",
+    "objectID": "analyses/describe_cases/growth_rate_week_i2extras.html#related",
+    "href": "analyses/describe_cases/growth_rate_week_i2extras.html#related",
     "title": "How to estimate the growth rate?",
     "section": "Related",
     "text": "Related\n\nExplanation on incidence, growth rate, doubling time, and Poisson model"
   },
   {
-    "objectID": "describe_cases/incidence_week_day.html",
-    "href": "describe_cases/incidence_week_day.html",
+    "objectID": "analyses/describe_cases/incidence_week_day.html",
+    "href": "analyses/describe_cases/incidence_week_day.html",
     "title": "How to get an incidence object from days to weeks?",
     "section": "",
     "text": "Get weekly case counts from daily collected data.\nUse the linelist object in the ebola_sim_clean list from the {outbreaks} R package. linelist is an outbreak data set.\nUse the date_of _onset column of linelist to calculate the case counts."
   },
   {
-    "objectID": "describe_cases/incidence_week_day.html#ingredients",
-    "href": "describe_cases/incidence_week_day.html#ingredients",
+    "objectID": "analyses/describe_cases/incidence_week_day.html#ingredients",
+    "href": "analyses/describe_cases/incidence_week_day.html#ingredients",
     "title": "How to get an incidence object from days to weeks?",
     "section": "",
     "text": "Get weekly case counts from daily collected data.\nUse the linelist object in the ebola_sim_clean list from the {outbreaks} R package. linelist is an outbreak data set.\nUse the date_of _onset column of linelist to calculate the case counts."
   },
   {
-    "objectID": "describe_cases/incidence_week_day.html#steps-in-code",
-    "href": "describe_cases/incidence_week_day.html#steps-in-code",
+    "objectID": "analyses/describe_cases/incidence_week_day.html#steps-in-code",
+    "href": "analyses/describe_cases/incidence_week_day.html#steps-in-code",
     "title": "How to get an incidence object from days to weeks?",
     "section": "Steps in code",
     "text": "Steps in code\n\n# Get the weekly growth rate of an outbreak\n\n# Load required packages\nlibrary(outbreaks)\nlibrary(incidence2)\nlibrary(dplyr)\n\n# Load the simulated Ebola outbreak data\ndata(ebola_sim_clean)\n\n# Extract the first element of the list\nlinelist &lt;- ebola_sim_clean$linelist\n\n# Read data collected per day\nas_tibble(linelist)\n\n# A tibble: 5,829 × 11\n   case_id generation date_of_infection date_of_onset date_of_hospitalisation\n   &lt;chr&gt;        &lt;int&gt; &lt;date&gt;            &lt;date&gt;        &lt;date&gt;                 \n 1 d1fafd           0 NA                2014-04-07    2014-04-17             \n 2 53371b           1 2014-04-09        2014-04-15    2014-04-20             \n 3 f5c3d8           1 2014-04-18        2014-04-21    2014-04-25             \n 4 6c286a           2 NA                2014-04-27    2014-04-27             \n 5 0f58c4           2 2014-04-22        2014-04-26    2014-04-29             \n 6 49731d           0 2014-03-19        2014-04-25    2014-05-02             \n 7 f9149b           3 NA                2014-05-03    2014-05-04             \n 8 881bd4           3 2014-04-26        2014-05-01    2014-05-05             \n 9 e66fa4           2 NA                2014-04-21    2014-05-06             \n10 20b688           3 NA                2014-05-05    2014-05-06             \n# ℹ 5,819 more rows\n# ℹ 6 more variables: date_of_outcome &lt;date&gt;, outcome &lt;fct&gt;, gender &lt;fct&gt;,\n#   hospital &lt;fct&gt;, lon &lt;dbl&gt;, lat &lt;dbl&gt;\n\n# Get an incidence2 object with case counts per day\n# from data collected per day\nincidence2_day &lt;- \n  incidence2::incidence(\n    x = linelist, \n    date_index = \"date_of_onset\",\n    interval = \"day\"\n  )\n\n# Read case counts per day\nincidence2_day\n\n# incidence:  367 x 3\n# count vars: date_of_onset\n   date_index count_variable count\n * &lt;date&gt;     &lt;chr&gt;          &lt;int&gt;\n 1 2014-04-07 date_of_onset      1\n 2 2014-04-15 date_of_onset      1\n 3 2014-04-21 date_of_onset      2\n 4 2014-04-25 date_of_onset      1\n 5 2014-04-26 date_of_onset      1\n 6 2014-04-27 date_of_onset      1\n 7 2014-05-01 date_of_onset      2\n 8 2014-05-03 date_of_onset      1\n 9 2014-05-04 date_of_onset      1\n10 2014-05-05 date_of_onset      1\n# ℹ 357 more rows\n\n# Plot incidence2 object with case counts per day\nplot(incidence2_day)\n\n\n\n# Get an incidence2 object with case counts per week\n# from data collected per day\nincidence2_week &lt;- \n  incidence2::incidence(\n    x = linelist, \n    date_index = \"date_of_onset\",\n    interval = \"week\"\n  )\n\n# Read case counts per week\nincidence2_week\n\n# incidence:  56 x 3\n# count vars: date_of_onset\n   date_index count_variable count\n * &lt;isowk&gt;    &lt;chr&gt;          &lt;int&gt;\n 1 2014-W15   date_of_onset      1\n 2 2014-W16   date_of_onset      1\n 3 2014-W17   date_of_onset      5\n 4 2014-W18   date_of_onset      4\n 5 2014-W19   date_of_onset     12\n 6 2014-W20   date_of_onset     17\n 7 2014-W21   date_of_onset     15\n 8 2014-W22   date_of_onset     19\n 9 2014-W23   date_of_onset     23\n10 2014-W24   date_of_onset     21\n# ℹ 46 more rows\n\n# Plot incidence2 object with case counts per week\nplot(incidence2_week)"
   },
   {
-    "objectID": "describe_cases/incidence_week_day.html#steps-in-detail",
-    "href": "describe_cases/incidence_week_day.html#steps-in-detail",
+    "objectID": "analyses/describe_cases/incidence_week_day.html#steps-in-detail",
+    "href": "analyses/describe_cases/incidence_week_day.html#steps-in-detail",
     "title": "How to get an incidence object from days to weeks?",
     "section": "Steps in detail",
     "text": "Steps in detail\n\nThe outbreaks package is loaded to access the simulated Ebola outbreak data.\nThe ebola_sim_clean object from the package contains the simulated outbreak data.\nThe linelist object contains the first list element from ebola_sim_clean.\nThe incidence() function from the incidence2 package converts the data object linelist to an incidence2 class object.\nThe date_of_onset column is used in the date_index argument as the onset dates of the outbreak.\nThe \"day\" text string is used in the interval argument to count number of cases per day interval.\nThe \"week\" text string is used in the interval argument to count number of cases per week interval.\n\nThe incidence2 object provides observations arranged in descendant order with respect to the date_index.\n\nPlease note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the install.packages(\"pak\") function and then the pak::pak() function for both packages in CRAN or GitHub before loading them with library().\nAdditionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing."
   },
   {
-    "objectID": "describe_cases/incidence_week_day.html#related",
-    "href": "describe_cases/incidence_week_day.html#related",
+    "objectID": "analyses/describe_cases/incidence_week_day.html#related",
+    "href": "analyses/describe_cases/incidence_week_day.html#related",
     "title": "How to get an incidence object from days to weeks?",
     "section": "Related",
     "text": "Related\n\nExplanation on incidence"
   },
   {
-    "objectID": "forecast_cases/projections_incidence_epitrix.html",
-    "href": "forecast_cases/projections_incidence_epitrix.html",
+    "objectID": "analyses/forecast_cases/projections_incidence_epitrix.html",
+    "href": "analyses/forecast_cases/projections_incidence_epitrix.html",
     "title": "How to project the future trajectory of the outbreak?",
     "section": "",
     "text": "Project the future daily incidence based of past incidence, a selection of plausible basic reproduction numbers, and the distribution of the serial interval, using the {projections} package.\nGet the basic reproductive number from the growth rate, given a generation time distribution, using the {epitrix} package.\nUse the serial interval time as proxy of the generation time.\nUse the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015.\nUse the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the {outbreaks} R package.\nKeep the first 48 weeks as period of analysis.\nUse the date of onset column to calculate the daily growth rate."
   },
   {
-    "objectID": "forecast_cases/projections_incidence_epitrix.html#ingredients",
-    "href": "forecast_cases/projections_incidence_epitrix.html#ingredients",
+    "objectID": "analyses/forecast_cases/projections_incidence_epitrix.html#ingredients",
+    "href": "analyses/forecast_cases/projections_incidence_epitrix.html#ingredients",
     "title": "How to project the future trajectory of the outbreak?",
     "section": "",
     "text": "Project the future daily incidence based of past incidence, a selection of plausible basic reproduction numbers, and the distribution of the serial interval, using the {projections} package.\nGet the basic reproductive number from the growth rate, given a generation time distribution, using the {epitrix} package.\nUse the serial interval time as proxy of the generation time.\nUse the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015.\nUse the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the {outbreaks} R package.\nKeep the first 48 weeks as period of analysis.\nUse the date of onset column to calculate the daily growth rate."
   },
   {
-    "objectID": "forecast_cases/projections_incidence_epitrix.html#steps-in-code",
-    "href": "forecast_cases/projections_incidence_epitrix.html#steps-in-code",
+    "objectID": "analyses/forecast_cases/projections_incidence_epitrix.html#steps-in-code",
+    "href": "analyses/forecast_cases/projections_incidence_epitrix.html#steps-in-code",
     "title": "How to project the future trajectory of the outbreak?",
     "section": "Steps in code",
     "text": "Steps in code\n\n# Project the future trajectory of the outbreak\n\n# Load required packages\nlibrary(outbreaks)\nlibrary(incidence2)\nlibrary(i2extras)\nlibrary(epiparameter)\nlibrary(distcrete)\nlibrary(epitrix)\nlibrary(projections)\nlibrary(tidyverse)\n\n# Load the simulated Ebola outbreak data\ndata(ebola_sim_clean)\n\n# Extract the first element of the list\nlinelist &lt;- ebola_sim_clean$linelist\n\n# Convert the data to an incidence2 object\nincidence2_data &lt;- \n  incidence2::incidence(\n    x = linelist, \n    date_index = \"date_of_onset\",\n    interval = \"day\"\n  )\n\n# Filter the incidence2 object to keep the first 48 weeks. \nincidence2_filter &lt;- incidence2_data[1:48,]\n\n# Convert the filtered incidence2 object to an incidence object\nincidence1_filter &lt;- \n  incidence2_filter %&gt;% \n  tidyr::uncount(count) %&gt;% \n  dplyr::pull(date_index) %&gt;% \n  incidence::incidence()\n\n# Model the incidence\nincidence2_fit &lt;- \n  i2extras::fit_curve(\n    x = incidence2_filter,\n    model = \"poisson\",\n    alpha = 0.05\n  )\n\n# Extract parameter by disease, distribution, author\nepidist_ebola_si &lt;- \n  epiparameter::epiparam() %&gt;% \n  filter(str_detect(disease,\"Ebola\")) %&gt;% \n  filter(epi_distribution == \"serial_interval\") %&gt;% \n  filter(region == \"West Africa\") %&gt;% \n  filter(author == \"WHO_Ebola_Response_Team\") %&gt;% \n  filter(year == 2015) %&gt;% \n  epiparameter::as_epidist()\n\n# Read epidist class object\n# Read distribution: gamma\nepidist_ebola_si\n\nDisease: Ebola Virus Disease\nPathogen: Ebola Virus\nEpi Distribution: serial interval\nStudy: WHO, Ebola, Response, Team (2015). \"West African Ebola Epidemic after\nOne Year — Slowing but Not Yet under Control.\" _The New England Journal\nof Medicine_. doi:10.1056/NEJMc1414992\n&lt;https://doi.org/10.1056/NEJMc1414992&gt;.\nDistribution: gamma\nParameters:\n  shape: 2.188\n  scale: 6.490\n\n# Discretise the distribution\ndiscrete_ebola_si &lt;- epiparameter::discretise(epidist_ebola_si)\n\n# Now read distribution: discrete gamma\ndiscrete_ebola_si\n\nDisease: Ebola Virus Disease\nPathogen: Ebola Virus\nEpi Distribution: serial interval\nStudy: WHO, Ebola, Response, Team (2015). \"West African Ebola Epidemic after\nOne Year — Slowing but Not Yet under Control.\" _The New England Journal\nof Medicine_. doi:10.1056/NEJMc1414992\n&lt;https://doi.org/10.1056/NEJMc1414992&gt;.\nDistribution: discrete gamma\nParameters:\n  shape: 2.188\n  scale: 6.490\n\n# Transform from 'epidist' class to 'distcrete' class object\ndistcrete_ebola_si &lt;- \n  distcrete::distcrete(\n    name = \"gamma\",\n    shape = discrete_ebola_si$prob_dist$parameters$shape,\n    scale = discrete_ebola_si$prob_dist$parameters$scale,\n    interval = discrete_ebola_si$prob_dist$interval,\n    w = discrete_ebola_si$prob_dist$w\n  )\n\n# Read distcrete class object\ndistcrete_ebola_si\n\nA discrete distribution\n  name: gamma\n  parameters:\n    shape: 2.18793402777778\n    scale: 6.49014084507042\n\n# Transform growth rate into reproductive number\nreproductive_basic &lt;- \n  epitrix::lm2R0_sample(\n    x = incidence2_fit %&gt;% \n      pull(model) %&gt;% \n      pluck(1),\n    w = discrete_ebola_si$prob_dist,\n    n = 500\n  )\n\n# Write function to sample replicates of reproductive number\nsample_function &lt;- \n  function(x = reproductive_basic, n_sim = 1000){\n    mu &lt;- mean(x)\n    sigma &lt;- sd(x)\n    shape_scale &lt;- epitrix::gamma_mucv2shapescale(\n      mu = mu, \n      cv = sigma / mu\n    )\n    sample_result &lt;- rgamma(\n      n = n_sim, \n      shape = shape_scale$shape, \n      scale = shape_scale$scale\n    )\n    return(sample_result)\n  }\n\n# Run function to sample replicates of reproductive number\nreproductive_basic_sample &lt;- \n  sample_function(\n    x = reproductive_basic,\n    n_sim = 1000\n  )\n\n# Plot the sample distribution\nhist(reproductive_basic_sample)\n\n\n\n# Project the future incidence \n# from incidence object and sample of basic reproductive number\nincidence1_projection &lt;- \n  projections::project(\n    x = incidence1_filter, \n    R = reproductive_basic_sample,\n    si = distcrete_ebola_si, \n    n_sim = 1000, \n    n_days = 14, \n    R_fix_within = TRUE\n  )\n\n# Plot the incidence object with the projection\nincidence1_filter %&gt;% \n  plot() %&gt;% \n  add_projections(\n    x = incidence1_projection,\n    quantiles = c(0.025, 0.5, 0.975)\n  )"
   },
   {
-    "objectID": "forecast_cases/projections_incidence_epitrix.html#steps-in-detail",
-    "href": "forecast_cases/projections_incidence_epitrix.html#steps-in-detail",
+    "objectID": "analyses/forecast_cases/projections_incidence_epitrix.html#steps-in-detail",
+    "href": "analyses/forecast_cases/projections_incidence_epitrix.html#steps-in-detail",
     "title": "How to project the future trajectory of the outbreak?",
     "section": "Steps in detail",
     "text": "Steps in detail\n\n(pending)"
   },
   {
-    "objectID": "forecast_cases/projections_incidence_epitrix.html#related",
-    "href": "forecast_cases/projections_incidence_epitrix.html#related",
+    "objectID": "analyses/forecast_cases/projections_incidence_epitrix.html#related",
+    "href": "analyses/forecast_cases/projections_incidence_epitrix.html#related",
     "title": "How to project the future trajectory of the outbreak?",
     "section": "Related",
     "text": "Related\n\nExplanation on projections\nExplanation on epidemiological distributions"
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html",
+    "href": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html",
+    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
+    "section": "",
+    "text": "Account for heterogeneous social contact\nAssume homogeneous susceptibility in all age groups"
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html#ingredients",
+    "href": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html#ingredients",
+    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
+    "section": "",
+    "text": "Account for heterogeneous social contact\nAssume homogeneous susceptibility in all age groups"
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html#steps-in-code",
+    "href": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html#steps-in-code",
+    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
+    "section": "Steps in code",
+    "text": "Steps in code\n\nlibrary(finalsize)\nlibrary(socialmixr)\nlibrary(tidyverse)\n\n# get UK polymod data\npolymod &lt;- socialmixr::polymod\ncontact_data &lt;- socialmixr::contact_matrix(\n  polymod,\n  countries = \"United Kingdom\",\n  age.limits = c(0, 5, 18, 40, 65),\n  symmetric = TRUE\n)\n\n# get the contact matrix and demography data\ncontact_matrix &lt;- t(contact_data$matrix)\n\n# scale the contact matrix so the largest eigenvalue is 1.0\n# this is to ensure that the overall epidemic dynamics correctly reflect\n# the assumed value of R0\ncontact_matrix_scaled &lt;- contact_matrix / max(Re(eigen(contact_matrix)$values))\n\n# Define population in each age group\ndemography_vector &lt;- contact_data$demography$population\ndemography_groups &lt;- contact_data$demography$age.group\n\ndemography_vector\n\n[1]  3453670  9761554 18110368 19288101  9673058\n\ndemography_groups\n\n[1] \"[0,5)\"   \"[5,18)\"  \"[18,40)\" \"[40,65)\" \"65+\"    \n\n# divide each row of the contact matrix by the corresponding demography\n# this reflects the assumption that each individual in group {j} make contacts\n# at random with individuals in group {i}\ncontact_matrix_random &lt;- contact_matrix_scaled / demography_vector\n\n# Define susceptibility of each group\n# susceptibility matrix\nsusceptibility &lt;- tibble(\n  age_group = demography_groups,\n  susceptible = c(0.8, 0.8, 0.8, 0.8, 0.8)\n) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\nsusceptibility\n\n        susceptible\n[0,5)           0.8\n[5,18)          0.8\n[18,40)         0.8\n[40,65)         0.8\n65+             0.8\n\n# Assume uniform susceptibility within age groups\n# demography-in-susceptibility matrix\np_susceptibility &lt;- tibble(\n  age_group = demography_groups,\n  susceptible = c(1.0, 1.0, 1.0, 1.0, 1.0)\n) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\np_susceptibility\n\n        susceptible\n[0,5)             1\n[5,18)            1\n[18,40)           1\n[40,65)           1\n65+               1\n\n# R0 of the disease\nr0 &lt;- 1.5 # assumed for pandemic influenza\n\n# calculate the effective R0 using `r_eff()`\nr_eff(\n  r0 = r0,\n  contact_matrix = contact_matrix_random,\n  demography_vector = demography_vector,\n  susceptibility = susceptibility,\n  p_susceptibility = p_susceptibility\n)\n\n[1] 1.2"
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html#steps-in-detail",
+    "href": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html#steps-in-detail",
+    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
+    "section": "Steps in detail",
+    "text": "Steps in detail\n\n(pending)"
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html#related",
+    "href": "analyses/quantify_transmission/reproduction_number_effective_finalsize.html#related",
+    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
+    "section": "Related",
+    "text": "Related\n\nExplanation on heterogeneity in social contact\nExplanation on effective reproductive number with heterogeneity in social contact"
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html",
+    "href": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html",
+    "title": "How to quantify the time-varying reproduction number (Rt)?",
+    "section": "",
+    "text": "Use the linelist object in the ebola_sim_clean list from the {outbreaks} R package. linelist is an outbreak data set.\nUse the date_of _onset column of linelist to calculate the case counts.\nUse the distribution estimated from the WHO Ebola Response Team in 2015.\nAssume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying effective reproduction number."
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#ingredients",
+    "href": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#ingredients",
+    "title": "How to quantify the time-varying reproduction number (Rt)?",
+    "section": "",
+    "text": "Use the linelist object in the ebola_sim_clean list from the {outbreaks} R package. linelist is an outbreak data set.\nUse the date_of _onset column of linelist to calculate the case counts.\nUse the distribution estimated from the WHO Ebola Response Team in 2015.\nAssume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying effective reproduction number."
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#steps-in-code",
+    "href": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#steps-in-code",
+    "title": "How to quantify the time-varying reproduction number (Rt)?",
+    "section": "Steps in code",
+    "text": "Steps in code\n\n# Quantify the time-varying reproduction number (Rt) of the outbreak\n\n# Load required packages\nlibrary(outbreaks)\nlibrary(incidence)\nlibrary(epiparameter)\nlibrary(EpiEstim)\nlibrary(tidyverse)\n\n# Load the simulated Ebola outbreak data\ndata(ebola_sim_clean)\n\n# Extract the first element of the list\nlinelist &lt;- ebola_sim_clean$linelist\n\n# Convert the data to an incidence object\nincidence_data &lt;- incidence::incidence(linelist$date_of_onset)\n\n# Extract parameter by disease, distribution, author\nepidist_ebola &lt;- \n  epiparameter::epiparam() %&gt;% \n  filter(str_detect(disease,\"Ebola\")) %&gt;% \n  filter(epi_distribution == \"serial_interval\") %&gt;% \n  filter(region == \"West Africa\") %&gt;% \n  filter(author == \"WHO_Ebola_Response_Team\") %&gt;% \n  filter(year == 2015) %&gt;% \n  epiparameter::as_epidist()\n\n# Estimate the time-varying reproduction number\nepiestim_output &lt;- estimate_R(\n  incid = incidence_data, \n  method = \"parametric_si\",\n  config = make_config(\n    mean_si = epidist_ebola$summary_stats$centre_spread$mean,\n    std_si = epidist_ebola$summary_stats$centre_spread$sd\n  )\n)\n\n# Plot the time-varying reproduction number\nplot(epiestim_output)"
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#steps-in-detail",
+    "href": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#steps-in-detail",
+    "title": "How to quantify the time-varying reproduction number (Rt)?",
+    "section": "Steps in detail",
+    "text": "Steps in detail\n\nThe outbreaks package is loaded to access the simulated Ebola outbreak data.\nThe epiparameter package is loaded to access the library of epidemiological parameters.\nThe ebola_sim_clean object from the package contains the simulated outbreak data.\nThe linelist object contains the first list element from ebola_sim_clean.\nThe incidence() function from the incidence package converts the vector date_of_onset from the linelist data frame to an incidence class object.\nThe epidist_db() function from the epiparameter package extract a parameter by specifying the disease name in the disease argument, epidemiological distribution in the epi_dist argument, and author name in the author argument.\nThe estimate_R() function from the EpiEstim package estimates the time-varying reproduction number (Rt). We provide the incidence_data, specify the method as \"parametric_si\" (parametric with a known serial interval), and pass the serial interval distribution parameters using the make_config function.\nThe plot function creates three plots from the estimate_R class object.\n\nPlease note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the install.packages(\"pak\") function and then the pak::pak() function for both packages in CRAN or GitHub before loading them with library().\nAdditionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing."
+  },
+  {
+    "objectID": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#related",
+    "href": "analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#related",
+    "title": "How to quantify the time-varying reproduction number (Rt)?",
+    "section": "Related",
+    "text": "Related\n\nExplanation on the time-varying effective reproductive number"
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html",
+    "href": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html",
+    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
+    "section": "",
+    "text": "This scenario assumes that, in the population, there is:\n\nHeterogeneous social contact\nDifferent susceptibility to the infection:\n\nBetween individuals of different age groups from 20% (infants) to 100% (65+), and\nWithin individuals of the same age group due the immunization effect of 25%.\n\nThe immunization uptake rate is also different for each of the age groups: immunization increases with age from 20% (infants) to 90% (65+)"
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html#ingredients",
+    "href": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html#ingredients",
+    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
+    "section": "",
+    "text": "This scenario assumes that, in the population, there is:\n\nHeterogeneous social contact\nDifferent susceptibility to the infection:\n\nBetween individuals of different age groups from 20% (infants) to 100% (65+), and\nWithin individuals of the same age group due the immunization effect of 25%.\n\nThe immunization uptake rate is also different for each of the age groups: immunization increases with age from 20% (infants) to 90% (65+)"
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html#steps-in-code",
+    "href": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html#steps-in-code",
+    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
+    "section": "Steps in code",
+    "text": "Steps in code\n\n# Simulate final size with heterogeneity in social contact and infection susceptibility\n\nlibrary(finalsize)\nlibrary(socialmixr)\nlibrary(tidyverse)\n\n# get UK polymod data\npolymod &lt;- socialmixr::polymod\ncontact_data &lt;- socialmixr::contact_matrix(\n  polymod,\n  countries = \"United Kingdom\",\n  age.limits = c(0, 5, 18, 40, 65),\n  symmetric = TRUE\n)\n\n# get the contact matrix and demography data\ncontact_matrix &lt;- t(contact_data$matrix)\n\n# scale the contact matrix so the largest eigenvalue is 1.0\n# this is to ensure that the overall epidemic dynamics correctly reflect\n# the assumed value of R0\ncontact_matrix_scaled &lt;- contact_matrix / max(Re(eigen(contact_matrix)$values))\n\n# Define population in each age group\ndemography_vector &lt;- contact_data$demography$population\ndemography_groups &lt;- contact_data$demography$age.group\n\ndemography_vector\n\n[1]  3453670  9761554 18110368 19288101  9673058\n\ndemography_groups\n\n[1] \"[0,5)\"   \"[5,18)\"  \"[18,40)\" \"[40,65)\" \"65+\"    \n\n# divide each row of the contact matrix by the corresponding demography\n# this reflects the assumption that each individual in group {j} make contacts\n# at random with individuals in group {i}\ncontact_matrix_random &lt;- contact_matrix_scaled / demography_vector\n\n\n# Set and immunization effect\nimmunization_effect &lt;- 0.25\n\n# susceptibility matrix\nsusceptibility &lt;- tibble(\n  age_group = demography_groups,\n  unimmunised = c(0.2, 0.5, 0.6, 0.9, 1.0)\n) %&gt;%\n  mutate(immunised = unimmunised * (1 - immunization_effect)) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\nsusceptibility\n\n        unimmunised immunised\n[0,5)           0.2     0.150\n[5,18)          0.5     0.375\n[18,40)         0.6     0.450\n[40,65)         0.9     0.675\n65+             1.0     0.750\n\n# demography-in-susceptibility matrix\np_susceptibility &lt;- tibble(\n  age_group = demography_groups,\n  immunised = c(0.2, 0.4, 0.6, 0.7, 0.9)\n) %&gt;%\n  mutate(unimmunised = 1 - immunised) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\np_susceptibility\n\n        immunised unimmunised\n[0,5)         0.2         0.8\n[5,18)        0.4         0.6\n[18,40)       0.6         0.4\n[40,65)       0.7         0.3\n65+           0.9         0.1\n\n# R0 of the disease\nr0 &lt;- 1.5 # assumed for pandemic influenza\n\n# Calculate the proportion of individuals infected in each age group\nfinal_size(\n  r0 = r0,\n  contact_matrix = contact_matrix_random,\n  demography_vector = demography_vector,\n  susceptibility = susceptibility,\n  p_susceptibility = p_susceptibility\n)\n\n   demo_grp    susc_grp susceptibility   p_infected\n1     [0,5) unimmunised          0.200 4.499231e-08\n2    [5,18) unimmunised          0.500 2.406152e-07\n3   [18,40) unimmunised          0.600 2.247908e-07\n4   [40,65) unimmunised          0.900 2.849580e-07\n5       65+ unimmunised          1.000 1.847858e-07\n6     [0,5)   immunised          0.150 3.374423e-08\n7    [5,18)   immunised          0.375 1.804614e-07\n8   [18,40)   immunised          0.450 1.685931e-07\n9   [40,65)   immunised          0.675 2.137185e-07\n10      65+   immunised          0.750 1.385893e-07"
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html#steps-in-detail",
+    "href": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html#steps-in-detail",
+    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
+    "section": "Steps in detail",
+    "text": "Steps in detail\n\n(pending)"
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html#related",
+    "href": "analyses/simulate_transmission/finalsize_heterogenious_between_within.html#related",
+    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
+    "section": "Related",
+    "text": "Related\n\nExplanation on heterogeneous susceptibility"
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html",
+    "href": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html",
+    "title": "How to create heterogeneous susceptibility matrices?",
+    "section": "",
+    "text": "Conditions:\n\nCreate the two susceptibility matrices needed for the finalsize package.\nThe population is divided into five age groups: 0 – 4, 5 – 17, 18 – 39, 40 – 64, and 65 and over.\nAn immunization campaign generated within age group variation in susceptibility.\nThe immunization effect for all age groups is 25%.\nThe infection susceptibility between age group differs in the following way:\n\n20% in age group 0 – 4,\n50% in age group 5 – 17,\n60% in age group 18 – 39,\n90% in age group 40 – 64,\n100% in age group of 65 and over,\n\nThe percentage of the unimmunized population in all age groups is 60%."
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html#ingredients",
+    "href": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html#ingredients",
+    "title": "How to create heterogeneous susceptibility matrices?",
+    "section": "",
+    "text": "Conditions:\n\nCreate the two susceptibility matrices needed for the finalsize package.\nThe population is divided into five age groups: 0 – 4, 5 – 17, 18 – 39, 40 – 64, and 65 and over.\nAn immunization campaign generated within age group variation in susceptibility.\nThe immunization effect for all age groups is 25%.\nThe infection susceptibility between age group differs in the following way:\n\n20% in age group 0 – 4,\n50% in age group 5 – 17,\n60% in age group 18 – 39,\n90% in age group 40 – 64,\n100% in age group of 65 and over,\n\nThe percentage of the unimmunized population in all age groups is 60%."
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html#steps-in-code",
+    "href": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html#steps-in-code",
+    "title": "How to create heterogeneous susceptibility matrices?",
+    "section": "Steps in code",
+    "text": "Steps in code\n\n# Load required packages\nlibrary(tidyverse)\n\n# Define the immunization effect\nimmunization_effect &lt;- 0.25\n\n# Create the susceptibility matrix\nsusceptibility &lt;- \n  tribble(\n    ~age_group, ~unimmunised,\n       \"[0,5)\",          0.2,\n      \"[5,18)\",          0.5,\n     \"[18,40)\",          0.6,\n     \"[40,65)\",          0.9,\n         \"65+\",            1\n  ) %&gt;%\n  mutate(immunised = unimmunised * (1 - immunization_effect)) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\nsusceptibility\n\n        unimmunised immunised\n[0,5)           0.2     0.150\n[5,18)          0.5     0.375\n[18,40)         0.6     0.450\n[40,65)         0.9     0.675\n65+             1.0     0.750\n\n# Create the demography-in-susceptibility matrix\np_susceptibility &lt;- \n  tribble(\n    ~age_group, ~unimmunised,\n       \"[0,5)\",          0.6,\n      \"[5,18)\",          0.6,\n     \"[18,40)\",          0.6,\n     \"[40,65)\",          0.6,\n         \"65+\",          0.6\n  ) %&gt;%\n  mutate(immunised = 1 - unimmunised) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\np_susceptibility\n\n        unimmunised immunised\n[0,5)           0.6       0.4\n[5,18)          0.6       0.4\n[18,40)         0.6       0.4\n[40,65)         0.6       0.4\n65+             0.6       0.4"
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html#steps-in-detail",
+    "href": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html#steps-in-detail",
+    "title": "How to create heterogeneous susceptibility matrices?",
+    "section": "Steps in detail",
+    "text": "Steps in detail\n\nThe tidyverse package is loaded to create matrices from data frame operations.\nThe immunization_effect contains the 0.25 effect from the immunization campaign.\nThe susceptibility object is a matrix that contains the susceptibility or probability of infection. Each row-column element in the matrix represents the susceptibility of individuals in demographic groups (rows) and susceptibility groups (columns).\nThe tribble() function creates a tibble with a row-by-row layout. The “age_group” column contains all age groups, and the “unimmunized” column has its corresponding susceptibility values.\nThe mutate() function creates the “immunized” column by multiplying the susceptibility values from the “unimmunized” column times the new susceptibility after the immunization_effect.\nThe column_to_rownames() function creates data frame row names from the explicit column “age_group”.\nThe as.matrix() function turns the data frame into a matrix.\nThe p_susceptibility object is a matrix that contains the proportion or probability that individuals in a demographic group are also in a specific susceptibility group. Each row-column element in the matrix represents the proportion of each demographic group (rows) that falls into the susceptibility group (columns). Consequently, each of its rows must always sum to 1.0.\nThe tribble() function creates a tibble with a row-by-row layout. The “age_group” column contains all age groups, and the “unimmunized” column proportion of the unimmunized population in all age groups equals 0.6.\nThe mutate() function creates the “immunized” column by getting the complement proportion of the unimmunized”.\n\nPlease note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the install.packages(\"pak\") function and then the pak::pak() function for both packages in CRAN or GitHub before loading them with library()."
+  },
+  {
+    "objectID": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html#related",
+    "href": "analyses/simulate_transmission/finalsize_susceptibility_matrices.html#related",
+    "title": "How to create heterogeneous susceptibility matrices?",
+    "section": "Related",
+    "text": "Related\n\nExplanation of susceptibility matrices for the finalsize package"
   },
   {
     "objectID": "index.html",
@@ -264,145 +404,5 @@
     "title": "Get started",
     "section": "More",
     "text": "More\nFollow our guidelines on Getting help with and Contributing to the howto repository.\nRefer to the About page for more details about the rationale behind the design of this site."
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_effective_finalsize.html",
-    "href": "quantify_transmission/reproduction_number_effective_finalsize.html",
-    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
-    "section": "",
-    "text": "Account for heterogeneous social contact\nAssume homogeneous susceptibility in all age groups"
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_effective_finalsize.html#ingredients",
-    "href": "quantify_transmission/reproduction_number_effective_finalsize.html#ingredients",
-    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
-    "section": "",
-    "text": "Account for heterogeneous social contact\nAssume homogeneous susceptibility in all age groups"
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_effective_finalsize.html#steps-in-code",
-    "href": "quantify_transmission/reproduction_number_effective_finalsize.html#steps-in-code",
-    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
-    "section": "Steps in code",
-    "text": "Steps in code\n\nlibrary(finalsize)\nlibrary(socialmixr)\nlibrary(tidyverse)\n\n# get UK polymod data\npolymod &lt;- socialmixr::polymod\ncontact_data &lt;- socialmixr::contact_matrix(\n  polymod,\n  countries = \"United Kingdom\",\n  age.limits = c(0, 5, 18, 40, 65),\n  symmetric = TRUE\n)\n\n# get the contact matrix and demography data\ncontact_matrix &lt;- t(contact_data$matrix)\n\n# scale the contact matrix so the largest eigenvalue is 1.0\n# this is to ensure that the overall epidemic dynamics correctly reflect\n# the assumed value of R0\ncontact_matrix_scaled &lt;- contact_matrix / max(Re(eigen(contact_matrix)$values))\n\n# Define population in each age group\ndemography_vector &lt;- contact_data$demography$population\ndemography_groups &lt;- contact_data$demography$age.group\n\ndemography_vector\n\n[1]  3453670  9761554 18110368 19288101  9673058\n\ndemography_groups\n\n[1] \"[0,5)\"   \"[5,18)\"  \"[18,40)\" \"[40,65)\" \"65+\"    \n\n# divide each row of the contact matrix by the corresponding demography\n# this reflects the assumption that each individual in group {j} make contacts\n# at random with individuals in group {i}\ncontact_matrix_random &lt;- contact_matrix_scaled / demography_vector\n\n# Define susceptibility of each group\n# susceptibility matrix\nsusceptibility &lt;- tibble(\n  age_group = demography_groups,\n  susceptible = c(0.8, 0.8, 0.8, 0.8, 0.8)\n) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\nsusceptibility\n\n        susceptible\n[0,5)           0.8\n[5,18)          0.8\n[18,40)         0.8\n[40,65)         0.8\n65+             0.8\n\n# Assume uniform susceptibility within age groups\n# demography-in-susceptibility matrix\np_susceptibility &lt;- tibble(\n  age_group = demography_groups,\n  susceptible = c(1.0, 1.0, 1.0, 1.0, 1.0)\n) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\np_susceptibility\n\n        susceptible\n[0,5)             1\n[5,18)            1\n[18,40)           1\n[40,65)           1\n65+               1\n\n# R0 of the disease\nr0 &lt;- 1.5 # assumed for pandemic influenza\n\n# calculate the effective R0 using `r_eff()`\nr_eff(\n  r0 = r0,\n  contact_matrix = contact_matrix_random,\n  demography_vector = demography_vector,\n  susceptibility = susceptibility,\n  p_susceptibility = p_susceptibility\n)\n\n[1] 1.2"
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_effective_finalsize.html#steps-in-detail",
-    "href": "quantify_transmission/reproduction_number_effective_finalsize.html#steps-in-detail",
-    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
-    "section": "Steps in detail",
-    "text": "Steps in detail\n\n(pending)"
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_effective_finalsize.html#related",
-    "href": "quantify_transmission/reproduction_number_effective_finalsize.html#related",
-    "title": "How to simulate the effective reproductive number (Reff) with heterogeneity in social contact?",
-    "section": "Related",
-    "text": "Related\n\nExplanation on heterogeneity in social contact\nExplanation on effective reproductive number with heterogeneity in social contact"
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html",
-    "href": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html",
-    "title": "How to quantify the time-varying reproduction number (Rt)?",
-    "section": "",
-    "text": "Use the linelist object in the ebola_sim_clean list from the {outbreaks} R package. linelist is an outbreak data set.\nUse the date_of _onset column of linelist to calculate the case counts.\nUse the distribution estimated from the WHO Ebola Response Team in 2015.\nAssume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying effective reproduction number."
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#ingredients",
-    "href": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#ingredients",
-    "title": "How to quantify the time-varying reproduction number (Rt)?",
-    "section": "",
-    "text": "Use the linelist object in the ebola_sim_clean list from the {outbreaks} R package. linelist is an outbreak data set.\nUse the date_of _onset column of linelist to calculate the case counts.\nUse the distribution estimated from the WHO Ebola Response Team in 2015.\nAssume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying effective reproduction number."
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#steps-in-code",
-    "href": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#steps-in-code",
-    "title": "How to quantify the time-varying reproduction number (Rt)?",
-    "section": "Steps in code",
-    "text": "Steps in code\n\n# Quantify the time-varying reproduction number (Rt) of the outbreak\n\n# Load required packages\nlibrary(outbreaks)\nlibrary(incidence)\nlibrary(epiparameter)\nlibrary(EpiEstim)\nlibrary(tidyverse)\n\n# Load the simulated Ebola outbreak data\ndata(ebola_sim_clean)\n\n# Extract the first element of the list\nlinelist &lt;- ebola_sim_clean$linelist\n\n# Convert the data to an incidence object\nincidence_data &lt;- incidence::incidence(linelist$date_of_onset)\n\n# Extract parameter by disease, distribution, author\nepidist_ebola &lt;- \n  epiparameter::epiparam() %&gt;% \n  filter(str_detect(disease,\"Ebola\")) %&gt;% \n  filter(epi_distribution == \"serial_interval\") %&gt;% \n  filter(region == \"West Africa\") %&gt;% \n  filter(author == \"WHO_Ebola_Response_Team\") %&gt;% \n  filter(year == 2015) %&gt;% \n  epiparameter::as_epidist()\n\n# Estimate the time-varying reproduction number\nepiestim_output &lt;- estimate_R(\n  incid = incidence_data, \n  method = \"parametric_si\",\n  config = make_config(\n    mean_si = epidist_ebola$summary_stats$centre_spread$mean,\n    std_si = epidist_ebola$summary_stats$centre_spread$sd\n  )\n)\n\n# Plot the time-varying reproduction number\nplot(epiestim_output)"
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#steps-in-detail",
-    "href": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#steps-in-detail",
-    "title": "How to quantify the time-varying reproduction number (Rt)?",
-    "section": "Steps in detail",
-    "text": "Steps in detail\n\nThe outbreaks package is loaded to access the simulated Ebola outbreak data.\nThe epiparameter package is loaded to access the library of epidemiological parameters.\nThe ebola_sim_clean object from the package contains the simulated outbreak data.\nThe linelist object contains the first list element from ebola_sim_clean.\nThe incidence() function from the incidence package converts the vector date_of_onset from the linelist data frame to an incidence class object.\nThe epidist_db() function from the epiparameter package extract a parameter by specifying the disease name in the disease argument, epidemiological distribution in the epi_dist argument, and author name in the author argument.\nThe estimate_R() function from the EpiEstim package estimates the time-varying reproduction number (Rt). We provide the incidence_data, specify the method as \"parametric_si\" (parametric with a known serial interval), and pass the serial interval distribution parameters using the make_config function.\nThe plot function creates three plots from the estimate_R class object.\n\nPlease note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the install.packages(\"pak\") function and then the pak::pak() function for both packages in CRAN or GitHub before loading them with library().\nAdditionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing."
-  },
-  {
-    "objectID": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#related",
-    "href": "quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html#related",
-    "title": "How to quantify the time-varying reproduction number (Rt)?",
-    "section": "Related",
-    "text": "Related\n\nExplanation on the time-varying effective reproductive number"
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_heterogenious_between_within.html",
-    "href": "simulate_transmission/finalsize_heterogenious_between_within.html",
-    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
-    "section": "",
-    "text": "This scenario assumes that, in the population, there is:\n\nHeterogeneous social contact\nDifferent susceptibility to the infection:\n\nBetween individuals of different age groups from 20% (infants) to 100% (65+), and\nWithin individuals of the same age group due the immunization effect of 25%.\n\nThe immunization uptake rate is also different for each of the age groups: immunization increases with age from 20% (infants) to 90% (65+)"
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_heterogenious_between_within.html#ingredients",
-    "href": "simulate_transmission/finalsize_heterogenious_between_within.html#ingredients",
-    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
-    "section": "",
-    "text": "This scenario assumes that, in the population, there is:\n\nHeterogeneous social contact\nDifferent susceptibility to the infection:\n\nBetween individuals of different age groups from 20% (infants) to 100% (65+), and\nWithin individuals of the same age group due the immunization effect of 25%.\n\nThe immunization uptake rate is also different for each of the age groups: immunization increases with age from 20% (infants) to 90% (65+)"
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_heterogenious_between_within.html#steps-in-code",
-    "href": "simulate_transmission/finalsize_heterogenious_between_within.html#steps-in-code",
-    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
-    "section": "Steps in code",
-    "text": "Steps in code\n\n# Simulate final size with heterogeneity in social contact and infection susceptibility\n\nlibrary(finalsize)\nlibrary(socialmixr)\nlibrary(tidyverse)\n\n# get UK polymod data\npolymod &lt;- socialmixr::polymod\ncontact_data &lt;- socialmixr::contact_matrix(\n  polymod,\n  countries = \"United Kingdom\",\n  age.limits = c(0, 5, 18, 40, 65),\n  symmetric = TRUE\n)\n\n# get the contact matrix and demography data\ncontact_matrix &lt;- t(contact_data$matrix)\n\n# scale the contact matrix so the largest eigenvalue is 1.0\n# this is to ensure that the overall epidemic dynamics correctly reflect\n# the assumed value of R0\ncontact_matrix_scaled &lt;- contact_matrix / max(Re(eigen(contact_matrix)$values))\n\n# Define population in each age group\ndemography_vector &lt;- contact_data$demography$population\ndemography_groups &lt;- contact_data$demography$age.group\n\ndemography_vector\n\n[1]  3453670  9761554 18110368 19288101  9673058\n\ndemography_groups\n\n[1] \"[0,5)\"   \"[5,18)\"  \"[18,40)\" \"[40,65)\" \"65+\"    \n\n# divide each row of the contact matrix by the corresponding demography\n# this reflects the assumption that each individual in group {j} make contacts\n# at random with individuals in group {i}\ncontact_matrix_random &lt;- contact_matrix_scaled / demography_vector\n\n\n# Set and immunization effect\nimmunization_effect &lt;- 0.25\n\n# susceptibility matrix\nsusceptibility &lt;- tibble(\n  age_group = demography_groups,\n  unimmunised = c(0.2, 0.5, 0.6, 0.9, 1.0)\n) %&gt;%\n  mutate(immunised = unimmunised * (1 - immunization_effect)) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\nsusceptibility\n\n        unimmunised immunised\n[0,5)           0.2     0.150\n[5,18)          0.5     0.375\n[18,40)         0.6     0.450\n[40,65)         0.9     0.675\n65+             1.0     0.750\n\n# demography-in-susceptibility matrix\np_susceptibility &lt;- tibble(\n  age_group = demography_groups,\n  immunised = c(0.2, 0.4, 0.6, 0.7, 0.9)\n) %&gt;%\n  mutate(unimmunised = 1 - immunised) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\np_susceptibility\n\n        immunised unimmunised\n[0,5)         0.2         0.8\n[5,18)        0.4         0.6\n[18,40)       0.6         0.4\n[40,65)       0.7         0.3\n65+           0.9         0.1\n\n# R0 of the disease\nr0 &lt;- 1.5 # assumed for pandemic influenza\n\n# Calculate the proportion of individuals infected in each age group\nfinal_size(\n  r0 = r0,\n  contact_matrix = contact_matrix_random,\n  demography_vector = demography_vector,\n  susceptibility = susceptibility,\n  p_susceptibility = p_susceptibility\n)\n\n   demo_grp    susc_grp susceptibility   p_infected\n1     [0,5) unimmunised          0.200 4.499231e-08\n2    [5,18) unimmunised          0.500 2.406152e-07\n3   [18,40) unimmunised          0.600 2.247908e-07\n4   [40,65) unimmunised          0.900 2.849580e-07\n5       65+ unimmunised          1.000 1.847858e-07\n6     [0,5)   immunised          0.150 3.374423e-08\n7    [5,18)   immunised          0.375 1.804614e-07\n8   [18,40)   immunised          0.450 1.685931e-07\n9   [40,65)   immunised          0.675 2.137185e-07\n10      65+   immunised          0.750 1.385893e-07"
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_heterogenious_between_within.html#steps-in-detail",
-    "href": "simulate_transmission/finalsize_heterogenious_between_within.html#steps-in-detail",
-    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
-    "section": "Steps in detail",
-    "text": "Steps in detail\n\n(pending)"
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_heterogenious_between_within.html#related",
-    "href": "simulate_transmission/finalsize_heterogenious_between_within.html#related",
-    "title": "How to simulate the final size with heterogeneity in social contact and infection susceptibility?",
-    "section": "Related",
-    "text": "Related\n\nExplanation on heterogeneous susceptibility"
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_susceptibility_matrices.html",
-    "href": "simulate_transmission/finalsize_susceptibility_matrices.html",
-    "title": "How to create heterogeneous susceptibility matrices?",
-    "section": "",
-    "text": "Conditions:\n\nCreate the two susceptibility matrices needed for the finalsize package.\nThe population is divided into five age groups: 0 – 4, 5 – 17, 18 – 39, 40 – 64, and 65 and over.\nAn immunization campaign generated within age group variation in susceptibility.\nThe immunization effect for all age groups is 25%.\nThe infection susceptibility between age group differs in the following way:\n\n20% in age group 0 – 4,\n50% in age group 5 – 17,\n60% in age group 18 – 39,\n90% in age group 40 – 64,\n100% in age group of 65 and over,\n\nThe percentage of the unimmunized population in all age groups is 60%."
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_susceptibility_matrices.html#ingredients",
-    "href": "simulate_transmission/finalsize_susceptibility_matrices.html#ingredients",
-    "title": "How to create heterogeneous susceptibility matrices?",
-    "section": "",
-    "text": "Conditions:\n\nCreate the two susceptibility matrices needed for the finalsize package.\nThe population is divided into five age groups: 0 – 4, 5 – 17, 18 – 39, 40 – 64, and 65 and over.\nAn immunization campaign generated within age group variation in susceptibility.\nThe immunization effect for all age groups is 25%.\nThe infection susceptibility between age group differs in the following way:\n\n20% in age group 0 – 4,\n50% in age group 5 – 17,\n60% in age group 18 – 39,\n90% in age group 40 – 64,\n100% in age group of 65 and over,\n\nThe percentage of the unimmunized population in all age groups is 60%."
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_susceptibility_matrices.html#steps-in-code",
-    "href": "simulate_transmission/finalsize_susceptibility_matrices.html#steps-in-code",
-    "title": "How to create heterogeneous susceptibility matrices?",
-    "section": "Steps in code",
-    "text": "Steps in code\n\n# Load required packages\nlibrary(tidyverse)\n\n# Define the immunization effect\nimmunization_effect &lt;- 0.25\n\n# Create the susceptibility matrix\nsusceptibility &lt;- \n  tribble(\n    ~age_group, ~unimmunised,\n       \"[0,5)\",          0.2,\n      \"[5,18)\",          0.5,\n     \"[18,40)\",          0.6,\n     \"[40,65)\",          0.9,\n         \"65+\",            1\n  ) %&gt;%\n  mutate(immunised = unimmunised * (1 - immunization_effect)) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\nsusceptibility\n\n        unimmunised immunised\n[0,5)           0.2     0.150\n[5,18)          0.5     0.375\n[18,40)         0.6     0.450\n[40,65)         0.9     0.675\n65+             1.0     0.750\n\n# Create the demography-in-susceptibility matrix\np_susceptibility &lt;- \n  tribble(\n    ~age_group, ~unimmunised,\n       \"[0,5)\",          0.6,\n      \"[5,18)\",          0.6,\n     \"[18,40)\",          0.6,\n     \"[40,65)\",          0.6,\n         \"65+\",          0.6\n  ) %&gt;%\n  mutate(immunised = 1 - unimmunised) %&gt;%\n  column_to_rownames(var = \"age_group\") %&gt;%\n  as.matrix()\n\np_susceptibility\n\n        unimmunised immunised\n[0,5)           0.6       0.4\n[5,18)          0.6       0.4\n[18,40)         0.6       0.4\n[40,65)         0.6       0.4\n65+             0.6       0.4"
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_susceptibility_matrices.html#steps-in-detail",
-    "href": "simulate_transmission/finalsize_susceptibility_matrices.html#steps-in-detail",
-    "title": "How to create heterogeneous susceptibility matrices?",
-    "section": "Steps in detail",
-    "text": "Steps in detail\n\nThe tidyverse package is loaded to create matrices from data frame operations.\nThe immunization_effect contains the 0.25 effect from the immunization campaign.\nThe susceptibility object is a matrix that contains the susceptibility or probability of infection. Each row-column element in the matrix represents the susceptibility of individuals in demographic groups (rows) and susceptibility groups (columns).\nThe tribble() function creates a tibble with a row-by-row layout. The “age_group” column contains all age groups, and the “unimmunized” column has its corresponding susceptibility values.\nThe mutate() function creates the “immunized” column by multiplying the susceptibility values from the “unimmunized” column times the new susceptibility after the immunization_effect.\nThe column_to_rownames() function creates data frame row names from the explicit column “age_group”.\nThe as.matrix() function turns the data frame into a matrix.\nThe p_susceptibility object is a matrix that contains the proportion or probability that individuals in a demographic group are also in a specific susceptibility group. Each row-column element in the matrix represents the proportion of each demographic group (rows) that falls into the susceptibility group (columns). Consequently, each of its rows must always sum to 1.0.\nThe tribble() function creates a tibble with a row-by-row layout. The “age_group” column contains all age groups, and the “unimmunized” column proportion of the unimmunized population in all age groups equals 0.6.\nThe mutate() function creates the “immunized” column by getting the complement proportion of the unimmunized”.\n\nPlease note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the install.packages(\"pak\") function and then the pak::pak() function for both packages in CRAN or GitHub before loading them with library()."
-  },
-  {
-    "objectID": "simulate_transmission/finalsize_susceptibility_matrices.html#related",
-    "href": "simulate_transmission/finalsize_susceptibility_matrices.html#related",
-    "title": "How to create heterogeneous susceptibility matrices?",
-    "section": "Related",
-    "text": "Related\n\nExplanation of susceptibility matrices for the finalsize package"
   }
 ]

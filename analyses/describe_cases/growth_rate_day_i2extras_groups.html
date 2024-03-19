@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-07-20">
+<meta name="dcterms.date" content="2024-03-19">
 
-<title>howto - How to extract the serial interval distribution from a systematic review?</title>
+<title>howto - How to estimate the growth rate stratified by groups?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,22 +58,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -95,7 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">howto</span>
     </a>
   </div>
@@ -116,11 +116,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html" rel="" target="">
+    <a class="nav-link" href="../../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../about.html" rel="" target="">
+    <a class="nav-link" href="../../about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -159,14 +159,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#steps-in-detail" id="toc-steps-in-detail" class="nav-link" data-scroll-target="#steps-in-detail">Steps in detail</a></li>
   <li><a href="#related" id="toc-related" class="nav-link" data-scroll-target="#related">Related</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/epiverse-trace/howto/edit/main/describe_cases/epiparameter_extract_epiparam.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/epiverse-trace/howto/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/epiverse-trace/howto/edit/main/analyses/describe_cases/growth_rate_day_i2extras_groups.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/epiverse-trace/howto/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">How to extract the serial interval distribution from a systematic review?</h1>
+<h1 class="title">How to estimate the growth rate stratified by groups?</h1>
 </div>
 
 
@@ -177,7 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 20, 2023</p>
+      <p class="date">March 19, 2024</p>
     </div>
   </div>
   
@@ -190,79 +190,129 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ingredients" class="level2">
 <h2 class="anchored" data-anchor-id="ingredients">Ingredients</h2>
 <ul>
-<li>Use the distribution estimated from the WHO Ebola Response Team in 2015.</li>
+<li>Calculate the daily growth rate stratified by groups.</li>
+<li>Use the <code>covidregionaldataUK</code> data set from the <code>{covidregionaldata}</code> R package.</li>
+<li>Use the “date of report” in <code>cases_new</code> column of <code>covidregionaldataUK</code> to calculate the case counts.</li>
+<li>Keep the first 4 months in <code>covidregionaldataUK</code> as period of analysis.</li>
 </ul>
 </section>
 <section id="steps-in-code" class="level2">
 <h2 class="anchored" data-anchor-id="steps-in-code">Steps in code</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required packages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(epiparameter)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the library of parameters as an epiparam object</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>epiparam_all <span class="ot">&lt;-</span> <span class="fu">epiparam</span>()</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by disease, epi_distribution, region, and year</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>epiparam_ebola <span class="ot">&lt;-</span> epiparam_all <span class="sc">%&gt;%</span> </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(disease,<span class="st">"Ebola"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(epi_distribution <span class="sc">==</span> <span class="st">"serial_interval"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">==</span> <span class="st">"West Africa"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2015</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>epiparam_ebola</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the daily growth rate of an outbreak stratified by groups</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required packages</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(covidregionaldata)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(incidence2)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(i2extras)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Load covid outbreak data</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>raw_dat <span class="ot">&lt;-</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  covidregionaldataUK <span class="sc">%&gt;%</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(magrittr<span class="sc">::</span><span class="fu">is_in</span>(region,<span class="fu">c</span>(<span class="st">"England"</span>, <span class="st">"Scotland"</span>, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Northern Ireland"</span>, <span class="st">"Wales"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">&gt;</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="dv">20200701</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">&lt;</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="dv">20201101</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Read covid outbreak data</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>raw_dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Epiparam object
-Number of distributions in library: 1
-Number of diseases: 1
-Number of delay distributions: 1
-Number of offspring distributions: 0
-Number of studies in library: 1
-&lt;Head of library&gt;
-              disease epi_distribution prob_distribution
-1 Ebola Virus Disease  serial_interval             gamma
-&lt;0 more rows &amp; 55 more cols not shown&gt;</code></pre>
+<pre><code># A tibble: 488 × 13
+   date       region   region_code cases_new cases_total deaths_new deaths_total
+   &lt;date&gt;     &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
+ 1 2020-07-02 England  E92000001         565      245041         40        36172
+ 2 2020-07-02 Norther… N92000002           3        5646          0          552
+ 3 2020-07-02 Scotland S92000003          13       18297          0         2546
+ 4 2020-07-02 Wales    W92000004          28       16647          3         1532
+ 5 2020-07-03 England  E92000001         543      245584         26        36198
+ 6 2020-07-03 Norther… N92000002           8        5654          2          554
+ 7 2020-07-03 Scotland S92000003           6       18303          1         2547
+ 8 2020-07-03 Wales    W92000004          19       16666          0         1532
+ 9 2020-07-04 England  E92000001         386      245970         31        36229
+10 2020-07-04 Norther… N92000002           1        5655          0          554
+# ℹ 478 more rows
+# ℹ 6 more variables: recovered_new &lt;dbl&gt;, recovered_total &lt;dbl&gt;,
+#   hosp_new &lt;dbl&gt;, hosp_total &lt;dbl&gt;, tested_new &lt;dbl&gt;, tested_total &lt;dbl&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert a row to an epidist class object</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>epidist_ebola <span class="ot">&lt;-</span> <span class="fu">as_epidist</span>(epiparam_ebola)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>epidist_ebola</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Disease: Ebola Virus Disease
-Pathogen: Ebola Virus
-Epi Distribution: serial interval
-Study: WHO, Ebola, Response, Team (2015). "West African Ebola Epidemic after
-One Year — Slowing but Not Yet under Control." _The New England Journal
-of Medicine_. doi:10.1056/NEJMc1414992
-&lt;https://doi.org/10.1056/NEJMc1414992&gt;.
-Distribution: gamma
-Parameters:
-  shape: 2.188
-  scale: 6.490</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the epidist object</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(epidist_ebola,<span class="at">day_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the raw data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>raw_dat <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> cases_new) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(region))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="epiparameter_extract_epiparam_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="growth_rate_day_i2extras_groups_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the data to an incidence object stratified by groups</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dat_group <span class="ot">&lt;-</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  incidence2<span class="sc">::</span><span class="fu">incidence</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> raw_dat, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">counts =</span> <span class="st">"cases_new"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_index =</span> <span class="st">"date"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">interval =</span> <span class="st">"day"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">groups =</span> <span class="st">"region"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>dat_group</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># incidence:  488 x 4
+# count vars: cases_new
+# groups:     region
+   date_index region           count_variable count
+ * &lt;date&gt;     &lt;chr&gt;            &lt;fct&gt;          &lt;dbl&gt;
+ 1 2020-07-02 England          cases_new        565
+ 2 2020-07-02 Northern Ireland cases_new          3
+ 3 2020-07-02 Scotland         cases_new         13
+ 4 2020-07-02 Wales            cases_new         28
+ 5 2020-07-03 England          cases_new        543
+ 6 2020-07-03 Northern Ireland cases_new          8
+ 7 2020-07-03 Scotland         cases_new          6
+ 8 2020-07-03 Wales            cases_new         19
+ 9 2020-07-04 England          cases_new        386
+10 2020-07-04 Northern Ireland cases_new          1
+# ℹ 478 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model the incidence</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>out_group <span class="ot">&lt;-</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  i2extras<span class="sc">::</span><span class="fu">fit_curve</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    dat_group, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"poisson"</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.05</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the model result</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>i2extras<span class="sc">::</span><span class="fu">growth_rate</span>(out_group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 10
+  count_variable region       model      r r_lower r_upper growth_or_decay  time
+  &lt;fct&gt;          &lt;chr&gt;        &lt;lis&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;
+1 cases_new      England      &lt;glm&gt; 0.0385  0.0384  0.0386 doubling         18.0
+2 cases_new      Northern Ir… &lt;glm&gt; 0.0438  0.0433  0.0443 doubling         15.8
+3 cases_new      Scotland     &lt;glm&gt; 0.0406  0.0402  0.0410 doubling         17.1
+4 cases_new      Wales        &lt;glm&gt; 0.0447  0.0443  0.0452 doubling         15.5
+# ℹ 2 more variables: time_lower &lt;dbl&gt;, time_upper &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the model result with prediction intervals</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out_group, <span class="at">ci =</span> <span class="cn">FALSE</span>, <span class="at">pi =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="growth_rate_day_i2extras_groups_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read plot documentation for an incidence2_fit object</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ?plot.incidence2_fit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="steps-in-detail" class="level2">
 <h2 class="anchored" data-anchor-id="steps-in-detail">Steps in detail</h2>
 <ul>
-<li>The <code>epiparameter</code> package is loaded to access the library of epidemiological parameters.</li>
-<li>The <code>epidist_db()</code> function extract a parameter by specifying the disease name in the <code>disease</code> argument, epidemiological distribution in the <code>epi_dist</code> argument, and author name in the <code>author</code> argument.</li>
-<li>The <code>epidist_db()</code> function creates an <code>epidist</code> object.</li>
-<li>The <code>plot</code> function creates a plot from <code>epidist</code> objects.</li>
-<li>The <code>epiparam()</code> functions provide access to a data frame with all the names of diseases, epidemiological distribution, and authors.</li>
+<li>(pending)</li>
 </ul>
-<p>Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the <code>install.packages("pak")</code> function and then the <code>pak::pak()</code> function for both packages in CRAN or GitHub before loading them with <code>library()</code>.</p>
-<p>Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.</p>
 </section>
 <section id="related" class="level2">
 <h2 class="anchored" data-anchor-id="related">Related</h2>
 <ul>
-<li><a href="https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#14">Explanation on epidemiological distributions</a></li>
+<li><a href="https://www.reconlearn.org/slides/outbreak-statistics/outbreak-statistics.html#28">Explanation on incidence, growth rate, doubling time, and Poisson model</a></li>
 </ul>
 
 

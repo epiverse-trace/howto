@@ -2,46 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://epiverse-trace.github.io/howto/about.html</loc>
-    <lastmod>2024-03-19T12:44:46.863Z</lastmod>
+    <lastmod>2024-03-19T13:47:31.827Z</lastmod>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/howto/describe_cases/epiparameter_extract_epiparam.html</loc>
-    <lastmod>2024-03-19T12:45:16.929Z</lastmod>
+    <loc>https://epiverse-trace.github.io/howto/analyses/describe_cases/epiparameter_extract_epiparam.html</loc>
+    <lastmod>2024-03-19T13:47:48.885Z</lastmod>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/howto/describe_cases/growth_rate_day_i2extras_groups.html</loc>
-    <lastmod>2024-03-19T12:45:55.340Z</lastmod>
+    <loc>https://epiverse-trace.github.io/howto/analyses/describe_cases/growth_rate_day_i2extras_groups.html</loc>
+    <lastmod>2024-03-19T13:48:13.131Z</lastmod>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/howto/describe_cases/growth_rate_week_i2extras.html</loc>
-    <lastmod>2024-03-19T12:46:27.513Z</lastmod>
+    <loc>https://epiverse-trace.github.io/howto/analyses/describe_cases/growth_rate_week_i2extras.html</loc>
+    <lastmod>2024-03-19T13:48:32.212Z</lastmod>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/howto/describe_cases/incidence_week_day.html</loc>
-    <lastmod>2024-03-19T12:46:52.000Z</lastmod>
+    <loc>https://epiverse-trace.github.io/howto/analyses/describe_cases/incidence_week_day.html</loc>
+    <lastmod>2024-03-19T13:48:50.943Z</lastmod>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/howto/forecast_cases/projections_incidence_epitrix.html</loc>
-    <lastmod>2024-03-19T12:47:20.717Z</lastmod>
+    <loc>https://epiverse-trace.github.io/howto/analyses/forecast_cases/projections_incidence_epitrix.html</loc>
+    <lastmod>2024-03-19T13:49:10.385Z</lastmod>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/howto/analyses/quantify_transmission/reproduction_number_effective_finalsize.html</loc>
+    <lastmod>2024-03-19T13:49:32.405Z</lastmod>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/howto/analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html</loc>
+    <lastmod>2024-03-19T13:49:54.562Z</lastmod>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/howto/analyses/simulate_transmission/finalsize_heterogenious_between_within.html</loc>
+    <lastmod>2024-03-19T13:50:15.278Z</lastmod>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/howto/analyses/simulate_transmission/finalsize_susceptibility_matrices.html</loc>
+    <lastmod>2024-03-19T13:50:34.008Z</lastmod>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/howto/index.html</loc>
-    <lastmod>2024-03-19T12:47:24.982Z</lastmod>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/howto/quantify_transmission/reproduction_number_effective_finalsize.html</loc>
-    <lastmod>2024-03-19T12:47:52.009Z</lastmod>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/howto/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html</loc>
-    <lastmod>2024-03-19T12:48:23.740Z</lastmod>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/howto/simulate_transmission/finalsize_heterogenious_between_within.html</loc>
-    <lastmod>2024-03-19T12:48:57.826Z</lastmod>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/howto/simulate_transmission/finalsize_susceptibility_matrices.html</loc>
-    <lastmod>2024-03-19T12:49:27.233Z</lastmod>
+    <lastmod>2024-03-19T13:50:39.019Z</lastmod>
   </url>
 </urlset>

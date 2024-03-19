@@ -2,15 +2,15 @@
   {
     "listing": "/index.html",
     "items": [
-      "/describe_cases/growth_rate_day_i2extras_groups.html",
-      "/describe_cases/growth_rate_week_i2extras.html",
-      "/describe_cases/epiparameter_extract_epiparam.html",
-      "/describe_cases/incidence_week_day.html",
-      "/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html",
-      "/quantify_transmission/reproduction_number_effective_finalsize.html",
-      "/forecast_cases/projections_incidence_epitrix.html",
-      "/simulate_transmission/finalsize_susceptibility_matrices.html",
-      "/simulate_transmission/finalsize_heterogenious_between_within.html"
+      "/analyses/describe_cases/growth_rate_day_i2extras_groups.html",
+      "/analyses/describe_cases/growth_rate_week_i2extras.html",
+      "/analyses/describe_cases/epiparameter_extract_epiparam.html",
+      "/analyses/describe_cases/incidence_week_day.html",
+      "/analyses/quantify_transmission/reproduction_number_timevarying_epiestim_parametric.html",
+      "/analyses/quantify_transmission/reproduction_number_effective_finalsize.html",
+      "/analyses/forecast_cases/projections_incidence_epitrix.html",
+      "/analyses/simulate_transmission/finalsize_susceptibility_matrices.html",
+      "/analyses/simulate_transmission/finalsize_heterogenious_between_within.html"
     ]
   }
 ]
