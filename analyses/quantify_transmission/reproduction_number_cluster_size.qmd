@@ -1,0 +1,133 @@
+---
+title: "How to estimate R and k from cluster size data using Markov chain Monte Carlo?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+## Ingredients
+
+- Use Bayesian estimation methods to estimate the reproduction number ($R$) and extent of superspreading, represented by the dispersion of a negative binomial distribution for individual-level seconday cases ($k$), from data on MERS-CoV- outbreak clusters.
+
+- We will use [Markov chain Monte Carlo (MCMC)](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo), specifically a simple Metropolis-Hastings algorithm to estimate the parameters.
+
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load required packages
+library(epichains)
+library(MCMCpack)
+```
+
+
+## Data
+We use MERS cluster sizes from [Cauchemez et al, Lancet Inf Dis, 2013](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(13)70304-9/fulltext).
+```{r}
+# Define data
+mers_clusters = c(rep(1,27),c(2,2),c(3,4),c(4,3),c(5,2),7,13,26)
+
+# Show summary table of frequencies
+freq_df <- as.data.frame(table(mers_clusters)); names(freq_df) <- c("Cluster size", "Frequency")
+
+# Create a table for the HTML document
+knitr::kable(freq_df, caption = "Frequencies of MERS Clusters")
+```
+
+## Likelihood
+We define the likelihood of observing a specific cluster size distribution, given $R$ and $k$
+```{r}
+# Define likelihood function
+lik_function <- function(param) {
+  if (any(param <= 0)) return(-Inf) # Ensure positive parameters
+  
+  # Extract values of R and k
+  r_val <- as.numeric(param[1])
+  k_val <- as.numeric(param[2])
+
+  # Define likelihood
+  log_likelihood <- likelihood(
+    chains = mers_clusters,
+    statistic = "size",
+    offspring_dist = rnbinom,
+    size = k_val,
+    mu = r_val
+  )
+  
+  # Assume non-informative priors for R and k
+  log_prior <- 0 # But could add informative priors here if required
+
+  # Return log-posterior (log-likelihood + log-prior)
+  return(log_likelihood + log_prior)
+}
+```
+
+## Define MCMC parameters
+
+```{r common-params}
+# Define number of MCMC iterations
+n_iter <- 1e4
+
+# Define 'burn in' period for fitting, to be discarded
+n_burn <- 1e3
+
+# Initial guess for c(R,k):
+init_param <- c(R=0.5, k=0.5)
+```
+
+## MCMCpack
+
+[{MCMCpack}](https://cran.r-project.org/web/packages/MCMCpack/index.html) is an R package for Bayesian statistical inference through Markov Chain Monte Carlo (MCMC) methods, offering a broad array of algorithms and models for efficient and straightforward Bayesian estimation.
+
+```{r MCMCpack-run, message=FALSE, warning=FALSE, fig.width=7, fig.height=6}
+# Run MCMC to estimate parameters
+result_mcmcpack <- MCMCmetrop1R(lik_function, 
+                                theta.init = init_param, 
+                                burnin = n_burn, 
+                                mcmc = n_iter, 
+                                thin = 1)
+
+# Calculate effective sample size (i.e. measure of MCMC mixing)
+ess_mcmcpack <- effectiveSize(result_mcmcpack)
+
+# Plot posterior estimates
+plot(result_mcmcpack)
+```
+
+Next, output a parameter table:
+```{r}
+# Define helper function to calculate median and 95% credible interval from data.frame of MCMC samples
+get_param <- function(x){
+  apply(x,2,function(y){val = signif(quantile(y,c(0.5,0.025,0.0975)),3);
+                        val_text <- paste0(val[1]," (95%: CrI: ",val[2],"-",val[3],")")})
+}
+
+# Get posterior median and 95% CrI
+posterior_estimates <- get_param(result_mcmcpack)
+
+# Compile table
+results_table <- data.frame(
+  Package = "MCMCpack",
+  Posterior_R = posterior_estimates[1],
+  Posterior_k = posterior_estimates[2],
+  ESS_R = ess_mcmcpack[1],
+  ESS_k = ess_mcmcpack[2]
+)
+
+# Output the table with kable
+knitr::kable(results_table, caption = "MCMC Comparison Table", align = 'c')
+```
+
+## Steps in detail
+- The `epichains` package is loaded for the likelihood functions and `MCMCpack` for MCMC fitting.
+- The likelihood is defined using the `likelihood()` function in epichains, with a negative binomial used (`rnbinom`).
+- The MCMC is run using `MCMCmetrop1R()`, with number of iterations `mcmc` and burn in period `burnin` specified.
+
