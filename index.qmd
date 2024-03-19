@@ -3,19 +3,19 @@ title: "Get started"
 fig-cap-location: top
 listing: 
   - id: describe-cases
-    contents: "describe_cases/*.qmd"
+    contents: "analyses/describe_cases/*.qmd"
     type: table
     fields: [title]
   - id: quantify-transmission
-    contents: "quantify_transmission/*.qmd"
+    contents: "analyses/quantify_transmission/*.qmd"
     type: table
     fields: [title]
   - id: forecast-cases
-    contents: "forecast_cases/*.qmd"
+    contents: "analyses/forecast_cases/*.qmd"
     type: table
     fields: [title]
   - id: simulate-transmission
-    contents: "simulate_transmission/*.qmd"
+    contents: "analyses/simulate_transmission/*.qmd"
     type: table
     fields: [title]
 ---

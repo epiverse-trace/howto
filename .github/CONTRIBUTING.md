@@ -42,7 +42,7 @@ After following the steps above:
 
 #### 1. Find your folder
 
-Folder names corresponds to each box of the [pipeline roadmap](https://epiverse-trace.github.io/):
+Folder names corresponds to each box of the [pipeline roadmap](https://epiverse-trace.github.io/) within the `analyses/` folder:
 
   - `read_cases/` → Read case data
   - `describe_cases/` → Describe case data
@@ -90,12 +90,14 @@ Optionally, one alternative to read data can be:
 
 Use the [**Render** button](https://quarto.org/docs/get-started/hello/rstudio.html#rendering) in the RStudio IDE to render the file and preview the output with a single click or keyboard shortcut (⇧⌘K).
 
+To render the whole website, use the **Render Website** button within the [Build pane](https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html).
+
 If your entry is not listed in the `index.qmd` page, try adding a new entry to the `listing:` section in the YAML on top. In the template below, edit the `id:` and `contents:` with for the corresponding task.
 
 ```
 listing: 
   - id: describe-cases
-    contents: "describe_cases/*.qmd"
+    contents: "analyses/describe_cases/*.qmd"
     type: table
     fields: [title]
 ```
