@@ -1,5 +1,5 @@
 ---
-title: "How to simulate the effective reproductive number (R~eff~) with heterogeneity in social contact?"
+title: "How to estimate the effective reproductive number (R~eff~) with heterogeneity in social contact?"
 format: 
   html:
     code-link: true
@@ -87,6 +87,13 @@ r_eff(
   susceptibility = susceptibility,
   p_susceptibility = p_susceptibility
 )
+```
+
+## Impact of changing UK contact patterns in March 2020
+
+(pending)
+```{r}
+comix_uk <- get_survey("https://zenodo.org/doi/10.5281/zenodo.4905745")
 ```
 
 ## Steps in detail
