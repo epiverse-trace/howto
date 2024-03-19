@@ -2,9 +2,13 @@
 title: "About"
 ---
 
-## What will you learn?
+## What are the key principles of a How-to guide?
 
--   You will learn how to complete a specific outbreak analytic task following concrete steps to solve a real-world problem.
+How-to guides will help you complete a specific outbreak analytic task following concrete steps to solve a real-world problem.
+
+A [how to-guide](https://diataxis.fr/how-to-guides/#key-principles) is concerned with work - a task or problem, with a practical goal. Maintain focus on that goal.
+
+A how-to guide serves the work of the already-competent user, whom you can assume to know what they want to do, and to be able to follow your instructions correctly.
 
 ## Who are these for?
 
