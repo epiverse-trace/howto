@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.2.2",
+    "Version": "4.3.2",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -46,11 +46,12 @@
         "graphics",
         "gridExtra",
         "incidence",
+        "patchwork",
         "reshape2",
         "scales",
         "stats"
       ],
-      "Hash": "f0cbae1598986a816ac348b1442ba38b"
+      "Hash": "72f00b698770c640deb2f8dde261e560"
     },
     "EpiNow2": {
       "Package": "EpiNow2",
@@ -493,8 +494,8 @@
       "Package": "cfr",
       "Version": "0.1.0",
       "Source": "GitHub",
-      "Remotes": "epiverse-trace/epiparameter",
       "RemoteType": "github",
+      "Remotes": "epiverse-trace/epiparameter",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "cfr",
       "RemoteUsername": "epiverse-trace",

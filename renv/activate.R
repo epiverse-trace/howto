@@ -8,21 +8,6 @@ local({
   # the project directory
   project <- getwd()
 
-  # use start-up diagnostics if enabled
-  diagnostics <- Sys.getenv("RENV_STARTUP_DIAGNOSTICS", unset = "FALSE")
-  if (diagnostics) {
-    start <- Sys.time()
-    profile <- tempfile("renv-startup-", fileext = ".Rprof")
-    utils::Rprof(profile)
-    on.exit({
-      utils::Rprof(NULL)
-      elapsed <- signif(difftime(Sys.time(), start, units = "auto"), digits = 2L)
-      writeLines(sprintf("- renv took %s to run the autoloader.", format(elapsed)))
-      writeLines(sprintf("- Profile: %s", profile))
-      print(utils::summaryRprof(profile))
-    }, add = TRUE)
-  }
-
   # figure out whether the autoloader is enabled
   enabled <- local({
 
@@ -30,14 +15,6 @@ local({
     override <- getOption("renv.config.autoloader.enabled")
     if (!is.null(override))
       return(override)
-
-    # if we're being run in a context where R_LIBS is already set,
-    # don't load -- presumably we're being run as a sub-process and
-    # the parent process has already set up library paths for us
-    rcmd <- Sys.getenv("R_CMD", unset = NA)
-    rlibs <- Sys.getenv("R_LIBS", unset = NA)
-    if (!is.na(rlibs) && !is.na(rcmd))
-      return(FALSE)
 
     # next, check environment variables
     # TODO: prefer using the configuration one in the future
@@ -58,21 +35,8 @@ local({
 
   })
 
-  # bail if we're not enabled
-  if (!enabled) {
-
-    # if we're not enabled, we might still need to manually load
-    # the user profile here
-    profile <- Sys.getenv("R_PROFILE_USER", unset = "~/.Rprofile")
-    if (file.exists(profile)) {
-      cfg <- Sys.getenv("RENV_CONFIG_USER_PROFILE", unset = "TRUE")
-      if (tolower(cfg) %in% c("true", "t", "1"))
-        sys.source(profile, envir = globalenv())
-    }
-
+  if (!enabled)
     return(FALSE)
-
-  }
 
   # avoid recursion
   if (identical(getOption("renv.autoloader.running"), TRUE)) {
@@ -540,7 +504,7 @@ local({
   
     # open the bundle for reading
     # We use gzcon for everything because (from ?gzcon)
-    # > Reading from a connection which does not supply a 'gzip' magic
+    # > Reading from a connection which does not supply a ‘gzip’ magic
     # > header is equivalent to reading from the original connection
     conn <- gzcon(file(bundle, open = "rb", raw = TRUE))
     on.exit(close(conn))
@@ -803,12 +767,10 @@ local({
   renv_bootstrap_validate_version <- function(version, description = NULL) {
   
     # resolve description file
-    #
-    # avoid passing lib.loc to `packageDescription()` below, since R will
-    # use the loaded version of the package by default anyhow. note that
-    # this function should only be called after 'renv' is loaded
-    # https://github.com/rstudio/renv/issues/1625
-    description <- description %||% packageDescription("renv")
+    description <- description %||% {
+      path <- getNamespaceInfo("renv", "path")
+      packageDescription("renv", lib.loc = dirname(path))
+    }
   
     # check whether requested version 'version' matches loaded version of renv
     sha <- attr(version, "sha", exact = TRUE)
@@ -879,7 +841,7 @@ local({
     hooks <- getHook("renv::autoload")
     for (hook in hooks)
       if (is.function(hook))
-        tryCatch(hook(), error = warnify)
+        tryCatch(hook(), error = warning)
   
     # load the project
     renv::load(project)
@@ -1020,15 +982,10 @@ local({
   
   }
   
-  renv_bootstrap_version_friendly <- function(version, shafmt = NULL, sha = NULL) {
+  renv_bootstrap_version_friendly <- function(version, sha = NULL) {
     sha <- sha %||% attr(version, "sha", exact = TRUE)
-    parts <- c(version, sprintf(shafmt %||% " [sha: %s]", substring(sha, 1L, 7L)))
-    paste(parts, collapse = "")
-  }
-  
-  renv_bootstrap_exec <- function(project, libpath, version) {
-    if (!renv_bootstrap_load(project, libpath, version))
-      renv_bootstrap_run(version, libpath)
+    parts <- c(version, sprintf("[sha: %s]", substring(sha, 1L, 7L)))
+    paste(parts, collapse = " ")
   }
   
   renv_bootstrap_run <- function(version, libpath) {
@@ -1055,6 +1012,11 @@ local({
   
   }
   
+  
+  renv_bootstrap_in_rstudio <- function() {
+    commandArgs()[[1]] == "RStudio"
+  }
+  
   renv_json_read <- function(file = NULL, text = NULL) {
   
     jlerr <- NULL
@@ -1062,7 +1024,7 @@ local({
     # if jsonlite is loaded, use that instead
     if ("jsonlite" %in% loadedNamespaces()) {
   
-      json <- tryCatch(renv_json_read_jsonlite(file, text), error = identity)
+      json <- catch(renv_json_read_jsonlite(file, text))
       if (!inherits(json, "error"))
         return(json)
   
@@ -1071,7 +1033,7 @@ local({
     }
   
     # otherwise, fall back to the default JSON reader
-    json <- tryCatch(renv_json_read_default(file, text), error = identity)
+    json <- catch(renv_json_read_default(file, text))
     if (!inherits(json, "error"))
       return(json)
   
@@ -1084,14 +1046,14 @@ local({
   }
   
   renv_json_read_jsonlite <- function(file = NULL, text = NULL) {
-    text <- paste(text %||% readLines(file, warn = FALSE), collapse = "\n")
+    text <- paste(text %||% read(file), collapse = "\n")
     jsonlite::fromJSON(txt = text, simplifyVector = FALSE)
   }
   
   renv_json_read_default <- function(file = NULL, text = NULL) {
   
     # find strings in the JSON
-    text <- paste(text %||% readLines(file, warn = FALSE), collapse = "\n")
+    text <- paste(text %||% read(file), collapse = "\n")
     pattern <- '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]'
     locs <- gregexpr(pattern, text, perl = TRUE)[[1]]
   
@@ -1139,14 +1101,14 @@ local({
     map <- as.list(map)
   
     # remap strings in object
-    remapped <- renv_json_read_remap(json, map)
+    remapped <- renv_json_remap(json, map)
   
     # evaluate
     eval(remapped, envir = baseenv())
   
   }
   
-  renv_json_read_remap <- function(json, map) {
+  renv_json_remap <- function(json, map) {
   
     # fix names
     if (!is.null(names(json))) {
@@ -1173,7 +1135,7 @@ local({
     # recurse
     if (is.recursive(json)) {
       for (i in seq_along(json)) {
-        json[i] <- list(renv_json_read_remap(json[[i]], map))
+        json[i] <- list(renv_json_remap(json[[i]], map))
       }
     }
   
@@ -1193,8 +1155,26 @@ local({
   # construct full libpath
   libpath <- file.path(root, prefix)
 
-  # run bootstrap code
-  renv_bootstrap_exec(project, libpath, version)
+  # attempt to load
+  if (renv_bootstrap_load(project, libpath, version))
+    return(TRUE)
+
+  if (renv_bootstrap_in_rstudio()) {
+    setHook("rstudio.sessionInit", function(...) {
+      renv_bootstrap_run(version, libpath)
+
+      # Work around buglet in RStudio if hook uses readline
+      tryCatch(
+        {
+          tools <- as.environment("tools:rstudio")
+          tools$.rs.api.sendToConsole("", echo = FALSE, focus = FALSE)
+        },
+        error = function(cnd) {}
+      )
+    })
+  } else {
+    renv_bootstrap_run(version, libpath)
+  }
 
   invisible()
 
