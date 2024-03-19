@@ -86,7 +86,7 @@ Optionally, one alternative to read data can be:
 - Copy the [View Raw](https://docs.github.com/en/enterprise-cloud@latest/repositories/working-with-files/using-files/viewing-a-file) link to make it directly 
 - Read data from that link. (Example in template)
 
-#### 3. Build locally 
+#### 5. Build locally 
 
 Use the [**Render** button](https://quarto.org/docs/get-started/hello/rstudio.html#rendering) in the RStudio IDE to render the file and preview the output with a single click or keyboard shortcut (⇧⌘K).
 
