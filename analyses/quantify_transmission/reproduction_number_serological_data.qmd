@@ -49,7 +49,6 @@ contact_data <- contact_matrix(
 )
 
 demography_vector = contact_data$demography$population
-
 # Define model
 model_function <- function(param){
   r0 <- param[1]
@@ -117,7 +116,6 @@ output <- MCMCmetrop1R(fun = likelihood_function,
                        burnin = 100, # Burn-in period
                        verbose = TRUE,
                        data = hk_serology) # Turn off verbose output
-
 # Plot outputs
 data_summary <- aggregate(ffold ~ age_group, hk_serology, function(x){mean(x == 1)})
 
