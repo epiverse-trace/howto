@@ -1,0 +1,160 @@
+---
+title: "How to estimate R and relative susceptibility from age-stratified pre- and post-epidemic serological data?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+## Ingredients
+
+- Social mixing data from `socialmixr`
+- Serological data measuring rise in influenza titres during the 2009 A/H1N1p pandemic in different age groups (i.e. proxy for infection)
+- Want to estimate the reproduction number and relative susceptibility in older age groups from the pattern of infection, based on the final epidemic size in an age-stratified SIR-like model, following the methods of [Kucharski et al (2014)](https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1004206).
+
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load required packages
+library(readr)
+library(finalsize)
+library(socialmixr)
+library(dplyr)
+```
+
+
+## Data
+We use serological data from the 2009 pandemic in Hong Kong in [Kwok et al (2009)](https://royalsocietypublishing.org/doi/10.1098/rspb.2014.0709), and social mixing data from POLYMOD in the UK as an assumed contact matrix.
+```{r}
+# Load serological data
+hk_serology = read_csv("https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4100506/bin/rspb20140709supp2.csv")
+
+# Allocate ages to bands
+age_limits = c(3,18,25,40,65)
+age_group <- sapply(hk_serology$age,function(x){sum(x>=age_limits)})
+hk_serology$age_group <- age_group
+
+# Load HK social mixing data
+contact_data <- contact_matrix(
+  polymod,
+  countries = "United Kingdom",
+  age.limits = age_limits,
+  symmetric = TRUE
+)
+
+demography_vector = contact_data$demography$population
+```
+
+## Likelihood
+We define the likelihood of observing a given serological pattern by simulating age-specific final epidemic size using the `finalsize` package.
+```{r}
+# Define model
+model_function <- function(param){
+  r0 <- param[1]
+  alpha_val <- param[2]
+  
+  contact_matrix = t(contact_data$matrix)
+  contact_matrix = contact_matrix / max(eigen(contact_matrix)$values)
+  
+  names(demography_vector) = contact_data$demography$age.group
+  n_demo_grps = length(demography_vector)
+  
+  contact_matrix = contact_matrix / demography_vector
+  
+  susceptibility = matrix(
+    data = c(1, alpha_val*rep(1,n_demo_grps-1)),
+    n_demo_grps
+  )
+  
+  n_risk_grps = 1L
+  p_susceptibility = matrix(1, n_demo_grps, n_risk_grps)
+  
+  simulation_output <- finalsize::final_size(
+    r0 = r0,
+    contact_matrix = contact_matrix,
+    demography_vector = demography_vector,
+    susceptibility = susceptibility,
+    p_susceptibility = p_susceptibility,
+    solver = "iterative"
+  )
+  
+  return(simulation_output)
+}
+
+# Define likelihood function
+likelihood_function <- function(param,data) {
+  if (any(param <= 0)) return(-Inf) # Ensure positive parameters
+
+  simulation_output <- model_function(param)
+  
+  # Assuming non-informative priors for alpha and beta
+  log_prior <- 0 # Can refine if have different priors
+  
+  # Calculate log-likelihood
+  test_positive <- hk_serology$ffold
+  log_likelihood <- log(test_positive*simulation_output$p_infected[hk_serology$age_group]+(1-test_positive)*(1-simulation_output$p_infected[hk_serology$age_group]))
+  log_likelihood_total <- sum(log_likelihood)
+  
+  # Check for valid output
+  if(is.na(log_likelihood_total)){
+    log_likelihood_total <- -Inf
+  }
+  
+  # Return log-posterior (log-likelihood + log-prior)
+  return(log_likelihood_total + log_prior)
+}
+```
+
+## MCMCpack
+
+We use [{MCMCpack}](https://cran.r-project.org/web/packages/MCMCpack/index.html) to estimate the parameters using MCMC.
+
+```{r MCMCpack-run, message=FALSE, warning=FALSE, fig.width=7, fig.height=6}
+initial_param <- c(r0=1.5, alpha=0.8) # Initial guess for shape and rate
+
+n_mcmc <- 1000
+
+output <- MCMCmetrop1R(fun = likelihood_function, 
+                       theta.init = initial_param,
+                       mcmc = n_mcmc, # Number of MCMC iterations
+                       burnin = 100, # Burn-in period
+                       verbose = TRUE,
+                       data = hk_serology) # Turn off verbose output
+```
+
+Finally, we plot the observed outputs against the model fits:
+```{r}
+# Plot outputs
+data_summary <- aggregate(ffold ~ age_group, hk_serology, function(x){mean(x == 1)})
+
+sample_outputs <- output[sample(1:n_mcmc,10),]
+sample_simulate <- apply(sample_outputs,1,model_function)
+
+# Combine all list elements into a single data frame
+combined_data <- do.call(rbind, lapply(1:length(sample_simulate), function(i) {
+  cbind(sample_simulate[[i]], Simulation = i)
+}))
+
+combined_data$age_index <- match(combined_data$demo_grp,contact_data$demography$age.group)
+
+# Calculate mean and standard deviation of p_infected for each demo_grp
+summary_data <- combined_data %>%
+  group_by(age_index) %>%
+  summarise(Mean_p_infected = mean(p_infected), SD_p_infected = sd(p_infected)) %>%
+  ungroup()
+
+# Plotting
+plot(summary_data$age_index,summary_data$Mean_p_infected,ylim=c(0,1))
+points(data_summary$ffold,pch=19,col="red")
+```
+
+## Steps in detail
+(to come)
