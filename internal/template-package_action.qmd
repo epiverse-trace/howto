@@ -32,6 +32,8 @@ immunization_effect
 
 ## Steps in detail
 
+<!-- OPTIONAL -->
+
 <!-- reduce length of strings with a large language model like chatgpt -->
 
 - `tidyverse` package is loaded to manage data frame objects.
