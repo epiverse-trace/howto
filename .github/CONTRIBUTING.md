@@ -19,7 +19,7 @@ You can also check out the [How to make a reproducible R code example](https://c
 
 ### Pull request process
 
-*   Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("epiverse-trace/howto", fork = TRUE)`.
+*   Fork the project and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("epiverse-trace/howto", fork = TRUE)`.
 
 *   Install all development dependencies with `renv::restore()`. 
 
@@ -28,7 +28,9 @@ You can also check out the [How to make a reproducible R code example](https://c
 
 *   Create a Git branch for your pull request (PR). We recommend using `usethis::pr_init("brief-description-of-change")`.
 
-*   Make your changes, commit to git, and then create a PR by running `usethis::pr_push()`, and following the prompts in your browser.
+*   Make your changes following the steps in **add a new `howto` entry** (detailed below).
+
+*   Commit to git, and then create a PR by running `usethis::pr_push()`, and following the prompts in your browser.
     The title of your PR should briefly describe the change.
     The body of your PR should contain `Fixes #issue-number`.
 
@@ -36,9 +38,12 @@ You can also check out the [How to make a reproducible R code example](https://c
 
 ### Add a new `howto` entry
 
-Folder structure and naming convention:
+After following the steps above:
 
-- Folder names corresponds to each box of the [pipeline roadmap](https://epiverse-trace.github.io/):
+#### 1. Find your folder
+
+Folder names corresponds to each box of the [pipeline roadmap](https://epiverse-trace.github.io/):
+
   - `read_cases/` → Read case data
   - `describe_cases/` → Describe case data
   - `reconstruct_transmission/` → Reconstruct transmission chains
@@ -51,26 +56,40 @@ Folder structure and naming convention:
   - `read_intervention/` → Read intervention data
   - `compare_economic/` → Compare economic impacts
 
-- The `internal/` folder:
-  - sandbox of work-in-progress ideas
-  - The `internal/` folder also has a template file named [`template-package_action.qmd`](https://github.com/epiverse-trace/howto/blob/main/internal/template-package_action.qmd)
+#### 2. Reuse a template
 
-File structure and naming convention:
+Create a new `howto` entry. 
 
-- Create a new `howto` entry: 
-  - Copy and rename the [`template-package_action.qmd`](https://github.com/epiverse-trace/howto/blob/main/internal/template-package_action.qmd) file from the internal/ folder.
-  - This template already has the components to obtain a standard output across entries, and writing suggestions.
+- Copy and rename the [`template-package_action.qmd`](https://github.com/epiverse-trace/howto/blob/main/internal/template-package_action.qmd) file from the `internal/` folder.
+- This template already has the components to obtain a standard output across entries, and writing suggestions.
+- We suggest to name your file with the key words of the actions/verbs to solve the question. Use the snake case [naming standard](https://devguide.ropensci.org/building.html?q=snake#function-and-argument-naming).
 
-- File naming:
-  - As in the template, start with the package name and then key words of the actions/verbs to solve the question.
-  - Use the snake case [naming standard](https://devguide.ropensci.org/building.html?q=snake#function-and-argument-naming).
+#### 3. Write your content
 
-- File content:
-  - Ingredients → Use nouns.
-  - Steps in code → Use active verbs.
-  - Steps in detail → Use active verbs.
+We propose to use a minimal template. This is open to adapt for the needs of the entry.
 
-- Current best example following this standard: [`incidence_convert_between_inc1_inc2.qmd`](https://github.com/epiverse-trace/howto/blob/5004d91ef22c63e8682878683d947dc75c96b8d4/internal/incidence_convert_between_inc1_inc2.qmd#L14-L21)
+- Content can resemble a recipe:
+  - Ingredients → Use nouns. (wanted)
+  - Steps in code → Use active verbs. (wanted)
+  - Steps in detail → Use active verbs. (optional)
+
+- One reference example is in: [`incidence_convert_between_inc1_inc2.qmd`](https://github.com/epiverse-trace/howto/blob/5004d91ef22c63e8682878683d947dc75c96b8d4/internal/incidence_convert_between_inc1_inc2.qmd#L14-L21)
+
+#### 3. Build locally 
+
+Use the [**Render** button](https://quarto.org/docs/get-started/hello/rstudio.html#rendering) in the RStudio IDE to render the file and preview the output with a single click or keyboard shortcut (⇧⌘K).
+
+If your entry is not listed in the `index.qmd` page, try adding a new entry to the `listing:` section in the YAML on top. In the template below, edit the `id:` and `contents:` with for the corresponding task.
+
+```
+listing: 
+  - id: describe-cases
+    contents: "describe_cases/*.qmd"
+    type: table
+    fields: [title]
+```
+
+Now you should be ready to create a PR (steps above!).
 
 ### Code style
 
