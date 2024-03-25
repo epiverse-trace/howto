@@ -6,7 +6,7 @@ project:
     - "!internal/"
 
 website:
-  title: "howto"
+  title: "How-to guides"
   google-analytics: "G-XZ471458FQ"
   navbar:
     logo: logo_white.svg
