@@ -1,5 +1,5 @@
 ---
-title: "Get started"
+title: "Epiverse-TRACE How-to guides"
 fig-cap-location: top
 listing: 
   - id: describe-cases
@@ -20,7 +20,7 @@ listing:
     fields: [title]
 ---
 
-The goal of `howto` is to collect reproducible How to guides of Outbreak data analysis tasks using `R` packages.
+The Epiverse-TRACE **How-to guides** aim to collect recipe-like reproducible scripts to complete specific Outbreak analytics tasks following concrete steps using `R` packages.
 
 ## Describe case data
 
