@@ -20,7 +20,9 @@ listing:
     fields: [title]
 ---
 
-The Epiverse-TRACE **How-to guides** aim to collect recipe-like reproducible scripts to complete specific Outbreak analytics tasks following concrete steps using `R` packages.
+The Epiverse-TRACE **How-to guides** aim to collect recipe-like reproducible scripts to complete specific Outbreak analytics tasks following concrete steps using `R` packages. [^1] 
+
+[^1]: Refer to the [About](about.qmd) page for more details about the rationale behind the design of this site.
 
 ## Describe case data
 
@@ -42,8 +44,6 @@ The Epiverse-TRACE **How-to guides** aim to collect recipe-like reproducible scr
 :::{#simulate-transmission}
 :::
 
-## More
+## Contribute
 
 Follow our guidelines on [Getting help](https://github.com/epiverse-trace/howto/blob/main/.github/SUPPORT.md) with and [Contributing](https://github.com/epiverse-trace/howto/blob/main/.github/CONTRIBUTING.md) to the `howto` repository.
-
-Refer to the [About](about.qmd) page for more details about the rationale behind the design of this site.
