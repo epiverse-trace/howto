@@ -11,6 +11,12 @@ toc: true
 toc_float: true
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>"
+)
+```
+
 ## Ingredients
 
 - Use the distribution estimated from the WHO Ebola Response Team in 2015.
