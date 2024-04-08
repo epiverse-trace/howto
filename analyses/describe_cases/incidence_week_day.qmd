@@ -11,6 +11,13 @@ toc: true
 toc_float: true
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
 ## Ingredients
 
 - Get weekly case counts from daily collected data.
