@@ -28,9 +28,6 @@ library(epichains)
 library(MCMCpack)
 ```
 
-
-## Data
-We use MERS cluster sizes from [Cauchemez et al, Lancet Inf Dis, 2013](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(13)70304-9/fulltext).
 ```{r}
 # Define data
 mers_clusters = c(rep(1,27),c(2,2),c(3,4),c(4,3),c(5,2),7,13,26)
@@ -40,11 +37,7 @@ freq_df <- as.data.frame(table(mers_clusters)); names(freq_df) <- c("Cluster siz
 
 # Create a table for the HTML document
 knitr::kable(freq_df, caption = "Frequencies of MERS Clusters")
-```
 
-## Likelihood
-We define the likelihood of observing a specific cluster size distribution, given $R$ and $k$
-```{r}
 # Define likelihood function
 lik_function <- function(param) {
   if (any(param <= 0)) return(-Inf) # Ensure positive parameters
@@ -68,11 +61,7 @@ lik_function <- function(param) {
   # Return log-posterior (log-likelihood + log-prior)
   return(log_likelihood + log_prior)
 }
-```
 
-## Define MCMC parameters
-
-```{r common-params}
 # Define number of MCMC iterations
 n_iter <- 1e4
 
@@ -81,13 +70,7 @@ n_burn <- 1e3
 
 # Initial guess for c(R,k):
 init_param <- c(R=0.5, k=0.5)
-```
 
-## MCMCpack
-
-[{MCMCpack}](https://cran.r-project.org/web/packages/MCMCpack/index.html) is an R package for Bayesian statistical inference through Markov Chain Monte Carlo (MCMC) methods, offering a broad array of algorithms and models for efficient and straightforward Bayesian estimation.
-
-```{r MCMCpack-run, message=FALSE, warning=FALSE, fig.width=7, fig.height=6}
 # Run MCMC to estimate parameters
 result_mcmcpack <- MCMCmetrop1R(lik_function, 
                                 theta.init = init_param, 
@@ -100,10 +83,7 @@ ess_mcmcpack <- effectiveSize(result_mcmcpack)
 
 # Plot posterior estimates
 plot(result_mcmcpack)
-```
 
-Next, output a parameter table:
-```{r}
 # Define helper function to calculate median and 95% credible interval from data.frame of MCMC samples
 get_param <- function(x){
   apply(x,2,function(y){val = signif(quantile(y,c(0.5,0.025,0.0975)),3);
@@ -127,7 +107,8 @@ knitr::kable(results_table, caption = "MCMC Comparison Table", align = 'c')
 ```
 
 ## Steps in detail
+- We use MERS cluster sizes from [Cauchemez et al, Lancet Inf Dis, 2013](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(13)70304-9/fulltext).
 - The `epichains` package is loaded for the likelihood functions and `MCMCpack` for MCMC fitting.
-- The likelihood is defined using the `likelihood()` function in epichains, with a negative binomial used (`rnbinom`).
-- The MCMC is run using `MCMCmetrop1R()`, with number of iterations `mcmc` and burn in period `burnin` specified.
-
+- The likelihood is defined using the `likelihood()` function in epichains, with a negative binomial used (`rnbinom`). This allows us to define the likelihood of observing a specific cluster size distribution, assuming the $R$ and $k$
+- The MCMC is run using `MCMCmetrop1R()` from `MCMCpack`, with number of iterations `mcmc` and burn in period `burnin` specified. [{MCMCpack}](https://cran.r-project.org/web/packages/MCMCpack/index.html) is an R package for Bayesian statistical inference through Markov Chain Monte Carlo (MCMC) methods, offering a broad array of algorithms and models for efficient and straightforward Bayesian estimation.
+- Finally, we output a parameter estimate table with `kable`.
