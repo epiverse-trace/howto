@@ -1,0 +1,80 @@
+---
+title: "How to estimate changes in R~t~ from real-time social contact data?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+## Ingredients
+
+- Calculate the change in 
+- Account for heterogeneous social contact and assume homogeneous susceptibility in all age groups
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+library(finalsize)
+library(socialmixr)
+library(tidyverse)
+
+# get UK POLYMOD data with pre-pandemic mixing patterns
+polymod <- socialmixr::polymod
+
+contact_data_polymod <- socialmixr::contact_matrix(
+  polymod,
+  countries = "United Kingdom",
+  age.limits = c(0, 5, 18, 40, 65),
+  symmetric = TRUE
+)
+
+# get the contact matrix
+# this is transposed so that it is the contacts of age {i} reported by age {j}
+contact_data_polymod <- t(contact_data_polymod$matrix)
+
+# get UK CoMix data from 2020-22 - note this is slow to load
+comix_uk <- get_survey("https://zenodo.org/doi/10.5281/zenodo.4905745")
+
+# subset on 1st wave of surveys in April/May 2020
+comix_uk_wave_1 <- comix_uk
+comix_uk_wave_1$participants <- comix_uk$participants |> filter(wave==1)
+
+contact_data_comix <- socialmixr::contact_matrix(
+  comix_uk_wave_1,
+  countries = "United Kingdom",
+  age.limits = c(0, 5, 18, 40, 65),
+  symmetric = TRUE
+)
+
+# get the contact matrix
+contact_data_comix <- t(contact_data_comix$matrix)
+
+# R0 of the disease, under normal contact patterns
+r0 <- 2.5 # based on early estimates for SARS-CoV-2
+
+# calculate the relative change in R_t based on contact patterns
+# the formula for R0 = q*max(Re(eigen(contact_data_polymod)$values)), where q is a scaling factor
+q <- r0 / max(Re(eigen(contact_data_polymod)$values))
+
+# substituting the post-lockdown matrix in the above formula, we get an R_t estimate:
+rt = q*max(Re(eigen(contact_data_comix)$values))
+
+print(rt)
+
+```
+
+## Steps in detail
+
+- (pending)
+
+## Related
+
+- [Explanation on heterogeneity in social contact](https://epiverse-trace.github.io/finalsize/articles/varying_contacts.html)
+- [Explanation on effective reproductive number with heterogeneity in social contact](https://epiverse-trace.github.io/finalsize/articles/varying_susceptibility.html#calculate-the-effective-r_0)
