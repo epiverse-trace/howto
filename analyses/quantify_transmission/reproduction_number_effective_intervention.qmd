@@ -13,7 +13,7 @@ toc_float: true
 
 ## Ingredients
 
-- Calculate the change in 
+- Calculate the change in reproduction number based on real-time social mixing surveys
 - Account for heterogeneous social contact and assume homogeneous susceptibility in all age groups
 
 ## Steps in code
