@@ -96,13 +96,6 @@ r_eff(
 )
 ```
 
-## Impact of changing UK contact patterns in March 2020
-
-(pending)
-```{r}
-comix_uk <- get_survey("https://zenodo.org/doi/10.5281/zenodo.4905745")
-```
-
 ## Steps in detail
 
 - (pending)
