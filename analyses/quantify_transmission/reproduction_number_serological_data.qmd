@@ -15,7 +15,7 @@ toc_float: true
 
 - Social mixing data from `socialmixr`
 - Serological data measuring rise in influenza titres during the 2009 A/H1N1p pandemic in different age groups (i.e. proxy for infection)
-- Want to estimate the reproduction number and relative susceptibility in older age groups from the pattern of infection, based on the final epidemic size in an age-stratified SIR-like model, following the methods of [Kucharski et al (2014)](https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1004206).
+- Want to estimate the reproduction number and relative susceptibility in older age groups from the pattern of infection, based on the final epidemic size in an age-stratified SIR-like model, following the methods of [Kucharski et al (2014)](https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1004206) and using Markov chain Monte Carlo.
 
 
 ## Steps in code
@@ -28,6 +28,7 @@ library(readr)
 library(finalsize)
 library(socialmixr)
 library(dplyr)
+library(MCMCpack)
 ```
 
 ```{r}
@@ -105,7 +106,7 @@ likelihood_function <- function(param,data) {
   return(log_likelihood_total + log_prior)
 }
 
-## Set up MCMCpack
+## Set up MCMCpack for Monte Carlo estimation
 initial_param <- c(r0=1.5, alpha=0.8) # Initial guess for shape and rate
 
 n_mcmc <- 1000
