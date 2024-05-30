@@ -29,7 +29,6 @@ library(ggplot2)
 
 ### Prepare population initial conditions
 
-
 ```{r}
 # get social contacts data
 polymod <- socialmixr::polymod
@@ -129,5 +128,6 @@ y <- melt(y, id.vars = c("t"))
 
 ggplot(y[variable %like% "I"]) +
   geom_line(aes(t, value, col = variable)) +
+  labs(x = "Time", y = "# Infectious", col = "Age group") +
   facet_grid(~variable)
 ```
