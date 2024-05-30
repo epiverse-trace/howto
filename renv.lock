@@ -533,6 +533,13 @@
       ],
       "Hash": "b4acc5f619ee2f36d6611a0a3ad5c40e"
     },
+    "cinterpolate": {
+      "Package": "cinterpolate",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8c83a05857bcd884cb528ba9fbb82ab3"
+    },
     "cli": {
       "Package": "cli",
       "Version": "3.6.2",
@@ -722,6 +729,20 @@
         "withr"
       ],
       "Hash": "39b2e002522bfd258039ee4e889e0fd1"
+    },
+    "deSolve": {
+      "Package": "deSolve",
+      "Version": "1.40",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "methods",
+        "stats"
+      ],
+      "Hash": "0a861334beb4eb8ca0d24a27b28b6679"
     },
     "desc": {
       "Package": "desc",
@@ -1707,6 +1728,23 @@
       ],
       "Hash": "2decae573db4fc6a7798721eb5326c10"
     },
+    "odin": {
+      "Package": "odin",
+      "Version": "1.2.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R6",
+        "cinterpolate",
+        "deSolve",
+        "digest",
+        "glue",
+        "jsonlite",
+        "ring",
+        "withr"
+      ],
+      "Hash": "28f2759ad947425cf50aa0069b5a2f57"
+    },
     "openssl": {
       "Package": "openssl",
       "Version": "2.2.0",
@@ -2110,6 +2148,16 @@
         "stringr"
       ],
       "Hash": "bb5996d0bd962d214a11140d77589917"
+    },
+    "ring": {
+      "Package": "ring",
+      "Version": "1.0.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R6"
+      ],
+      "Hash": "e69993dcf583ad317b53ee37888d461e"
     },
     "rlang": {
       "Package": "rlang",
