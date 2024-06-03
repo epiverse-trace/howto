@@ -862,24 +862,26 @@
     },
     "epiparameter": {
       "Package": "epiparameter",
-      "Version": "0.0.0.9000",
+      "Version": "0.1.0.9000",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "epiparameter",
       "RemoteUsername": "epiverse-trace",
-      "RemotePkgRef": "epiverse-trace/epiparameter",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "349997fe7bc050d2f21e01f51490f5e61bfeb2be",
+      "RemoteRepo": "epiparameter",
+      "RemoteRef": "main",
+      "RemoteSha": "f21482c41fb560fc08a6d58861aaa20737159060",
       "Requirements": [
         "R",
         "checkmate",
         "distcrete",
         "distributional",
+        "graphics",
+        "pillar",
+        "rlang",
         "stats",
         "utils"
       ],
-      "Hash": "bc94bf116e502ee8ecac47bdf3d3087b"
+      "Hash": "5820c6f4851757412c7c1b12809f1272"
     },
     "epitrix": {
       "Package": "epitrix",
@@ -2071,10 +2073,12 @@
     "renv": {
       "Package": "renv",
       "Version": "1.0.5",
-      "OS_type": null,
-      "NeedsCompilation": "no",
+      "Source": "Repository",
       "Repository": "CRAN",
-      "Source": "Repository"
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "32c3f93e8360f667ca5863272ec8ba6a"
     },
     "reprex": {
       "Package": "reprex",
