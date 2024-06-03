@@ -54,8 +54,10 @@ epiestim_output <- estimate_R(
   incid = incidence_data, 
   method = "parametric_si",
   config = make_config(
-    mean_si = epidist_ebola$summary_stats$centre_spread$mean,
-    std_si = epidist_ebola$summary_stats$centre_spread$sd
+    list(
+      mean_si = epidist_ebola$summary_stats$mean,
+      std_si = epidist_ebola$summary_stats$sd
+    )
   )
 )
 
