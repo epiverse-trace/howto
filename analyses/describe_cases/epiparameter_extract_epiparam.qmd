@@ -24,22 +24,22 @@ toc_float: true
 library(epiparameter)
 library(tidyverse)
 
-# Load the library of parameters as an epiparam object
-epiparam_all <- epiparam()
+# Access to the library of parameters as an epiparam object
+# epidist_all <- epiparameter::epidist_db
 
 # Filter by disease, epi_distribution, region, and year
-epiparam_ebola <- epiparam_all %>% 
-  filter(str_detect(disease,"Ebola")) %>% 
-  filter(epi_distribution == "serial_interval") %>% 
-  filter(region == "West Africa") %>% 
-  filter(year == 2015)
-
-epiparam_ebola
-
-# Convert a row to an epidist class object
-epidist_ebola <- as_epidist(epiparam_ebola)
+epidist_ebola <- epiparameter::epidist_db(
+    disease = "Ebola",
+    epi_dist = "serial_interval",
+    single_epidist = TRUE
+    )
 
 epidist_ebola
+
+# Convert a row to an epidist class object
+# epidist_convert <- as_epidist(epiparam_ebola)
+# 
+# epidist_convert
 
 # Plot the epidist object
 plot(epidist_ebola,day_range = 0:50)
@@ -51,7 +51,7 @@ plot(epidist_ebola,day_range = 0:50)
 - The `epidist_db()` function extract a parameter by specifying the disease name in the `disease` argument, epidemiological distribution in the `epi_dist` argument, and author name in the `author` argument.
 - The `epidist_db()` function creates an `epidist` object.
 - The `plot` function creates a plot from `epidist` objects. 
-- The `epiparam()` functions provide access to a data frame with all the names of diseases, epidemiological distribution, and authors.
+<!-- - The `epiparam()` functions provide access to a data frame with all the names of diseases, epidemiological distribution, and authors. -->
 
 Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
 
