@@ -299,9 +299,9 @@
     },
     "arm": {
       "Package": "arm",
-      "Version": "1.13-1",
+      "Version": "1.14-4",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "MASS",
         "Matrix",
@@ -316,7 +316,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "ecd1fd4d4ea49df1b62fb706c37785ac"
+      "Hash": "4f37635d4d4315785c975b0d89fb8a39"
     },
     "askpass": {
       "Package": "askpass",
