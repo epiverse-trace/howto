@@ -109,9 +109,9 @@ We use the [{renv} R package](https://rstudio.github.io/renv/) to ensure reprodu
 Add all new packages that your specific `howto` entry needs. After installing the packages, follow these steps:
 
 1. Use `renv::status()` to detect any pre-existing issue.
-  - Issues or updates not related to your specific `howto` entry should be solved in a different PR.
+  - Issues with packages not related to your specific `howto` entry or frequent general updates should be solved in a different PR.
 
-2. Use `renv::snapshot()` to update packages in the lockfile (`renv.lock`). You should read your packages listed before confirming to proceed.
+2. Use `renv::snapshot()` to update packages in the lockfile (`renv.lock`). You should read your packages (and occasionally its dependencies) listed before confirming to proceed.
 
 Now you should be ready to create a PR (steps above!).
 
