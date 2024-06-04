@@ -109,11 +109,19 @@ We use the [{renv} R package](https://rstudio.github.io/renv/) to ensure reprodu
 Add all new packages that your specific `howto` entry needs. After installing the packages, follow these steps:
 
 1. Use `renv::status()` to detect any pre-existing issue.
-  - Issues with packages not related to your specific `howto` entry or frequent general updates should be solved in a different PR.
+  - Issues with packages not related to your specific `howto` entry should be solved in a different PR.
 
 2. Use `renv::snapshot()` to update packages in the lockfile (`renv.lock`). You should read your packages (and occasionally its dependencies) listed before confirming to proceed.
 
 Now you should be ready to create a PR (steps above!).
+
+### Keep the reproducible environment updated
+
+We need to keep the `renv.lock` file and the version of the`{renv}` package frequently updated. This will help us know of breaking changes in packages under development. For this we:
+
+- Use `renv::update()` to update all packages registered in the `renv.lock` currently out-of-date.
+
+- Use `renv::upgrade()` to upgrade the version of `{renv}` associated with the project, updates the activate script, and restarts R.
 
 ### Code style
 
