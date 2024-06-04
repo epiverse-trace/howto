@@ -55,7 +55,7 @@
     },
     "EpiNow2": {
       "Package": "EpiNow2",
-      "Version": "1.3.5",
+      "Version": "1.5.2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -66,6 +66,7 @@
         "RcppEigen",
         "RcppParallel",
         "StanHeaders",
+        "checkmate",
         "data.table",
         "futile.logger",
         "future",
@@ -75,6 +76,7 @@
         "lubridate",
         "methods",
         "patchwork",
+        "posterior",
         "progressr",
         "purrr",
         "rlang",
@@ -86,7 +88,7 @@
         "truncnorm",
         "utils"
       ],
-      "Hash": "b408fe752139c5f9d4b98e71fb0afe19"
+      "Hash": "22457d91d620923793295c76505bfe3d"
     },
     "MASS": {
       "Package": "MASS",
@@ -1406,18 +1408,25 @@
     },
     "incidence2": {
       "Package": "incidence2",
-      "Version": "2.2.1",
+      "Version": "2.3.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "data.table",
+        "dplyr",
         "grDevices",
         "grates",
         "pillar",
-        "utils"
+        "rlang",
+        "stats",
+        "tibble",
+        "tidyr",
+        "tidyselect",
+        "utils",
+        "vctrs"
       ],
-      "Hash": "bd272708a92103589276504d9c3e8855"
+      "Hash": "48276866cc817bd5201d7eea7b4f3d53"
     },
     "inline": {
       "Package": "inline",
@@ -1882,6 +1891,28 @@
         "Rcpp"
       ],
       "Hash": "d744387aef9047b0b48be2933d78e862"
+    },
+    "posterior": {
+      "Package": "posterior",
+      "Version": "1.5.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "abind",
+        "checkmate",
+        "distributional",
+        "matrixStats",
+        "methods",
+        "parallel",
+        "pillar",
+        "rlang",
+        "stats",
+        "tensorA",
+        "tibble",
+        "vctrs"
+      ],
+      "Hash": "8dac526a34b9eb62305d16c04cb57837"
     },
     "praise": {
       "Package": "praise",
@@ -2387,6 +2418,17 @@
         "cpp11"
       ],
       "Hash": "90b28393209827327de889f49935140a"
+    },
+    "tensorA": {
+      "Package": "tensorA",
+      "Version": "0.36.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "stats"
+      ],
+      "Hash": "0d587599172f2ffda2c09cb6b854e0e5"
     },
     "testthat": {
       "Package": "testthat",
