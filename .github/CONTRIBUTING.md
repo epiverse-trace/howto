@@ -123,6 +123,8 @@ We need to keep the `renv.lock` file and the version of the`{renv}` package freq
 
 - Use `renv::upgrade()` to upgrade the version of `{renv}` associated with the project, updates the activate script, and restarts R.
 
+Any of these actions needs be done in an isolated PR.
+
 ### Code style
 
 *   New code should follow the tidyverse [style guide](https://style.tidyverse.org). 
