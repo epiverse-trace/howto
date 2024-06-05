@@ -877,6 +877,25 @@
       ],
       "Hash": "2b21844e172549cf7fccdb4bf3e4f98b"
     },
+    "epichains": {
+      "Package": "epichains",
+      "Version": "0.1.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "epichains",
+      "RemoteUsername": "epiverse-trace",
+      "RemotePkgRef": "epiverse-trace/epichains",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "9fe3137c01af6579bda3db90b7da2774a76a56ac",
+      "Requirements": [
+        "R",
+        "checkmate",
+        "stats",
+        "utils"
+      ],
+      "Hash": "c14339117c800f71ca19e720b2895eb9"
+    },
     "epiparameter": {
       "Package": "epiparameter",
       "Version": "0.2.0.9000",
