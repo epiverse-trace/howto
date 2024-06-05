@@ -18,14 +18,14 @@
     },
     "DBI": {
       "Package": "DBI",
-      "Version": "1.2.2",
+      "Version": "1.2.3",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "methods"
       ],
-      "Hash": "164809cd72e1d5160b4cb3aa57f510fe"
+      "Hash": "065ae649b05f1ff66bb0c793107508f5"
     },
     "EpiEstim": {
       "Package": "EpiEstim",
@@ -152,15 +152,10 @@
     },
     "QuickJSR": {
       "Package": "QuickJSR",
-      "Version": "1.1.3",
+      "Version": "1.2.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Requirements": [
-        "R6",
-        "Rcpp",
-        "jsonlite"
-      ],
-      "Hash": "765d4f4bcec02ed0663d4de3db23f6e5"
+      "Hash": "ee1c608a464e297788bc914c04dfdf81"
     },
     "R.methodsS3": {
       "Package": "R.methodsS3",
@@ -257,7 +252,7 @@
     },
     "SparseM": {
       "Package": "SparseM",
-      "Version": "1.82",
+      "Version": "1.83",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -267,7 +262,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "d9654aa07d133ba02190ad518a653931"
+      "Hash": "f2b9f6a10ac6bc136be10c508ee890f9"
     },
     "StanHeaders": {
       "Package": "StanHeaders",
@@ -858,6 +853,25 @@
       ],
       "Hash": "54ed3ea01b11e81a86544faaecfef8e2"
     },
+    "epidemics": {
+      "Package": "epidemics",
+      "Version": "0.3.0.9000",
+      "Source": "Repository",
+      "Repository": "https://epiverse-trace.r-universe.dev",
+      "Requirements": [
+        "BH",
+        "Rcpp",
+        "RcppEigen",
+        "checkmate",
+        "cli",
+        "data.table",
+        "glue",
+        "stats",
+        "utils",
+        "withr"
+      ],
+      "Hash": "c8383985681a1d483c4dcc053e5c5941"
+    },
     "epiparameter": {
       "Package": "epiparameter",
       "Version": "0.1.0.9000",
@@ -1208,13 +1222,14 @@
     },
     "grates": {
       "Package": "grates",
-      "Version": "1.2.0",
+      "Version": "1.2.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
+        "R",
         "utils"
       ],
-      "Hash": "86a0a58fdd42e4b9b5e073e9d5ec07ad"
+      "Hash": "077185d8236bfbb0225d6d7a370bbfae"
     },
     "gridExtra": {
       "Package": "gridExtra",
@@ -1357,18 +1372,18 @@
     },
     "incidence": {
       "Package": "incidence",
-      "Version": "1.7.4",
+      "Version": "1.7.5",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "aweek",
         "ggplot2"
       ],
-      "Hash": "c4cd7d6ad41c98be157a4bb9b76c78f1"
+      "Hash": "2da4fc68478248c6b6aa096b47547e82"
     },
     "incidence2": {
       "Package": "incidence2",
-      "Version": "2.3.0",
+      "Version": "2.3.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1384,10 +1399,9 @@
         "tidyr",
         "tidyselect",
         "utils",
-        "vctrs",
-        "ympes"
+        "vctrs"
       ],
-      "Hash": "e6f2aa5be78bb0a60d81f0abf6d56d97"
+      "Hash": "48276866cc817bd5201d7eea7b4f3d53"
     },
     "inline": {
       "Package": "inline",
@@ -1891,28 +1905,6 @@
       ],
       "Hash": "8dac526a34b9eb62305d16c04cb57837"
     },
-    "posterior": {
-      "Package": "posterior",
-      "Version": "1.5.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "abind",
-        "checkmate",
-        "distributional",
-        "matrixStats",
-        "methods",
-        "parallel",
-        "pillar",
-        "rlang",
-        "stats",
-        "tensorA",
-        "tibble",
-        "vctrs"
-      ],
-      "Hash": "8dac526a34b9eb62305d16c04cb57837"
-    },
     "praise": {
       "Package": "praise",
       "Version": "1.0.0",
@@ -2161,14 +2153,14 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "1.1.3",
+      "Version": "1.1.4",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "utils"
       ],
-      "Hash": "42548638fae05fd9a9b5f3f437fbbbe2"
+      "Hash": "3eec01f8b1dee337674b2e34ab1f9bc1"
     },
     "rmarkdown": {
       "Package": "rmarkdown",
@@ -2433,17 +2425,6 @@
         "lifecycle"
       ],
       "Hash": "213b6b8ed5afbf934843e6c3b090d418"
-    },
-    "tensorA": {
-      "Package": "tensorA",
-      "Version": "0.36.2.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "stats"
-      ],
-      "Hash": "0d587599172f2ffda2c09cb6b854e0e5"
     },
     "tensorA": {
       "Package": "tensorA",
@@ -2780,17 +2761,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "29240487a071f535f5e5d5a323b7afbd"
-    },
-    "ympes": {
-      "Package": "ympes",
-      "Version": "1.2.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "methods",
-        "utils"
-      ],
-      "Hash": "837c75ea06ea57aa59573305cd00f47b"
     }
   }
 }
