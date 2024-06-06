@@ -51,11 +51,11 @@ raw_dat <-
 raw_dat
 
 # Plot the raw data
-raw_dat %>%
-  ggplot() +
-  aes(x = date, y = cases_new) +
-  geom_line() +
-  facet_wrap(vars(region))
+# raw_dat %>%
+#   ggplot() +
+#   aes(x = date, y = cases_new) +
+#   geom_line() +
+#   facet_wrap(vars(region))
 
 # Convert the data to an incidence object stratified by groups
 dat_group <- 
