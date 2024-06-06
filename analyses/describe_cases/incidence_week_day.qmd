@@ -28,6 +28,8 @@ knitr::opts_chunk$set(
 
 ```{r}
 #| warning: false
+#| fig-height: 4
+#| fig-width: 10
 
 # Get the weekly growth rate of an outbreak
 
@@ -35,6 +37,7 @@ knitr::opts_chunk$set(
 library(outbreaks)
 library(incidence2)
 library(dplyr)
+library(patchwork)
 
 # Load the simulated Ebola outbreak data
 data(ebola_sim_clean)
@@ -58,7 +61,7 @@ incidence2_day <-
 incidence2_day
 
 # Plot incidence2 object with case counts per day
-plot(incidence2_day)
+plot_day <- plot(incidence2_day)
 
 # Get an incidence2 object with case counts per week
 # from data collected per day
@@ -73,7 +76,10 @@ incidence2_week <-
 incidence2_week
 
 # Plot incidence2 object with case counts per week
-plot(incidence2_week)
+plot_week <- plot(incidence2_week)
+
+# Add plots together
+plot_day + plot_week
 ```
 
 ## Steps in detail
