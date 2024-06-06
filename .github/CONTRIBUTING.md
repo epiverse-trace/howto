@@ -128,7 +128,11 @@ Any of these actions needs be done in an isolated PR.
 ### Code style
 
 *   New code should follow the tidyverse [style guide](https://style.tidyverse.org). 
-    You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR.  
+    You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR. 
+
+*   Each howto entry should include __one chunk only__. This aims to be ready to copy and paste as a whole, resembling a reprex. For this reason, the howto entry chunk:
+  - __Can not__ include intermediate plots. Chunks can only include one plot at the end of the chunk. To compare plots, use the [patchwork](https://patchwork.data-imaginist.com/) R package to add `ggplot` objects together using the `+` operator. 
+  - __Can__ include intermediate output prints. You can avoid long output prints using `<tibbles>` with `dplyr::as_tibble()` or `head()`.
 
 <!--*  We use [roxygen2](https://cran.r-project.org/package=roxygen2), with [Markdown syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/rd-formatting.html), for documentation.  
 
