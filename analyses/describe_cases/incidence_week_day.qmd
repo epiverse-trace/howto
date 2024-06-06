@@ -78,7 +78,8 @@ incidence2_week
 # Plot incidence2 object with case counts per week
 plot_week <- plot(incidence2_week)
 
-# Add plots together
+# Add plots together with patchwork
+# Compare the day and week plots
 plot_day + plot_week
 ```
 
