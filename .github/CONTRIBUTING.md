@@ -108,10 +108,10 @@ We use the [{renv} R package](https://rstudio.github.io/renv/) to ensure reprodu
 
 Add all new packages that your specific `howto` entry needs. After installing the packages, follow these steps:
 
-1. Use `renv::status()` to detect any pre-existing issue.
+- First, use `renv::status()` to detect any pre-existing issue.
   - Issues with packages not related to your specific `howto` entry should be solved in a different PR.
 
-2. Use `renv::snapshot()` to update packages in the lockfile (`renv.lock`). You should read your packages (and occasionally its dependencies) listed before confirming to proceed.
+- Second, use `renv::snapshot()` to update packages in the lockfile (`renv.lock`). You should read your packages (and occasionally its dependencies) listed before confirming to proceed.
 
 Now you should be ready to create a PR (steps above!).
 
@@ -120,17 +120,16 @@ Now you should be ready to create a PR (steps above!).
 We need to keep the `renv.lock` file and the version of the`{renv}` package frequently updated. This will help us know of breaking changes in packages under development. For this we:
 
 - Use `renv::update()` to update all packages registered in the `renv.lock` currently out-of-date.
-
 - Use `renv::upgrade()` to upgrade the version of `{renv}` associated with the project, updates the activate script, and restarts R.
 
 Any of these actions needs be done in an isolated PR.
 
 ### Code style
 
-*   New code should follow the tidyverse [style guide](https://style.tidyverse.org). 
+-   New code should follow the tidyverse [style guide](https://style.tidyverse.org). 
     You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR. 
 
-*   Each howto entry should include __one chunk only__. This aims to be ready to copy and paste as a whole, resembling a reprex. For this reason, the howto entry chunk:
+- Each howto entry should include __one chunk only__. This aims to be ready to copy and paste as a whole, resembling a reprex. For this reason, the howto entry chunk:
   - __Can not__ include intermediate plots. Chunks can only include one plot at the end of the chunk. To compare plots, use the [patchwork](https://patchwork.data-imaginist.com/) R package to add `ggplot` objects together using the `+` operator. 
   - __Can__ include intermediate output prints. You can avoid long output prints using `<tibbles>` with `dplyr::as_tibble()` or `head()`.
 
