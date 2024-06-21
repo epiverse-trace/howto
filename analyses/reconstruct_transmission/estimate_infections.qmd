@@ -67,7 +67,7 @@ incidence_data <- incidence_data |>
                   dplyr::filter(date<"2020-07-01" & date>="2020-03-01")
 
 # Preview data
-head(incidence_data)
+incidence_data
 
 # Define parameters
 # Extract infection-to-death distribution (from Aloon et al)
