@@ -64,8 +64,7 @@ incidence_data <- incidence2::covidregionaldataUK |>
 
 # Focus on early 2020 period and sort by ascending date
 incidence_data <- incidence_data |> 
-                  dplyr::filter(date<"2020-07-01" & date>="2020-03-01") |> 
-                  arrange(date)
+                  dplyr::filter(date<"2020-07-01" & date>="2020-03-01")
 
 # Preview data
 head(incidence_data)
