@@ -231,19 +231,12 @@ infection_estimates <- epinow_estimates$estimates$summarised |> dplyr::filter(va
 # Plot output
 #"Estimated dynamics of Ebola infections among those with subsequent onsets in the 1976 Yambuku outbreak, reconstructed using reported case data. Dashed line shows the date on which the local hospital - and source of early nosocomial infections - was closed (30 Sep)."
 
-par(mfrow=c(1,1),mgp=c(2.5,0.7,0),mar = c(3,3.5,1,1))
-plot(incidence_data_ebola$date,incidence_data_ebola$confirm,ylim=c(0,20),col="red",xlab="",ylab="count",type="l",lwd=2,
-     xlim=c(as.Date("1976-08-25"),as.Date("1976-11-05")))
-lines(infection_estimates$date,infection_estimates$median,lwd=2,col="dark blue")
-polygon(c(infection_estimates$date,rev(infection_estimates$date)),
-        c(infection_estimates$lower_90,rev(infection_estimates$upper_90)),
-        col=rgb(0,0,1,0.1),border=NA)
-
-legend("topright", c("Infections", "Cases"),
-       col = c("dark blue","red"), lty = 1)
-
-# add date of local hospital closure
-abline(v = as.Date("1976-09-30"),lty=2) 
+epinow_estimates$plots$infections +
+  geom_vline(aes(xintercept = as.Date("1976-09-30")), linetype = 3) +
+  geom_text(aes(x = as.Date("1976-09-30"), 
+                y = 12,
+                label = "Date of\nlocal hospital\nclosure"),
+            hjust = 0)
 ```
 
 ## Steps in detail
