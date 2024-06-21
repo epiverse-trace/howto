@@ -1,5 +1,5 @@
 ---
-title: "How to simulate the effective reproductive number (R~eff~) with heterogeneity in social contact?"
+title: "How to estimate the effective reproductive number (R~eff~) with heterogeneity in social contact?"
 format: 
   html:
     code-link: true

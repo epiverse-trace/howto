@@ -6,6 +6,10 @@ listing:
     contents: "analyses/describe_cases/*.qmd"
     type: table
     fields: [title]
+  - id: reconstruct-transmission
+    contents: "analyses/reconstruct_transmission/*.qmd"
+    type: table
+    fields: [title]
   - id: quantify-transmission
     contents: "analyses/quantify_transmission/*.qmd"
     type: table
