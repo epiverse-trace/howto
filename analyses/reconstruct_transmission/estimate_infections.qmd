@@ -166,9 +166,10 @@ abline(v = as.Date("2020-03-23"),lty=2)
 data("ebola1976")
 
 # Extract data on case onsets and format for EpiNow 2
-incidence_data_ebola <- ebola1976 |> dplyr::select(date,cases)
-incidence_data_ebola <- dplyr::rename(incidence_data_ebola, confirm = cases)
-incidence_data_ebola <- incidence_data_ebola |> dplyr::filter(date>="1976-09-01")
+incidence_data_ebola <- ebola1976 |>
+  dplyr::select(date,cases) |>
+  dplyr::rename(confirm = cases) |>
+  dplyr::filter(date >= "1976-09-01")
 
 # Preview data
 head(incidence_data_ebola)
