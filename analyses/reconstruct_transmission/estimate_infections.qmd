@@ -48,10 +48,19 @@ uk_dashboard_url <- "https://coronavirus.data.gov.uk/api/v1/data?filters=areaTyp
 load_uk_data_text <- GET(uk_dashboard_url)
 uk_data <- read.csv(text = content(load_uk_data_text, "text"), stringsAsFactors = FALSE)
 
-# Extract data on deaths and format for EpiNow 2
-incidence_data <- uk_data |> dplyr::select(date,newDailyNsoDeathsByDeathDate)
-incidence_data <- dplyr::rename(incidence_data, confirm = newDailyNsoDeathsByDeathDate)
-incidence_data$date <- as.Date(incidence_data$date)
+# Extract data on UK COVID deaths and format for EpiNow2
+incidence_data <- incidence2::covidregionaldataUK |> 
+  # preprocess missing values
+  tidyr::replace_na(list(deaths_new = 0)) |>
+  # compute the daily incidence
+  incidence2::incidence(
+    date_index = "date",
+    counts = "deaths_new",
+    count_values_to = "confirm",
+    date_names_to = "date",
+    complete_dates = TRUE
+  ) |>
+  select(-count_variable)
 
 # Focus on early 2020 period and sort by ascending date
 incidence_data <- incidence_data |> 
