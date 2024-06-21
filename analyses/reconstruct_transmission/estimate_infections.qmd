@@ -32,6 +32,9 @@ library(cfr) # for Ebola data (included in this package)
 library(dplyr) # to format input and outputs
 library(ggplot2) # to generate plots
 
+# Set number of cores
+withr::local_options(list(mc.cores = 4))
+
 # - - - 
 # Example 1: reconstruct SARS-CoV-2 infection dynamics in the UK from daily data on deaths, 2020
 # - - -
