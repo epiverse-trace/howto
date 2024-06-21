@@ -78,7 +78,7 @@ incubation_period_in <-
 print(incubation_period_in)
 
 # Get parameters and format for EpiNow2 using LogNormal input
-incubation_params <- get_parameters(incubation_period_in) # Get parameters
+incubation_params <- epiparameter::get_parameters(incubation_period_in) # Get parameters
 
 # Find the upper 99.9% range by the interval
 incubation_max <- round(quantile(incubation_period_in,0.999))
