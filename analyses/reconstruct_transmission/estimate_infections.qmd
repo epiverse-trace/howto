@@ -41,12 +41,6 @@ withr::local_options(list(mc.cores = 4))
 # daily data on deaths, 2020
 # - - -
 
-# Define URL for the UK COVID dashboard API
-uk_dashboard_url <- "https://coronavirus.data.gov.uk/api/v1/data?filters=areaType=overview;areaName=United%2520Kingdom&structure=%7B%22areaType%22:%22areaType%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22date%22:%22date%22,%22newDailyNsoDeathsByDeathDate%22:%22newDailyNsoDeathsByDeathDate%22,%22cumDailyNsoDeathsByDeathDate%22:%22cumDailyNsoDeathsByDeathDate%22%7D&format=csv"
-
-# Load data from the UK COVID dashboard API and format as data.frame
-load_uk_data_text <- GET(uk_dashboard_url)
-uk_data <- read.csv(text = content(load_uk_data_text, "text"), stringsAsFactors = FALSE)
 
 # Extract data on UK COVID deaths and format for EpiNow2
 incidence_data <- incidence2::covidregionaldataUK |> 
