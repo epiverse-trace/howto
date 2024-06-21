@@ -89,7 +89,7 @@ onset_to_death_period_in <-
 print(onset_to_death_period_in)
 
 # Get parameters and format for EpiNow2 using LogNormal input
-onset_to_death_params <- get_parameters(onset_to_death_period_in) # Get parameters
+onset_to_death_params <- epiparameter::get_parameters(onset_to_death_period_in) # Get parameters
 
 # Find the upper 99.9% range by the interval
 onset_to_death_max <- round(quantile(onset_to_death_period_in,0.999))
@@ -121,7 +121,7 @@ serial_int_discrete <- epiparameter::discretise(serial_interval_in)
 serial_int_discrete_max <- quantile(serial_int_discrete,0.999)
 
 # Define parameters using LogNormal input
-serial_params <- get_parameters(serial_int_discrete) # Get parameters
+serial_params <- epiparameter::get_parameters(serial_int_discrete) # Get parameters
 
 serial_interval_covid <- LogNormal(
   meanlog = serial_params[["meanlog"]],
@@ -210,7 +210,7 @@ serial_int_ebola_discrete <- epiparameter::discretise(serial_interval_ebola_in)
 serial_int_ebola_discrete_max <- quantile(serial_int_ebola_discrete,0.999)
 
 # Define parameters using LogNormal input
-serial_ebola_params <- get_parameters(serial_int_ebola_discrete) # Get parameters
+serial_ebola_params <- epiparameter::get_parameters(serial_int_ebola_discrete) # Get parameters
 
 serial_interval_ebola <- Gamma(
   shape = serial_ebola_params[["shape"]],
