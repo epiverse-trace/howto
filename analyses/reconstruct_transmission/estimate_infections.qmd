@@ -143,20 +143,18 @@ infection_estimates <- epinow_estimates$estimates$summarised |> dplyr::filter(va
 
 # Plot output
 # "Estimated dynamics of SARS-CoV-2 infections among those with subsequent fatal outcomes in the UK, reconstructed using data on reported deaths. Dashed lines show dates of UK non-essential contact advice (16 Mar) and lockdown (23 Mar)."
-par(mfrow=c(1,1),mgp=c(2.5,0.7,0),mar = c(3,3.5,1,1))
-plot(incidence_data$date,incidence_data$confirm,ylim=c(0,2e3),col="red",xlab="",ylab="count",type="l",lwd=2,
-     xlim=c(as.Date("2020-03-01"),as.Date("2020-07-01")))
-lines(infection_estimates$date,infection_estimates$median,lwd=2,col="dark blue")
-polygon(c(infection_estimates$date,rev(infection_estimates$date)),
-        c(infection_estimates$lower_90,rev(infection_estimates$upper_90)),
-        col=rgb(0,0,1,0.1),border=NA)
+epinow_estimates$plots$infections +
+  geom_vline(aes(xintercept = as.Date("2020-03-16")), linetype = 3) +
+  geom_text(aes(x = as.Date("2020-03-16"), 
+                y = 3000,
+                label = "Non-essential contact advice"),
+            hjust = 0) +
+    geom_vline(aes(xintercept = as.Date("2020-03-23")), linetype = 3) +
+    geom_text(aes(x = as.Date("2020-03-23"), 
+                y = 2500,
+                label = "Stay-at-home order (i.e. lockdown)"),
+            hjust = 0)
 
-legend("topright", c("Infections", "Deaths"),
-       col = c("dark blue","red"), lty = 1)
-
-# add dates of UK non-essential contact advice (16 Mar) and lockdown (23 Mar)
-abline(v = as.Date("2020-03-16"),lty=2) 
-abline(v = as.Date("2020-03-23"),lty=2) 
 ```
 
 ```{r}
