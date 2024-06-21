@@ -36,7 +36,9 @@ library(ggplot2) # to generate plots
 withr::local_options(list(mc.cores = 4))
 
 # - - - 
-# Example 1: reconstruct SARS-CoV-2 infection dynamics in the UK from daily data on deaths, 2020
+# Example 1: 
+# reconstruct SARS-CoV-2 infection dynamics in the UK from
+# daily data on deaths, 2020
 # - - -
 
 # Define URL for the UK COVID dashboard API
