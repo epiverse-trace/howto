@@ -135,11 +135,7 @@ epinow_estimates <- epinow(
   reported_cases = incidence_data, # time series data
   generation_time = generation_time_opts(serial_interval_covid), # assume generation time = serial interval
   delays = delay_opts(infection_to_death), # delay from infection-to-death
-  rt = NULL, # no Rt estimation
-  stan = stan_opts( # set up options for inference
-    cores = 4, samples = 1000, chains = 3,
-    control = list(adapt_delta = 0.99)
-  )
+  rt = NULL # no Rt estimation
 )
 
 # Extract infection estimates from the model output
