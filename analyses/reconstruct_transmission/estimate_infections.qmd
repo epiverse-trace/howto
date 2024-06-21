@@ -25,16 +25,12 @@ toc_float: true
 #| warning: false
 
 # Load required packages
-# remotes::install_github("epiforecasts/EpiNow2@dist-interface") # To
-library(EpiNow2)
-
-# Load epiparameter from GitHub
-library(epiparameter)
-
-# Load CRAN packages required for this vignette
-library(dplyr) # required to format outputs
-library(httr) # required to load UK COVID data from URL
-library(cfr) # required for Ebola data (included in this package)
+library(incidence2) # for uk covid daily deaths
+library(EpiNow2) # to estimate time-varying reproduction number
+library(epiparameter) # to access delay distributions
+library(cfr) # for Ebola data (included in this package)
+library(dplyr) # to format input and outputs
+library(ggplot2) # to generate plots
 
 # - - - 
 # Example 1: reconstruct SARS-CoV-2 infection dynamics in the UK from daily data on deaths, 2020
