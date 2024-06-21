@@ -231,11 +231,7 @@ epinow_estimates <- epinow(
   generation_time = generation_time_opts(serial_interval_ebola), # assume generation time = serial interval
   delays = delay_opts(incubation_period_ebola), # delay from infection-to-death
   rt = NULL, # comment out to implement Rt estimation
-  backcalc = backcalc_opts(prior = "none"), # use zero-centered prior instead of one centered around shifted reported cases
-  stan = stan_opts( # set up options for inference
-    cores = 4, samples = 1000, chains = 3,
-    control = list(adapt_delta = 0.99)
-  )
+  backcalc = backcalc_opts(prior = "none") # use zero-centered prior instead of one centered around shifted reported cases
 )
 
 # Extract infection estimates from the model output
