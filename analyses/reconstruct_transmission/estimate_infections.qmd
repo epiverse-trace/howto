@@ -124,8 +124,8 @@ serial_int_discrete_max <- quantile(serial_int_discrete,0.999)
 serial_params <- get_parameters(serial_int_discrete) # Get parameters
 
 serial_interval_covid <- LogNormal(
-  mean = serial_params[["mean"]],
-  sd = serial_params[["sd"]],
+  meanlog = serial_params[["meanlog"]],
+  sdlog = serial_params[["sdlog"]],
   max = serial_int_discrete_max
 )
 # Run infection estimation model
