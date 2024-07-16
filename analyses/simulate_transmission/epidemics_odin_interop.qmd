@@ -77,7 +77,7 @@ close_schools <- intervention(
   type = "contacts",
   time_begin = 200,
   time_end = 260,
-  reduction = matrix(c(0, 0, 0))
+  reduction = matrix(c(0.5, 0.1, 0.1))
 )
 
 # view the intervention
