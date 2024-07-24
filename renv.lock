@@ -879,12 +879,19 @@
     },
     "epiparameter": {
       "Package": "epiparameter",
-      "Version": "0.1.0.9000",
-      "Source": "Repository",
-      "Repository": "https://epiverse-trace.r-universe.dev",
+      "Version": "0.2.0.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "epiparameter",
+      "RemoteUsername": "epiverse-trace",
+      "RemotePkgRef": "epiverse-trace/epiparameter",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "d4e8cbd2377387b0a0354753ac0df53945c7d73d",
       "Requirements": [
         "R",
         "checkmate",
+        "cli",
         "distcrete",
         "distributional",
         "graphics",
@@ -893,7 +900,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "2cb26b35825cf1aeb386684a5832d1ef"
+      "Hash": "857e6a5c60205ce14b01978a6dd8fb9e"
     },
     "epitrix": {
       "Package": "epitrix",
