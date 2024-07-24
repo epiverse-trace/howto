@@ -93,7 +93,7 @@ This is an SIR model that omits the 'exposed' compartment for this demonstration
 sir <- odin::odin({
   # NOTE: crude time-dependence of transmission rate
   # similar to a `<rate_intervention>`
-  beta_reduce[] <- if (t > intervention_interval[1] && t < intervention_interval[2]) (1.0 - reduction[i]) else (1 + 0*reduction[i])
+  beta_reduce[] <- if (t > intervention_interval[1] && t < intervention_interval[2]) (1.0 - reduction[i]) else 1
 
   # number of age groups taken from contact matrix passed by user
   n <- user()
