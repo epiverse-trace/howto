@@ -855,9 +855,14 @@
     },
     "epidemics": {
       "Package": "epidemics",
-      "Version": "0.3.0.9000",
-      "Source": "Repository",
-      "Repository": "https://epiverse-trace.r-universe.dev",
+      "Version": "0.4.0.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "epiverse-trace",
+      "RemoteRepo": "epidemics",
+      "RemoteRef": "main",
+      "RemoteSha": "f706261bac19282e813ca43675ff16dcb79b3d40",
       "Requirements": [
         "BH",
         "Rcpp",
@@ -870,7 +875,7 @@
         "utils",
         "withr"
       ],
-      "Hash": "c8383985681a1d483c4dcc053e5c5941"
+      "Hash": "2b21844e172549cf7fccdb4bf3e4f98b"
     },
     "epiparameter": {
       "Package": "epiparameter",
