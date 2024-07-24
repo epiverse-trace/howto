@@ -47,8 +47,19 @@ contact_matrix <- t(contact_data[["matrix"]])
 contact_matrix <- (contact_matrix / max(Re(eigen(contact_matrix)$values))) /
   demography_vector
 
+# an intervention to close schools
+close_schools <- intervention(
+  type = "contacts",
+  time_begin = 200,
+  time_end = 260,
+  reduction = matrix(c(0.5, 0.01, 0.01))
+)
+
+# view the intervention
+close_schools
+
 # initial conditions defined as proportions and converted to absolute values
-initial_condtions <- matrix(
+initial_conditions <- matrix(
   c(S = 1 - 1e-6, I = 1e-6, R = 0),
   nrow = length(demography_vector),
   ncol = 3L, byrow = TRUE
@@ -64,14 +75,14 @@ This is an SIR model that omits the 'exposed' compartment for this demonstration
 sir <- odin::odin({
   # NOTE: crude time-dependence of transmission rate
   # similar to a `<rate_intervention>`
-  beta_ <- if (t > intervention_interval[1] && t < intervention_interval[2]) beta * (1.0 - reduction) else beta
+  beta_t[] <- if (t > intervention_interval[1] && t < intervention_interval[2]) beta * (1.0 - reduction[i]) else beta*(1 + 0*reduction[i])
 
   # number of age groups taken from contact matrix passed by user
   n <- user()
 
   # FOI is contacts * infectious * transmission rate
   # returns a matrix, must be converted to a vector/1D array
-  lambda_prod[, ] <- C[i, j] * I[j] * beta_
+  lambda_prod[, ] <- C[i, j] * I[j] * beta_t[j]
   lambda[] <- sum(lambda_prod[i, ])
 
   ## Derivatives
@@ -91,7 +102,7 @@ sir <- odin::odin({
   init_S[] <- user()
   init_I[] <- user()
   init_R[] <- user()
-  reduction <- user(0.5)
+  reduction[] <- user()
   intervention_interval[] <- user()
 
   # dimensions - all rely on contact matrix
@@ -103,6 +114,8 @@ sir <- odin::odin({
   dim(init_S) <- n
   dim(init_I) <- n
   dim(init_R) <- n
+  dim(reduction) <- n
+  dim(beta_t) <- n
   dim(C) <- c(n, n)
   dim(intervention_interval) <- 2
 })
@@ -112,12 +125,12 @@ sir <- odin::odin({
 # initialise model and run over time 0 - 600
 mod <- sir$new(
   beta = 1.3 / 7,
-  reduction = 0.1,
-  intervention_interval = c(200, 400),
+  reduction = close_schools$reduction[,],
+  intervention_interval = c(close_schools$time_begin, close_schools$time_end),
   C = contact_matrix, n = nrow(contact_matrix),
-  init_S = initial_condtions[, 1],
-  init_I = initial_condtions[, 2],
-  init_R = initial_condtions[, 3]
+  init_S = initial_conditions[, 1],
+  init_I = initial_conditions[, 2],
+  init_R = initial_conditions[, 3]
 )
 t <- seq(0, 600)
 y <- mod$run(t)
