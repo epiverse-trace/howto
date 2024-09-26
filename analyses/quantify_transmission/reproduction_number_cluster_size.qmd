@@ -31,7 +31,7 @@ library(epiparameter)
 
 ```{r}
 # Define data
-h5_clusters = c(rep(1,12),2)
+h5_clusters = c(rep(1,13),2)
 
 # Get prior for R based on Aditama et al, PLOS ONE, 2012
 get_prior <- extract_param(
