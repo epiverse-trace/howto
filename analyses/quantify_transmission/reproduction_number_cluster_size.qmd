@@ -26,17 +26,28 @@ toc_float: true
 # Load required packages
 library(epichains)
 library(MCMCpack)
+library(epiparameter)
 ```
 
 ```{r}
 # Define data
-mers_clusters = c(rep(1,27),c(2,2),c(3,4),c(4,3),c(5,2),7,13,26)
+h5_clusters = c(rep(1,12),2)
+
+# Get prior for R based on Aditama et al, PLOS ONE, 2012
+get_prior <- extract_param(
+  type = "percentiles",
+  values = c(0.009, 0.315),
+  distribution = "gamma",
+  percentiles = c(0.025,0.975)
+)
+
+h5_prior_r <- function(x){dgamma(x,shape = get_prior[["shape"]], scale = get_prior[["scale"]])}
 
 # Show summary table of frequencies
-freq_df <- as.data.frame(table(mers_clusters)); names(freq_df) <- c("Cluster size", "Frequency")
+freq_df <- as.data.frame(table(h5_clusters)); names(freq_df) <- c("Cluster size", "Frequency")
 
 # Create a table for the HTML document
-knitr::kable(freq_df, caption = "Frequencies of MERS Clusters")
+knitr::kable(freq_df, caption = "Frequencies of H5 Clusters")
 
 # Define likelihood function
 lik_function <- function(param) {
@@ -48,7 +59,7 @@ lik_function <- function(param) {
 
   # Define likelihood
   log_likelihood <- likelihood(
-    chains = mers_clusters,
+    chains = h5_clusters,
     statistic = "size",
     offspring_dist = rnbinom,
     size = k_val,
@@ -56,7 +67,7 @@ lik_function <- function(param) {
   )
   
   # Assume non-informative priors for R and k
-  log_prior <- 0 # But could add informative priors here if required
+  log_prior <- h5_prior_r(r_val)
 
   # Return log-posterior (log-likelihood + log-prior)
   return(log_likelihood + log_prior)
@@ -86,7 +97,7 @@ plot(result_mcmcpack)
 
 # Define helper function to calculate median and 95% credible interval from data.frame of MCMC samples
 get_param <- function(x){
-  apply(x,2,function(y){val = signif(quantile(y,c(0.5,0.025,0.0975)),3);
+  apply(x,2,function(y){val = signif(quantile(y,c(0.5,0.025,0.975)),3);
                         val_text <- paste0(val[1]," (95%: CrI: ",val[2],"-",val[3],")")})
 }
 
@@ -104,6 +115,22 @@ results_table <- data.frame(
 
 # Output the table with kable
 knitr::kable(results_table, caption = "MCMC Comparison Table", align = 'c')
+
+# Compare prior and posterior
+posterior_samples_R <- result_mcmcpack[, 1] 
+
+# Set up the plotting range based on the data
+x_range <- seq(min(posterior_samples_R), max(posterior_samples_R), length.out = 1000)
+
+plot(density(posterior_samples_R), col = "blue", lwd = 2, 
+     main = "Posterior and Prior for R", xlab = "R", ylab = "Density")
+
+# Add prior distribution curve
+lines(x_range, h5_prior_r(x_range), col = "red", lwd = 2, lty = 2)
+
+# Add a legend
+legend("topright", legend = c("Posterior", "Prior"), col = c("blue", "red"), lwd = 2, lty = c(1, 2))
+
 ```
 
 ## Steps in detail
