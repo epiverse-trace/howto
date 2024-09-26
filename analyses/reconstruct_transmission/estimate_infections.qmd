@@ -54,7 +54,7 @@ incidence_data <- incidence2::covidregionaldataUK |>
     date_names_to = "date",
     complete_dates = TRUE
   ) |>
-  select(-count_variable)
+  dplyr::select(-count_variable)
 
 # Focus on early 2020 period and sort by ascending date
 incidence_data <- incidence_data |> 
