@@ -50,17 +50,12 @@ library(ggplot2) # to generate plots
 # Set number of cores
 withr::local_options(list(mc.cores = 4))
 
-# - - - 
-# Example 1: 
-# reconstruct SARS-CoV-2 infection dynamics in the UK from
-# daily data on deaths, 2020
-# - - -
-
-
 # Extract data on UK COVID deaths and format for EpiNow2
-incidence_data <- incidence2::covidregionaldataUK |> 
+incidence_data <- incidence2::covidregionaldataUK %>% 
+  # convert to tibble format
+  dplyr::as_tibble() %>% # for simpler dataframe output
   # preprocess missing values
-  tidyr::replace_na(list(deaths_new = 0)) |>
+  tidyr::replace_na(list(deaths_new = 0)) %>%
   # compute the daily incidence
   incidence2::incidence(
     date_index = "date",
@@ -68,12 +63,12 @@ incidence_data <- incidence2::covidregionaldataUK |>
     count_values_to = "confirm",
     date_names_to = "date",
     complete_dates = TRUE
-  ) |>
+  ) %>%
   dplyr::select(-count_variable)
 
 # Focus on early 2020 period and sort by ascending date
-incidence_data <- incidence_data |> 
-                  dplyr::filter(date<"2020-07-01" & date>="2020-03-01")
+incidence_data <- incidence_data %>% 
+  dplyr::filter(date<"2020-07-01" & date>="2020-03-01")
 
 # Preview data
 incidence_data
@@ -81,43 +76,56 @@ incidence_data
 # Define parameters
 # Extract infection-to-death distribution (from Aloon et al)
 incubation_period_in <-
-  epiparameter::epidist_db(disease = "covid",epi_dist = "incubation",single_epidist = T)
+  epiparameter::epidist_db(
+    disease = "covid",
+    epi_dist = "incubation",
+    single_epidist = T
+  )
 
 # Summarise distribution and type
 print(incubation_period_in)
 
 # Get parameters and format for EpiNow2 using LogNormal input
-incubation_params <- epiparameter::get_parameters(incubation_period_in) # Get parameters
+incubation_params <- epiparameter::get_parameters(incubation_period_in)
 
 # Find the upper 99.9% range by the interval
 incubation_max <- round(quantile(incubation_period_in,0.999))
 
-incubation_period <- LogNormal(meanlog = incubation_params[["meanlog"]], 
-                               sdlog = incubation_params[["sdlog"]], 
-                               max = incubation_max)
+incubation_period <- EpiNow2::LogNormal(
+  meanlog = incubation_params[["meanlog"]], 
+  sdlog = incubation_params[["sdlog"]], 
+  max = incubation_max
+)
 
 ## Set onset to death period (from Linton et al)
 onset_to_death_period_in <-
-  epiparameter::epidist_db(disease = "covid",epi_dist = "onset to death",single_epidist = T)
+  epiparameter::epidist_db(
+    disease = "covid",
+    epi_dist = "onset to death",
+    single_epidist = T
+  )
 
 # Summarise distribution and type
 print(onset_to_death_period_in)
 
 # Get parameters and format for EpiNow2 using LogNormal input
-onset_to_death_params <- epiparameter::get_parameters(onset_to_death_period_in) # Get parameters
+onset_to_death_params <- epiparameter::get_parameters(onset_to_death_period_in)
 
 # Find the upper 99.9% range by the interval
 onset_to_death_max <- round(quantile(onset_to_death_period_in,0.999))
 
-onset_to_death_period <- LogNormal(meanlog = onset_to_death_params[["meanlog"]], 
-                               sdlog = onset_to_death_params[["sdlog"]], 
-                               max = onset_to_death_max)
+onset_to_death_period <- LogNormal(
+  meanlog = onset_to_death_params[["meanlog"]], 
+  sdlog = onset_to_death_params[["sdlog"]], 
+  max = onset_to_death_max
+)
 
 ## Combine infection-to-onset and onset-to-death
 infection_to_death <- incubation_period + onset_to_death_period
 
 # Plot underlying delay distributions
-plot(infection_to_death)
+# plot(infection_to_death)
+
 # Extract serial interval distribution distribution (from Yang et al)
 serial_interval_in <-
   epiparameter::epidist_db(
