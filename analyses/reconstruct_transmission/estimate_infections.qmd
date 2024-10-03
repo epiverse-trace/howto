@@ -9,7 +9,17 @@ editor_options:
 date: last-modified
 toc: true
 toc_float: true
+author: 
+  - name: "Adam Kucharski"
+    orcid: "0000-0001-8814-9421"
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
 
 ## Ingredients
 
@@ -21,6 +31,11 @@ toc_float: true
 
 
 ## Steps in code
+
+### Example 1
+
+Reconstruct SARS-CoV-2 infection dynamics in the UK from daily data on deaths, 2020
+
 ```{r}
 #| warning: false
 
