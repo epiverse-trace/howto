@@ -94,7 +94,8 @@ model_function <- function(param){
 
 # Define likelihood function
 likelihood_function <- function(param,data) {
-  if (any(param <= 0)) return(-Inf) # Ensure positive parameters
+  # Ensure positive parameters
+  if (any(param <= 0)) return(-Inf)
 
   simulation_output <- model_function(param)
   
@@ -103,7 +104,10 @@ likelihood_function <- function(param,data) {
   
   # Calculate log-likelihood
   test_positive <- hk_serology$ffold
-  log_likelihood <- log(test_positive*simulation_output$p_infected[hk_serology$age_group]+(1-test_positive)*(1-simulation_output$p_infected[hk_serology$age_group]))
+  log_likelihood <- log(
+    test_positive*simulation_output$p_infected[hk_serology$age_group] + 
+      (1-test_positive)*(1-simulation_output$p_infected[hk_serology$age_group])
+  )
   log_likelihood_total <- sum(log_likelihood)
   
   # Check for valid output
@@ -120,14 +124,21 @@ initial_param <- c(r0=1.5, alpha=0.8) # Initial guess for shape and rate
 
 n_mcmc <- 1000
 
-output <- MCMCmetrop1R(fun = likelihood_function, 
-                       theta.init = initial_param,
-                       mcmc = n_mcmc, # Number of MCMC iterations
-                       burnin = 100, # Burn-in period
-                       verbose = TRUE,
-                       data = hk_serology) # Turn off verbose output
+output <- MCMCpack::MCMCmetrop1R(
+  fun = likelihood_function, 
+  theta.init = initial_param,
+  mcmc = n_mcmc, # Number of MCMC iterations
+  burnin = 100, # Burn-in period
+  verbose = FALSE, # Turn off verbose output
+  data = hk_serology
+)
+
 # Plot outputs
-data_summary <- aggregate(ffold ~ age_group, hk_serology, function(x){mean(x == 1)})
+data_summary <- stats::aggregate(
+  x = ffold ~ age_group,
+  data = hk_serology, 
+  FUN = function(x){mean(x == 1)}
+)
 
 sample_outputs <- output[sample(1:n_mcmc,10),]
 sample_simulate <- apply(sample_outputs,1,model_function)
@@ -137,21 +148,31 @@ combined_data <- do.call(rbind, lapply(1:length(sample_simulate), function(i) {
   cbind(sample_simulate[[i]], Simulation = i)
 }))
 
-combined_data$age_index <- match(combined_data$demo_grp,contact_data$demography$age.group)
+combined_data$age_index <- base::match(
+  x = combined_data$demo_grp,
+  table = contact_data$demography$age.group
+)
 
 # Calculate mean and standard deviation of p_infected for each demo_grp
 summary_data <- combined_data %>%
-  group_by(age_index) %>%
-  summarise(Mean_p_infected = mean(p_infected), SD_p_infected = sd(p_infected)) %>%
-  ungroup()
+  dplyr::group_by(age_index) %>%
+  dplyr::summarise(
+    Mean_p_infected = mean(p_infected),
+    SD_p_infected = sd(p_infected)
+  ) %>%
+  dplyr::ungroup()
 
 # Plotting
-plot(summary_data$age_index,summary_data$Mean_p_infected,ylim=c(0,1))
-points(data_summary$ffold,pch=19,col="red")
+summary_data %>% 
+  dplyr::left_join(data_summary, by = c("age_index" = "age_group")) %>% 
+  ggplot() +
+  geom_point(aes(x = age_index, y = Mean_p_infected)) +
+  geom_point(aes(x = age_index, y = ffold),pch=19,col="red") +
+  ylim(0,1)
 ```
 
 ## Steps in detail
-- We use serological data from the 2009 pandemic in Hong Kong in [Kwok et al (2009)](https://royalsocietypublishing.org/doi/10.1098/rspb.2014.0709), and social mixing data from POLYMOD in the UK as an assumed contact matrix using `socialmixr`.
-- We define the likelihood of observing a given serological pattern by simulating age-specific final epidemic size using the `finalsize` package.
+- We use serological data from the 2009 pandemic in Hong Kong in [Kwok et al (2009)](https://royalsocietypublishing.org/doi/10.1098/rspb.2014.0709), and social mixing data from POLYMOD in the UK as an assumed contact matrix using `{socialmixr}`.
+- We define the likelihood of observing a given serological pattern by simulating age-specific final epidemic size using the `{finalsize}` package.
 - We use [{MCMCpack}](https://cran.r-project.org/web/packages/MCMCpack/index.html) to estimate the parameters using MCMC.
 - Finally, we plot the observed outputs against the model fits.
