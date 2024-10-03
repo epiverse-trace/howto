@@ -34,31 +34,31 @@ knitr::opts_chunk$set(
 #| warning: false
 
 # Load required packages
-library(readr)
 library(finalsize)
 library(socialmixr)
-library(dplyr)
 library(MCMCpack)
-```
+library(readr)
+library(dplyr)
+library(ggplot2)
 
-```{r}
 # Load serological data
-hk_serology = read_csv("https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4100506/bin/rspb20140709supp2.csv")
+hk_serology <- readr::read_csv("https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4100506/bin/rspb20140709supp2.csv")
 
 # Allocate ages to bands
-age_limits = c(3,18,25,40,65)
+age_limits <- c(3,18,25,40,65)
 age_group <- sapply(hk_serology$age,function(x){sum(x>=age_limits)})
 hk_serology$age_group <- age_group
 
 # Load HK social mixing data
-contact_data <- contact_matrix(
+contact_data <- socialmixr::contact_matrix(
   polymod,
   countries = "United Kingdom",
   age.limits = age_limits,
   symmetric = TRUE
 )
 
-demography_vector = contact_data$demography$population
+demography_vector <- contact_data$demography$population
+
 # Define model
 model_function <- function(param){
   r0 <- param[1]
