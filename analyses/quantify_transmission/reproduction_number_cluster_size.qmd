@@ -98,7 +98,7 @@ ess_mcmcpack <- coda::effectiveSize(result_mcmcpack)
 # from data.frame of MCMC samples
 get_param <- function(x){
   apply(x,2,function(y){
-    val <- signif(quantile(y,c(0.5,0.025,0.0975)),3)
+    val <- signif(quantile(y,c(0.5,0.025,0.975)),3)
     val_text <- paste0(val[1], " (95%: CrI: ", val[2], "-", val[3], ")")})
 }
 
