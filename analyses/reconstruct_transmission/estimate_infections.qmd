@@ -52,8 +52,6 @@ withr::local_options(list(mc.cores = 4))
 
 # Extract data on UK COVID deaths and format for EpiNow2
 incidence_data <- incidence2::covidregionaldataUK %>% 
-  # convert to tibble format
-  dplyr::as_tibble() %>% # for simpler dataframe output
   # preprocess missing values
   tidyr::replace_na(list(deaths_new = 0)) %>%
   # compute the daily incidence
@@ -64,11 +62,11 @@ incidence_data <- incidence2::covidregionaldataUK %>%
     date_names_to = "date",
     complete_dates = TRUE
   ) %>%
-  dplyr::select(-count_variable)
-
-# Focus on early 2020 period and sort by ascending date
-incidence_data <- incidence_data %>% 
-  dplyr::filter(date<"2020-07-01" & date>="2020-03-01")
+  dplyr::select(-count_variable) %>% 
+  # Focus on early 2020 period and sort by ascending date
+  dplyr::filter(date<"2020-07-01" & date>="2020-03-01") %>% 
+  # convert to tibble format for simpler data frame output
+  dplyr::as_tibble()
 
 # Preview data
 incidence_data
