@@ -33,6 +33,11 @@ The Epiverse-TRACE **How-to guides** aim to collect recipe-like reproducible scr
 :::{#describe-cases}
 :::
 
+## Reconstruct transmission
+
+:::{#reconstruct-transmission}
+:::
+
 ## Quantify transmission
 
 :::{#quantify-transmission}
