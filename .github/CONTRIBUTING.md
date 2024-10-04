@@ -42,7 +42,7 @@ After following the steps above:
 
 #### 1. Find your folder
 
-Folder names corresponds to each box of the [pipeline roadmap](https://epiverse-trace.github.io/) within the `analyses/` folder:
+Folder names corresponds to each task (box) of the [pipeline roadmap](https://epiverse-trace.github.io/getting-started.html#roadmap) within the `analyses/` folder:
 
   - `read_cases/` → Read case data
   - `describe_cases/` → Describe case data
@@ -92,7 +92,7 @@ Use the [**Render** button](https://quarto.org/docs/get-started/hello/rstudio.ht
 
 To render the whole website, use the **Render Website** button within the [Build pane](https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html).
 
-If your entry is not listed in the `index.qmd` page, try adding a new entry to the `listing:` section in the YAML on top. In the template below, edit the `id:` and `contents:` with for the corresponding task.
+If the task (folder) of your entry is not listed in the `index.qmd` page, First, add a new task entry to the `listing:` section in the YAML on top. In the template below, edit the `id:` and `contents:` with for the corresponding task (folder name). For example, for the task `"Describe case data"` with used as ID `describe-cases` and detailed the folder path `analyses/describe_cases/*.qmd`:
 
 ```
 listing: 
@@ -100,6 +100,15 @@ listing:
     contents: "analyses/describe_cases/*.qmd"
     type: table
     fields: [title]
+```
+
+Second, to make the listing visible in the website, add a subtitle with the task name (`Describe case data`) and refer to the ID (`describe-cases`) in the following format:
+
+```
+## Describe case data
+
+:::{#describe-cases}
+:::
 ```
 
 #### 6. Add new packages to renv
