@@ -36,17 +36,14 @@ library(incidence2)
 library(tidyverse)
 
 # Read data
-dat <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+dat <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>% 
+  dplyr::as_tibble()
 
 # View raw data
 dat
 
 # 1 Clean and standardize raw data
 dat_clean <- dat %>% 
-  dplyr::as_tibble() %>% 
-  
-  # 1 Clean and standardise data
-  
   # Standardize column names and dates
   cleanepi::standardize_column_names() %>% 
   cleanepi::standardize_dates(
@@ -64,7 +61,7 @@ dat_clean <- dat %>%
     span_column_name = "age_in_years",
     span_remainder_unit = "months"
   ) %>% 
-  # Select to conveniently view timespan output
+  # Select key variables
   dplyr::select(
     study_id,
     sex,
