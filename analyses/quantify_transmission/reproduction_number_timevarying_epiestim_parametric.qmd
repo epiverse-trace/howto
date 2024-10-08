@@ -20,71 +20,120 @@ knitr::opts_chunk$set(
 
 ## Ingredients
 
-- Use the `linelist` object in the `ebola_sim_clean` list from the `{outbreaks}` R package. `linelist` is an outbreak data set. 
-- Use the `date_of _onset` column of `linelist` to calculate the case counts. 
-- Use the distribution estimated from the WHO Ebola Response Team in 2015.
-- Assume a known mean and standard deviation values of the serial interval distribution to quantify the time-varying effective reproduction number.
+- Simulated outbreak data of Ebola Virus Disease that matches some key properties of the West African Ebola outbreak of 2014-2015 from the package `{outbreaks}`.
+- The `{linelist}` package to keep tagged and validated columns in a line list data set.
+- The `{incidence2}` package to generate aggregated incidence data with the daily number of reported cases.
+- The `{epiparameter}` package to access to the serial interval estimated by the WHO Ebola Response Team in 2015.
+- Assume that the serial interval distribution approximates the generation time.
+- The `{EpiNow2}` package to estimate the time-varying reproduction number.
 
 ## Steps in code
 
 ```{r}
 #| warning: false
 
-# Quantify the time-varying reproduction number (Rt) of the outbreak
-
-# Load required packages
-library(outbreaks)
-library(incidence)
+library(cleanepi)
+library(linelist)
+library(incidence2) # needs 2.5.0 pak::pak("reconverse/incidence2")
 library(epiparameter)
-library(EpiEstim)
+library(EpiNow2)
 library(tidyverse)
 
-# Load the simulated Ebola outbreak data
-data(ebola_sim_clean)
+dat <- subset(outbreaks::ebola_sim_clean$linelist ,!is.na(hospital)) %>% 
+  dplyr::as_tibble()
 
-# Extract the first element of the list
-linelist <- ebola_sim_clean$linelist
+dat_linelist <- dat %>% 
+  
+  # keep tagged and validated variables
+  
+  linelist::make_linelist(
+    id = "case_id",
+    date_onset = "date_of_onset", 
+    gender = "gender",
+    location = "hospital"
+  ) %>% 
+  linelist::validate_linelist() %>% 
+  linelist::tags_df()
 
-# Convert the data to an incidence object
-incidence_data <- incidence::incidence(linelist$date_of_onset)
+# exploratory plot
+# dat_linelist %>% 
+#   # aggregate by groups and date type
+#   incidence2::incidence(
+#     date_index = "date_onset",
+#     groups = c("gender", "location"),
+#     interval = "week",
+#   ) %>% 
+#   incidence2:::plot.incidence2(
+#     fill = "gender"
+#   )
 
-# Extract parameter by disease, distribution, author
-epidist_ebola <- 
-  epiparameter::epidist_db(
-    disease = "Ebola",
-    epi_dist = "serial_interval",
-    single_epidist = TRUE
-    )
+# get incidence
+dat_incidence <- dat_linelist %>% 
+  # aggregate by date type
+  incidence2::incidence(
+    date_index = "date_onset",
+    interval = "day", # for interoperability with {epinow2}
+    # complete_dates = TRUE, # it does affect the downstream analysis
+    date_names_to = "date", # for interoperability with {epinow2}
+    count_values_to = "confirm", # for interoperability with {epinow2}
+  ) %>%
+  # reduce computation time (only for this demo code)
+  dplyr::filter(date>="2014-06-01" & date<"2014-10-01") %>%
+  # for interoperability with {epinow2}
+  dplyr::select(-count_variable) #%>%
+  # convert to tibble format for simpler data frame output
+  # dplyr::as_tibble()
 
-# Estimate the time-varying reproduction number
-epiestim_output <- estimate_R(
-  incid = incidence_data, 
-  method = "parametric_si",
-  config = make_config(
-    list(
-      mean_si = epidist_ebola$summary_stats$mean,
-      std_si = epidist_ebola$summary_stats$sd
-    )
+# get serial interval delay
+serial_interval <-
+  epiparameter::epiparameter_db(
+    disease = "ebola",
+    epi_dist = "serial interval",
+    single_epiparameter = TRUE
   )
+
+# get distribution parameters from delay 
+serial_interval_param <- epiparameter::get_parameters(serial_interval)
+
+# Adapt {epiparameter} to the {EpiNow2} distribution interface
+serial_interval_gamma <- EpiNow2::Gamma(
+  shape = serial_interval_param["shape"],
+  scale = serial_interval_param["scale"]
 )
 
-# Plot the time-varying reproduction number
-plot(epiestim_output)
+# Configure parallel computation
+withr::local_options(base::list(mc.cores = 4))
+
+# WAIT this takes around 5 minutes
+# tictoc::tic()
+# estimate transmissibility
+estimates <- EpiNow2::epinow(
+  # cases
+  data = dat_incidence,
+  # delays
+  generation_time = EpiNow2::generation_time_opts(serial_interval_gamma),
+  # reduce computation time (only for this demo code)
+  stan = EpiNow2::stan_opts(samples = 1000, chains = 2)
+)
+# tictoc::toc()
+
+plot(estimates)
 ```
 
 ## Steps in detail
 
-- The `outbreaks` package is loaded to access the simulated Ebola outbreak data.
-- The `epiparameter` package is loaded to access the library of epidemiological parameters.
+- pending
+<!-- - The `outbreaks` package is loaded to access the simulated Ebola outbreak data. -->
+<!-- - The `epiparameter` package is loaded to access the library of epidemiological parameters. -->
 
-- The `ebola_sim_clean` object from the package contains the simulated outbreak data.
-- The `linelist` object contains the first list element from `ebola_sim_clean`.
-- The `incidence()` function from the `incidence` package converts the vector `date_of_onset` from the `linelist` data frame to an `incidence` class object.
+<!-- - The `ebola_sim_clean` object from the package contains the simulated outbreak data. -->
+<!-- - The `linelist` object contains the first list element from `ebola_sim_clean`. -->
+<!-- - The `incidence()` function from the `incidence` package converts the vector `date_of_onset` from the `linelist` data frame to an `incidence` class object. -->
 
-- The `epidist_db()` function from the `epiparameter` package extract a parameter by specifying the disease name in the `disease` argument, epidemiological distribution in the `epi_dist` argument, and author name in the `author` argument.
+<!-- - The `epidist_db()` function from the `epiparameter` package extract a parameter by specifying the disease name in the `disease` argument, epidemiological distribution in the `epi_dist` argument, and author name in the `author` argument. -->
 
-- The `estimate_R()` function from the `EpiEstim` package estimates the time-varying reproduction number (Rt). We provide the `incidence_data`, specify the method as `"parametric_si"` (parametric with a known serial interval), and pass the serial interval distribution parameters using the `make_config` function.
-- The `plot` function creates three plots from the `estimate_R` class object. 
+<!-- - The `estimate_R()` function from the `EpiEstim` package estimates the time-varying reproduction number (Rt). We provide the `incidence_data`, specify the method as `"parametric_si"` (parametric with a known serial interval), and pass the serial interval distribution parameters using the `make_config` function. -->
+<!-- - The `plot` function creates three plots from the `estimate_R` class object.  -->
 
 Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
 
