@@ -77,7 +77,7 @@ incubation_period_in <-
   epiparameter::epidist_db(
     disease = "covid",
     epi_dist = "incubation",
-    single_epidist = T
+    single_epiparameter = TRUE
   )
 
 # Summarise distribution and type
@@ -100,7 +100,7 @@ onset_to_death_period_in <-
   epiparameter::epidist_db(
     disease = "covid",
     epi_dist = "onset to death",
-    single_epidist = T
+    single_epiparameter = TRUE
   )
 
 # Summarise distribution and type
@@ -129,7 +129,7 @@ serial_interval_in <-
   epiparameter::epidist_db(
     disease = "covid",
     epi_dist = "serial",
-    single_epidist = T
+    single_epiparameter = TRUE
   )
 
 # Summarise distribution and type
@@ -152,7 +152,7 @@ serial_interval_covid <- LogNormal(
 )
 # Run infection estimation model
 epinow_estimates <- epinow(
-  reported_cases = incidence_data, # time series data
+  data = incidence_data, # time series data
   # assume generation time = serial interval
   generation_time = generation_time_opts(serial_interval_covid),
   # delay from infection-to-death
@@ -223,14 +223,14 @@ incubation_period_ebola_in <-
   epiparameter::epidist_db(
     disease = "ebola",
     epi_dist = "incubation",
-    single_epidist = T
+    single_epiparameter = TRUE
   )
 
 # Summarise distribution and type
 print(incubation_period_ebola_in)
 
 # Get parameters and format for EpiNow2 using Gamma input
-incubation_ebola_params <- get_parameters(incubation_period_ebola_in)
+incubation_ebola_params <- epiparameter::get_parameters(incubation_period_ebola_in)
 
 # Find the upper 99.9% range by the interval
 incubation_ebola_max <- round(quantile(incubation_period_ebola_in,0.999))
@@ -250,7 +250,7 @@ serial_interval_ebola_in <-
   epiparameter::epidist_db(
     disease = "ebola",
     epi_dist = "serial",
-    single_epidist = T
+    single_epiparameter = TRUE
   )
 
 # Summarise distribution and type
@@ -270,9 +270,10 @@ serial_interval_ebola <- EpiNow2::Gamma(
   rate = 1/serial_ebola_params[["scale"]],
   max = serial_int_ebola_discrete_max
 )
+
 # Run infection estimation model
 epinow_estimates <- EpiNow2::epinow(
-  reported_cases = incidence_data_ebola, # time series data
+  data = incidence_data_ebola, # time series data
   # assume generation time = serial interval
   generation_time = generation_time_opts(serial_interval_ebola),
   # delay from infection-to-death
