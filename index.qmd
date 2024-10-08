@@ -6,16 +6,20 @@ listing:
     contents: "analyses/describe_cases/*.qmd"
     type: table
     fields: [title]
-  - id: reconstruct-transmission
-    contents: "analyses/reconstruct_transmission/*.qmd"
-    type: table
-    fields: [title]
   - id: quantify-transmission
     contents: "analyses/quantify_transmission/*.qmd"
     type: table
     fields: [title]
+  - id: reconstruct-transmission
+    contents: "analyses/reconstruct_transmission/*.qmd"
+    type: table
+    fields: [title]
   - id: forecast-cases
     contents: "analyses/forecast_cases/*.qmd"
+    type: table
+    fields: [title]
+  - id: estimate-severity
+    contents: "analyses/estimate_severity/*.qmd"
     type: table
     fields: [title]
   - id: simulate-transmission
@@ -33,19 +37,24 @@ The Epiverse-TRACE **How-to guides** aim to collect recipe-like reproducible scr
 :::{#describe-cases}
 :::
 
-## Reconstruct transmission
-
-:::{#reconstruct-transmission}
-:::
-
 ## Quantify transmission
 
 :::{#quantify-transmission}
 :::
 
+## Reconstruct transmission
+
+:::{#reconstruct-transmission}
+:::
+
 ## Create short-term forecast
 
 :::{#forecast-cases}
+:::
+
+## Estimate severity
+
+:::{#estimate-severity}
 :::
 
 ## Simulate transmission scenarios
