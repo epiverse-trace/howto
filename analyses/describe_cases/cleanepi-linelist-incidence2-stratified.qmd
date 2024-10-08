@@ -1,0 +1,152 @@
+---
+title: "How to plot age-stratified incidence data by month from date of birth?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Ingredients
+
+- The `{cleanepi}` package to calculate age in years from date of birth. 
+- The `{linelist}` package to keep tagged and validated columns in a line list data set.
+- The `{incidence2}` package to generate aggregated incidence data by months.
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load packages
+library(cleanepi)
+library(linelist)
+library(incidence2)
+library(tidyverse)
+
+# Read data
+dat <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+
+# 1 Clean and standardize raw data
+dat_clean <- dat %>% 
+  dplyr::as_tibble() %>% 
+  
+  # 1 Clean and standardise data
+  
+  # Standardize column names and dates
+  cleanepi::standardize_column_names() %>% 
+  cleanepi::standardize_dates(
+    target_columns = c("date_of_birth","date_first_pcr_positive_test")
+  ) %>% 
+  # Replace from strings to a valid missing entry
+  cleanepi::replace_missing_values(
+    target_columns = "sex",
+    na_strings = "-99") %>% 
+  # Calculate the age in 'years' and return the remainder in 'months'
+  cleanepi::timespan(
+    target_column = "date_of_birth",
+    end_date = Sys.Date(),
+    span_unit = "years",
+    span_column_name = "age_in_years",
+    span_remainder_unit = "months"
+  ) %>% 
+  # Select to conveniently view timespan output
+  dplyr::select(
+    study_id,
+    sex,
+    date_first_pcr_positive_test, 
+    date_of_birth,
+    age_in_years
+  ) %>% 
+  # Categorize the age numerical variable
+  dplyr::mutate(
+    age_category = base::cut(
+      x = age_in_years,
+      breaks = c(0,20,35,60,100), # replace with max value if known
+      include.lowest = TRUE,
+      right = FALSE
+    )
+  ) %>% 
+  dplyr::mutate(
+    sex = as.factor(sex)
+  )
+
+# View cleaned data
+dat_clean
+
+# 2 Tag and validate linelist
+dat_linelist <- dat_clean %>% 
+  # Tag variables
+  linelist::make_linelist(
+    id = "study_id",
+    date_reporting = "date_first_pcr_positive_test",
+    gender = "sex",
+    age = "age_in_years",
+    age_group = "age_category", allow_extra = TRUE
+  ) %>% 
+  # Validate linelist
+  linelist::validate_linelist(
+    allow_extra = TRUE,
+    ref_types = linelist::tags_types(
+      age_group = c("factor"),
+      allow_extra = TRUE
+    )
+  ) %>% 
+  # Get tag and validated columns
+  linelist::tags_df()
+
+# View tagged data (column names change)
+dat_linelist
+
+# 3 Aggregate linelist to incidence
+dat_incidence <- dat_linelist %>%  
+  # Transform from individual-level to time-aggregate
+  incidence2::incidence(
+    date_index = "date_reporting", #"date_first_pcr_positive_test",
+    groups = "age_group", #"age_category", # change to sex, ...
+    interval = "month", # change to days, weeks, ...
+    # complete_dates = TRUE # relevant to downstream analysis [time-series data]
+  )
+
+# View incidence data
+dat_incidence
+
+# Plot incidence data
+dat_incidence %>% 
+  plot(
+    fill = "age_group", # "age_category",
+    show_cases = TRUE, angle = 45, n_breaks = 5 # alternative options (vignette)
+  )
+```
+
+## Steps in detail
+
+<!-- OPTIONAL -->
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- pending
+- An alternative to `base::cut()` can also be `Hmisc::cut2(x = age_in_years,cuts = c(20,35,60))`.
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on topic](link)
