@@ -1,0 +1,145 @@
+---
+title: "How to estimate a delay-adjusted age-stratified case fatality risk?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Ingredients
+
+- Simulated outbreak data of Ebola Virus Disease that matches some key properties of the West African Ebola outbreak of 2014-2015 from the package `{outbreaks}`
+- The `{linelist}` package to keep tagged and validated columns in a line list data set.
+- The `{incidence2}` package to generate aggregated incidence data with the daily number of reported cases and deaths.
+- The functions `tidyr::nest()` and `purrr::map()` to stratify estimates.
+- The `{cfr}` package to estimate delay-adjusted case fatality risk.
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load packages
+library(linelist)
+library(incidence2)
+library(cfr)
+library(tidyverse)
+
+# Read data
+dat <- subset(outbreaks::ebola_sim_clean$linelist ,!is.na(hospital)) %>% 
+  dplyr::as_tibble()
+
+set.seed(33)
+
+# Create incidence2 object
+dat_incidence <- dat %>% 
+  # add age as a normal-distributed variable
+  dplyr::mutate(age = charlatan::ch_norm(n = n(), mean = 55, sd = 10)) %>% 
+  # categorize age
+  mutate(age_category = base::cut(
+    x = age,
+    breaks = c(0,30,50,70,100),
+    include.lowest = TRUE,
+    right = FALSE
+  )
+  ) %>% 
+  # create date of death variable
+  dplyr::mutate(date_of_death = dplyr::case_when(
+    outcome == "Death" ~ date_of_outcome,
+    TRUE ~ NA_Date_
+  )) %>% 
+  
+  # tag and validate key variables
+  linelist::make_linelist(
+    id = "case_id",
+    date_onset = "date_of_onset",
+    date_death = "date_of_death",
+    age_group = "age_category", allow_extra = TRUE
+  ) %>% 
+  linelist::validate_linelist(
+    allow_extra = TRUE,
+    ref_types = linelist::tags_types(
+      age_group = c("factor"),
+      allow_extra = TRUE
+    )
+  ) %>% 
+  linelist::tags_df() %>% 
+  
+  # aggregate by groups and date type
+  incidence2::incidence(
+    date_index = c("date_onset", "date_death"),
+    groups = "age_group", # change: "age_group" or "age_category",
+    interval = "day", # change between: "day"  or "week"
+    # complete_dates = TRUE, # change: does it affect the downstream analysis? [no]
+  )
+
+# # exploratory plot
+# dat_incidence %>% 
+#   incidence2:::plot.incidence2(
+#     fill = "age_group" # change: "age_group" or "age_category",
+#   )
+
+# Access to onset to death delay
+delay_onset_death <-
+  epiparameter::epiparameter_db(
+    disease = "ebola",
+    epi_dist = "onset to death",
+    single_epiparameter = TRUE
+  )
+
+# Estimate age-stratified CFR
+dat_incidence %>% 
+  # Adapt <incidence2> class output to {cfr} input
+  cfr::prepare_data(
+    cases_variable = "date_onset",
+    deaths_variable = "date_death"
+  ) %>% 
+  as_tibble() %>%
+  # Stratify {cfr} estimation
+  group_by(age_group) %>%
+  tidyr::nest() %>%
+  mutate(
+    temp =
+      purrr::map(
+        .x = data,
+        .f = cfr::cfr_static,
+        delay_density = function(x) density(delay_onset_death, x)
+      )
+  ) %>%
+  tidyr::unnest(cols = temp) %>% 
+  identity()
+```
+
+## Steps in detail
+
+- pending
+
+<!-- OPTIONAL -->
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+<!-- - `tidyverse` package is loaded to manage data frame objects. -->
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on topic](link)
