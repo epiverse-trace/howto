@@ -82,7 +82,7 @@ epidist_ebola_si <-
   epiparameter::epidist_db(
     disease = "Ebola",
     epi_dist = "serial_interval",
-    single_epidist = TRUE
+    single_epiparameter = TRUE
     )
 
 # Read epidist class object
