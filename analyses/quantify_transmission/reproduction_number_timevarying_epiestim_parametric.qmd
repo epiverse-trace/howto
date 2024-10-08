@@ -32,42 +32,36 @@ knitr::opts_chunk$set(
 ```{r}
 #| warning: false
 
+# Load packages
 library(cleanepi)
 library(linelist)
-library(incidence2) # needs 2.5.0 pak::pak("reconverse/incidence2")
+library(incidence2)
 library(epiparameter)
 library(EpiNow2)
 library(tidyverse)
 
+# Read data
 dat <- subset(outbreaks::ebola_sim_clean$linelist ,!is.na(hospital)) %>% 
   dplyr::as_tibble()
 
+# View data
+dat
+
+# Get a linelist object
 dat_linelist <- dat %>% 
-  
-  # keep tagged and validated variables
-  
+  # create a linelist class object
   linelist::make_linelist(
     id = "case_id",
     date_onset = "date_of_onset", 
     gender = "gender",
     location = "hospital"
   ) %>% 
+  # validate tagged variables
   linelist::validate_linelist() %>% 
+  # keep tagged and validated variables
   linelist::tags_df()
 
-# exploratory plot
-# dat_linelist %>% 
-#   # aggregate by groups and date type
-#   incidence2::incidence(
-#     date_index = "date_onset",
-#     groups = c("gender", "location"),
-#     interval = "week",
-#   ) %>% 
-#   incidence2:::plot.incidence2(
-#     fill = "gender"
-#   )
-
-# get incidence
+# Get incidence object
 dat_incidence <- dat_linelist %>% 
   # aggregate by date type
   incidence2::incidence(
@@ -84,7 +78,10 @@ dat_incidence <- dat_linelist %>%
   # convert to tibble format for simpler data frame output
   # dplyr::as_tibble()
 
-# get serial interval delay
+# View incidence data
+dat_incidence
+
+# Get serial interval delay
 serial_interval <-
   epiparameter::epiparameter_db(
     disease = "ebola",
@@ -92,7 +89,10 @@ serial_interval <-
     single_epiparameter = TRUE
   )
 
-# get distribution parameters from delay 
+# Print serial interval information
+serial_interval
+
+# Get distribution parameters from delay 
 serial_interval_param <- epiparameter::get_parameters(serial_interval)
 
 # Adapt {epiparameter} to the {EpiNow2} distribution interface
@@ -101,12 +101,15 @@ serial_interval_gamma <- EpiNow2::Gamma(
   scale = serial_interval_param["scale"]
 )
 
+# Print EpiNow2 interface
+serial_interval_gamma
+
 # Configure parallel computation
 withr::local_options(base::list(mc.cores = 4))
 
+# Estimate transmissibility
 # WAIT this takes around 5 minutes
 # tictoc::tic()
-# estimate transmissibility
 estimates <- EpiNow2::epinow(
   # cases
   data = dat_incidence,
@@ -117,6 +120,7 @@ estimates <- EpiNow2::epinow(
 )
 # tictoc::toc()
 
+# Plot estimates
 plot(estimates)
 ```
 

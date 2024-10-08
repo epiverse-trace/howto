@@ -38,6 +38,9 @@ library(tidyverse)
 # Read data
 dat <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 
+# View raw data
+dat
+
 # 1 Clean and standardize raw data
 dat_clean <- dat %>% 
   dplyr::as_tibble() %>% 
