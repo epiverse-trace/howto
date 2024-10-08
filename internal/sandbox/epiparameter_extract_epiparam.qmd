@@ -38,7 +38,7 @@ library(tidyverse)
 epidist_ebola <- epiparameter::epidist_db(
     disease = "Ebola",
     epi_dist = "serial_interval",
-    single_epidist = TRUE
+    single_epiparameter = TRUE
     )
 
 epidist_ebola
