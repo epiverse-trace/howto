@@ -41,10 +41,14 @@ library(tidyverse)
 dat <- subset(outbreaks::ebola_sim_clean$linelist ,!is.na(hospital)) %>% 
   dplyr::as_tibble()
 
+# View data
+dat
+
+# Specify seed to create age column
 set.seed(33)
 
-# Create incidence2 object
-dat_incidence <- dat %>% 
+# Create linelist object
+dat_linelist <- dat %>% 
   # add age as a normal-distributed variable
   dplyr::mutate(age = charlatan::ch_norm(n = n(), mean = 55, sd = 10)) %>% 
   # categorize age
@@ -75,8 +79,13 @@ dat_incidence <- dat %>%
       allow_extra = TRUE
     )
   ) %>% 
-  linelist::tags_df() %>% 
-  
+  linelist::tags_df()
+
+# View linelist object
+dat_linelist
+
+# Create incidence2 object
+dat_incidence <- dat_linelist %>% 
   # aggregate by groups and date type
   incidence2::incidence(
     date_index = c("date_onset", "date_death"),
@@ -84,6 +93,9 @@ dat_incidence <- dat %>%
     interval = "day", # change between: "day"  or "week"
     # complete_dates = TRUE, # change: does it affect the downstream analysis? [no]
   )
+
+# View incidence object
+dat_incidence
 
 # # exploratory plot
 # dat_incidence %>% 
@@ -98,6 +110,9 @@ delay_onset_death <-
     epi_dist = "onset to death",
     single_epiparameter = TRUE
   )
+
+# View delay
+delay_onset_death
 
 # Estimate age-stratified CFR
 dat_incidence %>% 
