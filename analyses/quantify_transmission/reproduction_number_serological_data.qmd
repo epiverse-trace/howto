@@ -42,7 +42,7 @@ library(dplyr)
 library(ggplot2)
 
 # Load serological data
-hk_serology <- readr::read_csv("https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4100506/bin/rspb20140709supp2.csv")
+hk_serology <- readr::read_csv("https://pmc.ncbi.nlm.nih.gov/articles/instance/4100506/bin/rspb20140709supp2.csv")
 
 # Allocate ages to bands
 age_limits <- c(3,18,25,40,65)
