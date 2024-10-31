@@ -50,7 +50,7 @@
     },
     "EpiNow2": {
       "Package": "EpiNow2",
-      "Version": "1.6.0",
+      "Version": "1.6.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -81,7 +81,7 @@
         "truncnorm",
         "utils"
       ],
-      "Hash": "fbfc77cf8a7e8339f6fd3be28c4436ce"
+      "Hash": "5190287f021e8bada8421e3c9d6ff28a"
     },
     "MASS": {
       "Package": "MASS",
@@ -859,20 +859,16 @@
     },
     "epichains": {
       "Package": "epichains",
-      "Version": "0.1.1.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteUsername": "epiverse-trace",
-      "RemoteRepo": "epichains",
-      "RemoteSha": "2407956642d5703b313ca3986cce4ff0eade1c5f",
-      "RemoteHost": "api.github.com",
+      "Version": "0.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "checkmate",
         "stats",
         "utils"
       ],
-      "Hash": "fcaf7dc3e9f84a8db442b655aca80c59"
+      "Hash": "d58c191722672be8ffff40598b660cb6"
     },
     "epidemics": {
       "Package": "epidemics",
