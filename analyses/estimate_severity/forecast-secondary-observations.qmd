@@ -1,0 +1,108 @@
+---
+title: "How to (active verb) ... ?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Ingredients
+
+- Nouns
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load packages
+library(incidence2)
+library(epiparameter)
+library(EpiNow2)
+library(tidyverse)
+
+reported_cases_deaths <- incidence2::covidregionaldataUK %>%
+  # use {tidyr} to preprocess missing values
+  tidyr::replace_na(base::list(cases_new = 0, deaths_new = 0)) %>%
+  # use {incidence2} to compute the daily incidence
+  incidence2::incidence(
+    date_index = "date",
+    counts = c(primary = "cases_new", secondary = "deaths_new"),
+    date_names_to = "date",
+    complete_dates = TRUE
+  ) %>%
+  # rearrange to wide format for {EpiNow2}
+  pivot_wider(names_from = count_variable, values_from = count)
+
+reported_cases_deaths
+
+# Estimate from day 31 to day 60 of this data
+cases_to_estimate <- reported_cases_deaths %>%
+  slice(31:60)
+
+# Delay distribution between case report and deaths
+delay_report_to_death <- EpiNow2::Gamma(
+  mean = EpiNow2::Normal(mean = 14, sd = 0.5),
+  sd = EpiNow2::Normal(mean = 5, sd = 0.5),
+  max = 30
+)
+
+# Estimate secondary cases
+estimate_cases_to_deaths <- EpiNow2::estimate_secondary(
+  data = cases_to_estimate,
+  secondary = EpiNow2::secondary_opts(type = "incidence"),
+  delays = EpiNow2::delay_opts(delay_report_to_death)
+)
+
+# Plot the estimate of secondary observations
+# plot(estimate_cases_to_deaths, primary = TRUE)
+
+# Forecast secondary observations (deaths) from day 61 to day 90
+cases_to_forecast <- reported_cases_deaths %>%
+  dplyr::slice(61:90) %>%
+  dplyr::mutate(value = primary)
+
+cases_to_forecast
+
+# Forecast secondary observations
+deaths_forecast <- EpiNow2::forecast_secondary(
+  estimate = estimate_cases_to_deaths,
+  primary = cases_to_forecast
+)
+
+plot(deaths_forecast)
+```
+
+
+
+## Steps in detail
+
+<!-- OPTIONAL -->
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- `tidyverse` package is loaded to manage data frame objects.
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on topic](link)
