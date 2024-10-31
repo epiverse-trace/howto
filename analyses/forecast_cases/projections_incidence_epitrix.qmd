@@ -81,7 +81,7 @@ incidence2_fit <-
 epidist_ebola_si <- 
   epiparameter::epidist_db(
     disease = "Ebola",
-    epi_dist = "serial_interval",
+    epi_name = "serial_interval",
     single_epiparameter = TRUE
     )
 

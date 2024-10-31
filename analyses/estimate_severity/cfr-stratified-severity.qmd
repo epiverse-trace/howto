@@ -107,7 +107,7 @@ dat_incidence
 delay_onset_death <-
   epiparameter::epiparameter_db(
     disease = "ebola",
-    epi_dist = "onset to death",
+    epi_name = "onset to death",
     single_epiparameter = TRUE
   )
 
