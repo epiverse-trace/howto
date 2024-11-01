@@ -44,7 +44,7 @@ library(tidyverse)
 dat <- subset(outbreaks::ebola_sim_clean$linelist ,!is.na(hospital)) %>% 
   dplyr::as_tibble()
 
-# View data
+# Print data
 dat
 
 # Get a linelist object
@@ -61,25 +61,28 @@ dat_linelist <- dat %>%
   # keep tagged and validated variables
   linelist::tags_df()
 
+# Print validated linelist
+dat_linelist
+
 # Get incidence object
 dat_incidence <- dat_linelist %>% 
-  # aggregate by date type
+  # aggregate cases by date of onset by days
   incidence2::incidence(
     date_index = "date_onset",
-    interval = "day", # for interoperability with {epinow2}
-    # complete_dates = TRUE, # it does affect the downstream analysis
-    date_names_to = "date", # for interoperability with {epinow2}
-    count_values_to = "confirm", # for interoperability with {epinow2}
+    interval = "day", 
+    # rename column outputs for interoperability with {epinow2}
+    date_names_to = "date",
+    count_values_to = "confirm",
   ) %>%
-  # reduce computation time (only for this demo code)
+  # keep date range between June and November 2014
   dplyr::filter(date>="2014-06-01" & date<"2014-10-01") %>%
-  # for interoperability with {epinow2}
-  dplyr::select(-count_variable) #%>%
-  # convert to tibble format for simpler data frame output
-  # dplyr::as_tibble()
+  # drop column for interoperability with {epinow2}
+  dplyr::select(-count_variable)
 
-# View incidence data
+# Print incidence data
 dat_incidence
+
+# Generation time ---------------------------------------------------------
 
 # Get serial interval delay
 serial_interval <-
@@ -89,7 +92,7 @@ serial_interval <-
     single_epiparameter = TRUE
   )
 
-# Print serial interval information
+# Print serial interval metadata
 serial_interval
 
 # Get distribution parameters from delay 
@@ -101,22 +104,44 @@ serial_interval_gamma <- EpiNow2::Gamma(
   scale = serial_interval_param["scale"]
 )
 
-# Print EpiNow2 interface
+# Print EpiNow2 output interface
 serial_interval_gamma
+
+# Delays from infection to observed data ----------------------------------
+
+# Get fixed delay from infection to symptom onset
+incubation_period <- epiparameter::epiparameter_db(
+  disease = "ebola",
+  epi_name = "incubation",
+  single_epiparameter = TRUE
+)
+
+# Print incubation period metadata
+incubation_period
+
+# Get distribution parameters from delay 
+incubation_period_param <- epiparameter::get_parameters(incubation_period)
+
+# Adapt {epiparameter} to the {EpiNow2} distribution interface
+incubation_period_gamma <- EpiNow2::Gamma(
+  shape = incubation_period_param["shape"],
+  scale = incubation_period_param["scale"]
+)
+
+# Print EpiNow2 output interface
+incubation_period_gamma
+
+# Estimate transmissibility -----------------------------------------------
 
 # Configure parallel computation
 withr::local_options(base::list(mc.cores = 4))
 
-# Estimate transmissibility
 # WAIT this takes around 5 minutes
 # tictoc::tic()
 estimates <- EpiNow2::epinow(
-  # cases
   data = dat_incidence,
-  # delays
   generation_time = EpiNow2::generation_time_opts(serial_interval_gamma),
-  # reduce computation time (only for this demo code)
-  stan = EpiNow2::stan_opts(samples = 1000, chains = 2)
+  delays = EpiNow2::delay_opts(incubation_period_gamma)
 )
 # tictoc::toc()
 
@@ -145,4 +170,4 @@ Additionally, make sure to adjust the serial interval distribution parameters ac
 
 ## Related
 
-- [Explanation on the time-varying effective reproductive number](https://mrc-ide.github.io/EpiEstim/articles/full_EpiEstim_vignette.html)
+- [Explanation on the Infection model, delays and scaling, and Observation model](https://epiforecasts.io/EpiNow2/articles/estimate_infections.html)
