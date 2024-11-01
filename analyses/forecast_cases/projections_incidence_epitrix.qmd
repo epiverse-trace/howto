@@ -79,9 +79,9 @@ incidence2_fit <-
 
 # Extract parameter by disease, distribution, author
 epidist_ebola_si <- 
-  epiparameter::epidist_db(
+  epiparameter::epiparameter_db(
     disease = "Ebola",
-    epi_dist = "serial_interval",
+    epi_name = "serial_interval",
     single_epiparameter = TRUE
     )
 
