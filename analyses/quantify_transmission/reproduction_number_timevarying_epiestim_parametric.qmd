@@ -85,7 +85,7 @@ dat_incidence
 serial_interval <-
   epiparameter::epiparameter_db(
     disease = "ebola",
-    epi_dist = "serial interval",
+    epi_name = "serial interval",
     single_epiparameter = TRUE
   )
 
@@ -134,7 +134,7 @@ plot(estimates)
 <!-- - The `linelist` object contains the first list element from `ebola_sim_clean`. -->
 <!-- - The `incidence()` function from the `incidence` package converts the vector `date_of_onset` from the `linelist` data frame to an `incidence` class object. -->
 
-<!-- - The `epidist_db()` function from the `epiparameter` package extract a parameter by specifying the disease name in the `disease` argument, epidemiological distribution in the `epi_dist` argument, and author name in the `author` argument. -->
+<!-- - The `epidist_db()` function from the `epiparameter` package extract a parameter by specifying the disease name in the `disease` argument, epidemiological distribution in the `epi_name` argument, and author name in the `author` argument. -->
 
 <!-- - The `estimate_R()` function from the `EpiEstim` package estimates the time-varying reproduction number (Rt). We provide the `incidence_data`, specify the method as `"parametric_si"` (parametric with a known serial interval), and pass the serial interval distribution parameters using the `make_config` function. -->
 <!-- - The `plot` function creates three plots from the `estimate_R` class object.  -->
