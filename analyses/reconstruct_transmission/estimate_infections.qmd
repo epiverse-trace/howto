@@ -74,9 +74,9 @@ incidence_data
 # Define parameters
 # Extract infection-to-death distribution (from Aloon et al)
 incubation_period_in <-
-  epiparameter::epidist_db(
+  epiparameter::epiparameter_db(
     disease = "covid",
-    epi_dist = "incubation",
+    epi_name = "incubation",
     single_epiparameter = TRUE
   )
 
@@ -97,9 +97,9 @@ incubation_period <- EpiNow2::LogNormal(
 
 ## Set onset to death period (from Linton et al)
 onset_to_death_period_in <-
-  epiparameter::epidist_db(
+  epiparameter::epiparameter_db(
     disease = "covid",
-    epi_dist = "onset to death",
+    epi_name = "onset to death",
     single_epiparameter = TRUE
   )
 
@@ -126,9 +126,9 @@ infection_to_death <- incubation_period + onset_to_death_period
 
 # Extract serial interval distribution distribution (from Yang et al)
 serial_interval_in <-
-  epiparameter::epidist_db(
+  epiparameter::epiparameter_db(
     disease = "covid",
-    epi_dist = "serial",
+    epi_name = "serial",
     single_epiparameter = TRUE
   )
 
@@ -220,9 +220,9 @@ incidence_data_ebola
 
 # Extract infection-to-death distribution (from WHO Ebola Response Team)
 incubation_period_ebola_in <-
-  epiparameter::epidist_db(
+  epiparameter::epiparameter_db(
     disease = "ebola",
-    epi_dist = "incubation",
+    epi_name = "incubation",
     single_epiparameter = TRUE
   )
 
@@ -247,9 +247,9 @@ incubation_period_ebola <- EpiNow2::Gamma(
 # Extract serial interval distribution distribution
 # (from WHO Ebola Response Team)
 serial_interval_ebola_in <-
-  epiparameter::epidist_db(
+  epiparameter::epiparameter_db(
     disease = "ebola",
-    epi_dist = "serial",
+    epi_name = "serial",
     single_epiparameter = TRUE
   )
 
