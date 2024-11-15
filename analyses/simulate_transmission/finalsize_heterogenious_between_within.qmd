@@ -95,7 +95,7 @@ p_susceptibility <- tibble(
 p_susceptibility
 
 # R0 of the disease
-r0 <- 1.5 # assumed for pandemic influenza
+r0 <- 2 # assumed for pandemic influenza
 
 # Calculate the proportion of individuals infected in each age group
 final_size(
