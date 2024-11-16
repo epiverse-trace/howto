@@ -67,7 +67,7 @@ lik_function <- function(param) {
   )
   
   # Assume non-informative priors for R and k
-  log_prior <- h5_prior_r(r_val)
+  log_prior <- h5_prior_r(r_val) # DEBUG: Make log prior?
 
   # Return log-posterior (log-likelihood + log-prior)
   return(log_likelihood + log_prior)
