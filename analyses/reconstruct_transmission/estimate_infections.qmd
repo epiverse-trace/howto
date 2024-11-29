@@ -189,7 +189,7 @@ epinow_estimates$plots$infections +
 
 ### Example 2
 
-Reconstruct Ebola infection dynamics in the UK from data on deaths, 1976
+Reconstruct Ebola infection dynamics in Zaire from data on cases, 1976
 
 ```{r}
 #| warning: false
