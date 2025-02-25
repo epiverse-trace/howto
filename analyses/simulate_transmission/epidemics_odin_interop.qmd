@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+options(odin.verbose = FALSE)
 ```
 
 ## Ingredients
