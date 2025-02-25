@@ -73,6 +73,7 @@ dat_incidence <- dat_linelist %>%
     # rename column outputs for interoperability with {epinow2}
     date_names_to = "date",
     count_values_to = "confirm",
+    complete_dates = TRUE 
   ) %>%
   # keep date range between June and November 2014
   dplyr::filter(date>="2014-06-01" & date<"2014-10-01") %>%
