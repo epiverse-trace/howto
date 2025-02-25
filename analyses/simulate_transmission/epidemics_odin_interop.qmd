@@ -1,5 +1,5 @@
 ---
-title: "How to use _epidemics_ classes with _odin_-generated models"
+title: "How to use _epidemics_ classes with _odin_-generated models?"
 format: 
   html:
     code-link: true
