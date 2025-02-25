@@ -158,7 +158,9 @@ epinow_estimates <- epinow(
   # delay from infection-to-death
   delays = delay_opts(infection_to_death),
   # no Rt estimation
-  rt = NULL
+  rt = NULL,
+  # change default Gaussian Process priors
+  gp = gp_opts(alpha = Normal(0, 0.05))
 )
 
 # Extract infection estimates from the model output
@@ -313,6 +315,7 @@ epinow_estimates$plots$infections +
 - Next, we import an estimate of the COVID incubation period (i.e. delay from infection to symptom onset) and onset-to-death distributions from `epiparameter`, then combine these two distributions to specify the infection-to-death distribution and plot the result.
 - For EpiNow2, we also need to define the timescale of the epidemic, i.e. the delay from one infection to the next. We can use serial interval (delay from onset of infector to onset of infectee) as a proxy for this if we assume that the variance of the incubation period of the infector is independent of the variance of the time from onset of symptoms in the infector to infection of the infectee ([Lehtinen et al, JR Soc Interface, 2021](https://royalsocietypublishing.org/doi/10.1098/rsif.2020.0756)).
 - To reconstruct infection dynamics from deaths, we use a non-mechanistic infection model (see the ["estimate_infections()"](https://epiforecasts.io/EpiNow2/articles/estimate_infections.html) vignette for more details of this model, which uses a [Gaussian Process implementation](https://epiforecasts.io/EpiNow2/articles/gaussian_process_implementation_details.html)). Because this model does not calculate the time varying reproduction number $R_t$, it can be run by setting `rt=NULL` in the main `epinow()` function (which calls `estimate_infections()` in the background).
+- The default Gaussian Process (GP) prior, used by `estimate_infections()`, is more appropriate for the renewal model (where the GP acts as a prior of log Rt) than for the non-mechanistic model (where the GP acts as a prior of log infections). We set `gp = gp_opts(alpha = Normal(0, 0.05))` to change the expected standard deviation of the Gaussian process and get more appropriate estimates of infection.
 
 ### Example 2
 
