@@ -281,6 +281,8 @@ epinow_estimates <- EpiNow2::epinow(
   # delay from infection-to-death
   delays = delay_opts(incubation_period_ebola),
   rt = NULL,
+  # change default Gaussian Process priors
+  gp = gp_opts(alpha = Normal(0, 0.05)),
   # use zero-centered prior
   # instead of one centered around shifted reported cases
   backcalc = backcalc_opts(prior = "none")
