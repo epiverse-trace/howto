@@ -24,19 +24,21 @@ This guide shows how to use some of the convenient features of _epidemics_, espe
 
 This guide shows this interoperability by implementing the default model from _epidemics_ in _odin_.
 
+## Steps in code
+
 ```{r}
+#| warning: false
+#| message: false
+
+# Load packages
 library(epidemics)
 library(socialmixr)
 library(odin)
 library(data.table)
 library(ggplot2)
-```
 
-## Steps in code
+# Prepare population initial conditions
 
-### Prepare population initial conditions
-
-```{r}
 # get social contacts data
 polymod <- socialmixr::polymod
 contact_data <- socialmixr::contact_matrix(
@@ -82,14 +84,8 @@ close_schools <- intervention(
 
 # view the intervention
 close_schools
-```
 
-### Define an epidemic model in _odin_
-
-This is an SIR model that omits the 'exposed' compartment for this demonstration.
-
-```{r}
-# define SIR model
+# Define an epidemic SEIR model in {odin}
 sir <- odin::odin({
   # NOTE: crude time-dependence of transmission rate
   # similar to a `<rate_intervention>`
@@ -145,10 +141,8 @@ sir <- odin::odin({
   dim(C) <- c(n, n)
   dim(intervention_interval) <- 2
 })
-```
 
-```{r}
-# initialise model and run over time 0 - 600
+# Initialise model and run over time 0 - 600
 mod <- sir$new(
   beta = 1.5 / 7,
   reduction = close_schools$reduction[,],
