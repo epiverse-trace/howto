@@ -95,7 +95,7 @@ close_schools <- epidemics::intervention(
 close_schools
 
 # Define an epidemic SEIR model in {odin}
-sir <- odin::odin({
+seir <- odin::odin({
   # NOTE: crude time-dependence of transmission rate
   # similar to a `<rate_intervention>`
   beta_reduce[] <- if (t > intervention_interval[1] && t < intervention_interval[2]) (1.0 - reduction[i]) else 1
@@ -152,7 +152,7 @@ sir <- odin::odin({
 })
 
 # Initialise model and run over time 0 - 600
-mod <- sir$new(
+mod <- seir$new(
   beta = 1.5 / 7,
   reduction = close_schools$reduction[,],
   intervention_interval = c(close_schools$time_begin, close_schools$time_end),
