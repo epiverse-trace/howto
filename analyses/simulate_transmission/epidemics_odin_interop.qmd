@@ -23,6 +23,8 @@ knitr::opts_chunk$set(
 )
 
 options(odin.verbose = FALSE)
+
+library(pkgload)
 ```
 
 ## Ingredients
