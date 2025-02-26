@@ -1800,6 +1800,11 @@
       ],
       "Hash": "01f28d4278f15c76cddbea05899c5d6f"
     },
+    "pkgload": {
+      "Package": "pkgload",
+      "Version": "1.4.0",
+      "Source": "Repository"
+    },
     "plyr": {
       "Package": "plyr",
       "Version": "1.8.9",
