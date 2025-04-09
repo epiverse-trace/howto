@@ -1,5 +1,5 @@
 ---
-title: "How to estiamte the number of generations to achieve a desired outbreak size"
+title: "How to estimate the number of generations to achieve a desired outbreak size"
 author:
   - name: "James M. Azam"
     orcid: "0000-0001-5782-7330"
