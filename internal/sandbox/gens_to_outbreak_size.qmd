@@ -1,0 +1,57 @@
+---
+title: "How to estiamte the number of generations to achieve a desired outbreak size"
+author:
+  - name: "James M. Azam"
+    orcid: "0000-0001-5782-7330"
+format:
+  html:
+    code-link: true
+editor: source
+editor_options:
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Ingredients
+
+
+## Steps in code
+
+```{r packages}
+#| warning: false
+library(epichains)
+
+# Outline
+
+# Question: At what generation does an outbreak reach a size of 100, given that
+#   it was started by a single individual with R0 = 1.5, and individual
+#   transmission, $k$, at levels of 0.01, 0.1, 0.5, 1, 4, and Infinity?
+# Method: 
+# We use a negative binomial model with $mu = 1.5$ and
+#   size = c(0.01, 0.1, 0.5, 1, 4, Inf)$.
+#   - We run 10, 000 simulations per each combination of $mu$ and $size$
+#   - We aggregate chain sizes by generation and extract the generation
+#     where cumulative chain size = 100.
+#   - We find the percentage of simulations that reached the 100 case size
+#     threshold.
+# Outcome: The distribution (boxplot) of the realized generations per value of
+#   $k$. This reproduces Fig 2c of @lloyd-smith2005.
+```
+
+## Steps in detail
+
+<!-- OPTIONAL -->
+
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
