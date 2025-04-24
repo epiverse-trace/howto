@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 ## Ingredients
 
-- Use Bayesian estimation methods to estimate the reproduction number ($R$) and extent of superspreading, represented by the dispersion of a negative binomial distribution for individual-level seconday cases ($k$), from data on MERS-CoV- outbreak clusters.
+- Use Bayesian estimation methods to estimate the reproduction number ($R$) and extent of superspreading, represented by the dispersion of a negative binomial distribution for individual-level seconday cases ($k$), from data on MERS-CoV and H5 Influenza outbreak clusters.
 
 - We will use [Markov chain Monte Carlo (MCMC)](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo), specifically a simple Metropolis-Hastings algorithm to estimate the parameters.
 
@@ -36,19 +36,48 @@ knitr::opts_chunk$set(
 # Load required packages
 library(epichains)
 library(MCMCpack)
+library(epiparameter)
+```
 
+### Pathogen cluster size data
+
+::: {.panel-tabset}
+
+## MERS-CoV
+
+```{r}
 # Define data
-mers_clusters = c(rep(1,27),c(2,2),c(3,4),c(4,3),c(5,2),7,13,26)
+mers_clusters <- c(rep(1, 27), c(2, 2), c(3, 4), c(4, 3), c(5, 2), 7, 13, 26)
 
 # Show summary table of frequencies
 freq_df <- as.data.frame(table(mers_clusters))
 names(freq_df) <- c("Cluster size", "Frequency")
 
-# Frequencies of MERS Clusters
-freq_df
+# Create a table for the HTML document
+knitr::kable(freq_df, caption = "Frequencies of MERS Clusters")
+```
 
+## H5 Influenza
+
+```{r}
+# Define data
+h5_clusters <- c(rep(1, 13), 2)
+
+# Show summary table of frequencies
+freq_df <- as.data.frame(table(h5_clusters))
+names(freq_df) <- c("Cluster size", "Frequency")
+
+# Create a table for the HTML document
+knitr::kable(freq_df, caption = "Frequencies of H5 Clusters")
+```
+
+:::
+
+### Define R likelihood function
+
+```{r}
 # Define likelihood function
-lik_function <- function(param) {
+lik_function <- function(param, clusters, log_prior) {
   # Ensure positive parameters
   if (any(param <= 0)) return(-Inf)
   
@@ -58,19 +87,23 @@ lik_function <- function(param) {
 
   # Define likelihood
   log_likelihood <- epichains::likelihood(
-    chains = mers_clusters,
+    chains = clusters,
     statistic = "size",
     offspring_dist = rnbinom,
     size = k_val,
     mu = r_val
   )
-  
-  # Assume non-informative priors for R and k
-  log_prior <- 0 # But could add informative priors here if required
 
+  if (is.function(log_prior)) log_prior <- log_prior(r_val)
+  
   # Return log-posterior (log-likelihood + log-prior)
   return(log_likelihood + log_prior)
 }
+```
+
+### Define MCMC parameters
+
+```{r}
 # Define number of MCMC iterations
 n_iter <- 1e4
 
@@ -78,21 +111,32 @@ n_iter <- 1e4
 n_burn <- 1e3
 
 # Initial guess for c(R,k):
-init_param <- c(R=0.5, k=0.5)
+init_param <- c(R = 0.5, k = 0.5)
+```
+
+### Estimate R and k with MCMC
+
+::: {.panel-tabset}
+
+## MERS-CoV
+
+```{r}
 # Run MCMC to estimate parameters
 result_mcmcpack <- MCMCpack::MCMCmetrop1R(
   lik_function, 
   theta.init = init_param, 
   burnin = n_burn, 
   mcmc = n_iter, 
-  thin = 1
+  thin = 1,
+  clusters = mers_clusters,
+  log_prior = 0 # But could add informative priors here if required
 )
 
 # Calculate effective sample size (i.e. measure of MCMC mixing)
 ess_mcmcpack <- coda::effectiveSize(result_mcmcpack)
 
 # Plot posterior estimates
-# plot(result_mcmcpack)
+plot(result_mcmcpack)
 
 # Define helper function to calculate median and 95% credible interval
 # from data.frame of MCMC samples
@@ -118,8 +162,75 @@ results_table <- data.frame(
 knitr::kable(results_table, caption = "MCMC Comparison Table", align = 'c')
 ```
 
-## Steps in detail
-- We use MERS cluster sizes from [Cauchemez et al, Lancet Inf Dis, 2013](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(13)70304-9/fulltext).
+## H5 Influenza
+
+```{r}
+# Get prior for R based on Aditama et al, PLOS ONE, 2012
+get_prior <- extract_param(
+  type = "percentiles",
+  values = c(0.009, 0.315),
+  distribution = "gamma",
+  percentiles = c(0.025,0.975)
+)
+h5_prior_r <- function(x){
+  dgamma(x, shape = get_prior[["shape"]], scale = get_prior[["scale"]])
+}
+
+# Run MCMC to estimate parameters
+result_mcmcpack <- MCMCpack::MCMCmetrop1R(
+  lik_function, 
+  theta.init = init_param, 
+  burnin = n_burn, 
+  mcmc = n_iter, 
+  thin = 1,
+  clusters = h5_clusters,
+  log_prior = h5_prior_r # DEBUG: Make log prior?
+)
+
+# Calculate effective sample size (i.e. measure of MCMC mixing)
+ess_mcmcpack <- effectiveSize(result_mcmcpack)
+
+# Plot posterior estimates
+plot(result_mcmcpack)
+
+# Define helper function to calculate median and 95% credible interval from data.frame of MCMC samples
+get_param <- function(x){
+  apply(x,2,function(y){val = signif(quantile(y,c(0.5,0.025,0.975)),3);
+                        val_text <- paste0(val[1]," (95%: CrI: ",val[2],"-",val[3],")")})
+}
+
+# Get posterior median and 95% CrI
+posterior_estimates <- get_param(result_mcmcpack)
+
+# Compile table
+results_table <- data.frame(
+  Package = "MCMCpack",
+  Posterior_R = posterior_estimates[1],
+  Posterior_k = posterior_estimates[2],
+  ESS_R = ess_mcmcpack[1],
+  ESS_k = ess_mcmcpack[2]
+)
+
+# Output the table with kable
+knitr::kable(results_table, caption = "MCMC Comparison Table", align = 'c')
+
+# Compare prior and posterior
+posterior_samples_R <- result_mcmcpack[, 1] 
+
+# Set up the plotting range based on the data
+x_range <- seq(min(posterior_samples_R), max(posterior_samples_R), length.out = 1000)
+plot(density(posterior_samples_R), col = "blue", lwd = 2, 
+     main = "Posterior and Prior for R", xlab = "R", ylab = "Density")
+# Add prior distribution curve
+lines(x_range, h5_prior_r(x_range), col = "red", lwd = 2, lty = 2)
+# Add a legend
+legend("topright", legend = c("Posterior", "Prior"), col = c("blue", "red"), lwd = 2, lty = c(1, 2))
+```
+
+:::
+
+### Steps in detail
+- We use MERS cluster sizes from [Cauchemez et al, Lancet Inf Dis, 2013](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(13)70304-9/fulltext) and H5 cluster sizes from [???]().
 - The `{epichains}` package is loaded for the likelihood functions and `{MCMCpack}` for MCMC fitting.
 - The likelihood is defined using the `likelihood()` function in epichains, with a negative binomial used (`rnbinom`). This allows us to define the likelihood of observing a specific cluster size distribution, assuming the $R$ and $k$
 - The MCMC is run using `MCMCmetrop1R()` from `{MCMCpack}`, with number of iterations `mcmc` and burn in period `burnin` specified. [{MCMCpack}](https://cran.r-project.org/web/packages/MCMCpack/index.html) is an R package for Bayesian statistical inference through Markov Chain Monte Carlo (MCMC) methods, offering a broad array of algorithms and models for efficient and straightforward Bayesian estimation.
