@@ -39,6 +39,8 @@ library(MCMCpack)
 library(epiparameter)
 ```
 
+### Pathogen cluster size data
+
 ::: {.panel-tabset}
 
 ## MERS-CoV
@@ -53,9 +55,29 @@ names(freq_df) <- c("Cluster size", "Frequency")
 
 # Create a table for the HTML document
 knitr::kable(freq_df, caption = "Frequencies of MERS Clusters")
+```
 
+## H5 Influenza
+
+```{r}
+# Define data
+h5_clusters <- c(rep(1, 13), 2)
+
+# Show summary table of frequencies
+freq_df <- as.data.frame(table(h5_clusters))
+names(freq_df) <- c("Cluster size", "Frequency")
+
+# Create a table for the HTML document
+knitr::kable(freq_df, caption = "Frequencies of H5 Clusters")
+```
+
+:::
+
+### Define R likelihood function
+
+```{r}
 # Define likelihood function
-lik_function <- function(param) {
+lik_function <- function(param, clusters, log_prior) {
   # Ensure positive parameters
   if (any(param <= 0)) return(-Inf)
   
@@ -65,20 +87,23 @@ lik_function <- function(param) {
 
   # Define likelihood
   log_likelihood <- epichains::likelihood(
-    chains = mers_clusters,
+    chains = clusters,
     statistic = "size",
     offspring_dist = rnbinom,
     size = k_val,
     mu = r_val
   )
-  
-  # Assume non-informative priors for R and k
-  log_prior <- 0 # But could add informative priors here if required
 
+  if (is.function(log_prior)) log_prior <- log_prior(r_val)
+  
   # Return log-posterior (log-likelihood + log-prior)
   return(log_likelihood + log_prior)
 }
+```
 
+### Define MCMC parameters
+
+```{r}
 # Define number of MCMC iterations
 n_iter <- 1e4
 
@@ -87,14 +112,24 @@ n_burn <- 1e3
 
 # Initial guess for c(R,k):
 init_param <- c(R = 0.5, k = 0.5)
+```
 
+### Estimate R and k with MCMC
+
+::: {.panel-tabset}
+
+## MERS-CoV
+
+```{r}
 # Run MCMC to estimate parameters
 result_mcmcpack <- MCMCpack::MCMCmetrop1R(
   lik_function, 
   theta.init = init_param, 
   burnin = n_burn, 
   mcmc = n_iter, 
-  thin = 1
+  thin = 1,
+  clusters = mers_clusters,
+  log_prior = 0 # But could add informative priors here if required
 )
 
 # Calculate effective sample size (i.e. measure of MCMC mixing)
@@ -130,9 +165,6 @@ knitr::kable(results_table, caption = "MCMC Comparison Table", align = 'c')
 ## H5 Influenza
 
 ```{r}
-# Define data
-h5_clusters <- c(rep(1, 13), 2)
-
 # Get prior for R based on Aditama et al, PLOS ONE, 2012
 get_prior <- extract_param(
   type = "percentiles",
@@ -144,52 +176,15 @@ h5_prior_r <- function(x){
   dgamma(x, shape = get_prior[["shape"]], scale = get_prior[["scale"]])
 }
 
-# Show summary table of frequencies
-freq_df <- as.data.frame(table(h5_clusters))
-names(freq_df) <- c("Cluster size", "Frequency")
-
-# Create a table for the HTML document
-knitr::kable(freq_df, caption = "Frequencies of H5 Clusters")
-
-# Define likelihood function
-lik_function <- function(param) {
-  # Ensure positive parameters
-  if (any(param <= 0)) return(-Inf) 
-  
-  # Extract values of R and k
-  r_val <- as.numeric(param[1])
-  k_val <- as.numeric(param[2])
-  # Define likelihood
-  log_likelihood <- likelihood(
-    chains = h5_clusters,
-    statistic = "size",
-    offspring_dist = rnbinom,
-    size = k_val,
-    mu = r_val
-  )
-  
-  # Assume non-informative priors for R and k
-  log_prior <- h5_prior_r(r_val) # DEBUG: Make log prior?
-  # Return log-posterior (log-likelihood + log-prior)
-  return(log_likelihood + log_prior)
-}
-
-# Define number of MCMC iterations
-n_iter <- 1e4
-
-# Define 'burn in' period for fitting, to be discarded
-n_burn <- 1e3
-
-# Initial guess for c(R,k):
-init_param <- c(R = 0.5, k = 0.5)
-
 # Run MCMC to estimate parameters
 result_mcmcpack <- MCMCpack::MCMCmetrop1R(
   lik_function, 
   theta.init = init_param, 
   burnin = n_burn, 
   mcmc = n_iter, 
-  thin = 1
+  thin = 1,
+  clusters = h5_clusters,
+  log_prior = h5_prior_r # DEBUG: Make log prior?
 )
 
 # Calculate effective sample size (i.e. measure of MCMC mixing)
