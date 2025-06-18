@@ -27,6 +27,31 @@
       ],
       "Hash": "065ae649b05f1ff66bb0c793107508f5"
     },
+    "EpiEstim": {
+      "Package": "EpiEstim",
+      "Version": "2.4",
+      "Source": "Repository",
+      "Repository": "https://mrc-ide.r-universe.dev",
+      "Requirements": [
+        "R",
+        "abind",
+        "coarseDataTools",
+        "coda",
+        "distcrete",
+        "epitrix",
+        "fitdistrplus",
+        "ggplot2",
+        "grDevices",
+        "graphics",
+        "gridExtra",
+        "incidence",
+        "patchwork",
+        "reshape2",
+        "scales",
+        "stats"
+      ],
+      "Hash": "a1b1a813c7d24deb2b0e0de0107caf7b"
+    },
     "EpiNow2": {
       "Package": "EpiNow2",
       "Version": "1.7.1",
@@ -574,6 +599,20 @@
       ],
       "Hash": "3f038e5ac7f41d4ac41ce658c85e3042"
     },
+    "coarseDataTools": {
+      "Package": "coarseDataTools",
+      "Version": "0.7.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "MCMCpack",
+        "R",
+        "graphics",
+        "methods",
+        "stats"
+      ],
+      "Hash": "8daa2f8f57ae46a1d58c0178ba1ead83"
+    },
     "coda": {
       "Package": "coda",
       "Version": "0.19-4.1",
@@ -953,6 +992,22 @@
         "checkmate"
       ],
       "Hash": "eafbab92f055e8b81cb277ef608f3e68"
+    },
+    "fitdistrplus": {
+      "Package": "fitdistrplus",
+      "Version": "1.2-2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "MASS",
+        "R",
+        "grDevices",
+        "methods",
+        "rlang",
+        "stats",
+        "survival"
+      ],
+      "Hash": "f50ccd3ea757fa25ae15b1e2f7f7275f"
     },
     "fontawesome": {
       "Package": "fontawesome",
@@ -2076,6 +2131,19 @@
       ],
       "Hash": "97b1d5361a24d9fb588db7afe3e5bcbf"
     },
+    "reshape2": {
+      "Package": "reshape2",
+      "Version": "1.4.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "plyr",
+        "stringr"
+      ],
+      "Hash": "bb5996d0bd962d214a11140d77589917"
+    },
     "ring": {
       "Package": "ring",
       "Version": "1.0.6",
@@ -2289,7 +2357,7 @@
       "Package": "sodium",
       "Version": "1.4.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "https://cloud.r-project.org",
       "Hash": "ae00d33a499e429a04409bc1167c4995"
     },
     "stringi": {
