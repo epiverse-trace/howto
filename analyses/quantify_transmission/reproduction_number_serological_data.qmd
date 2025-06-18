@@ -42,7 +42,13 @@ library(dplyr)
 library(ggplot2)
 
 # Load serological data
-hk_serology <- readr::read_csv("https://pmc.ncbi.nlm.nih.gov/articles/instance/4100506/bin/rspb20140709supp2.csv")
+# source:
+# Kwok KO, Cowling BJ, Wei VW, Wu KM, Read JM, Lessler J, Cummings DA, Peiris JS, Riley S. 
+# Social contacts and the locations in which they occur as risk factors for influenza infection. 
+# Proc Biol Sci. 2014 Aug 22;281(1789):20140709. doi: 10.1098/rspb.2014.0709. 
+# PMID: 25009062; PMCID: PMC4100506.
+# https://pmc.ncbi.nlm.nih.gov/articles/instance/4100506/
+hk_serology <- readr::read_csv("https://github.com/epiverse-trace/howto/raw/refs/heads/main/data/rspb20140709supp2.csv")
 
 # Allocate ages to bands
 age_limits <- c(3,18,25,40,65)
