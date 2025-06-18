@@ -26,6 +26,10 @@ listing:
     contents: "analyses/simulate_transmission/*.qmd"
     type: table
     fields: [title]
+  - id: estimate-ascertainment
+    contents: "analyses/estimate_ascertainment/*.qmd"
+    type: table
+    fields: [title]
 ---
 
 The Epiverse-TRACE **How-to guides** aim to collect recipe-like reproducible scripts to complete specific Outbreak analytics tasks following concrete steps using `R` packages. [^1] 
@@ -60,6 +64,11 @@ The Epiverse-TRACE **How-to guides** aim to collect recipe-like reproducible scr
 ## Simulate transmission scenarios
 
 :::{#simulate-transmission}
+:::
+
+## Estimate ascertainment
+
+:::{#estimate-ascertainment}
 :::
 
 ## Contribute
