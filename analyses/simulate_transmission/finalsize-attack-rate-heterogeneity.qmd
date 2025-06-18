@@ -1,0 +1,135 @@
+---
+title: "Simulate Epidemic Attack Rates with Heterogeneous Social Contacts in the UK"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## What do we have?
+
+- Basic reproduction number.
+- Social contact survey and demography data of Country in the [POLYMOD](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0050074) study or [Social contact data](https://zenodo.org/communities/social_contact_data/records) repository.
+- Susceptibility groups.
+- Probability of infection in demographic and susceptibility groups.
+
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load packages
+library(finalsize)
+library(socialmixr)
+library(tidyverse)
+
+
+# Simple quick calculation with homogenous mixing -------------------------------------------
+r0_input <- 2
+finalsize::final_size(r0 = r0_input)
+
+# Set up the transmission model -------------------------------------------
+
+# load contact and population data from socialmixr::polymod
+polymod <- socialmixr::polymod
+contact_data <- socialmixr::contact_matrix(
+  polymod,
+  countries = "United Kingdom",
+  age.limits = c(0, 5, 18, 40, 65),
+  symmetric = TRUE
+)
+
+# prepare contact matrix and demography vector for use in model
+contact_matrix <- t(contact_data$matrix) # transpose so R0 calculated correctly inside model
+demography_vector <- contact_data$demography$population
+names(demography_vector) <- rownames(contact_matrix)
+
+# scale the contact matrix so the largest eigenvalue is 1.0
+# this is to ensure that the overall epidemic dynamics correctly reflect
+# the assumed value of R0
+contact_matrix <- contact_matrix / max(Re(eigen(contact_matrix)$values))
+
+# divide each row of the contact matrix by the corresponding demography
+# this reflects the assumption that each individual in group {j} make contacts
+# at random with individuals in group {i}
+contact_matrix <- contact_matrix / demography_vector
+
+n_demo_grps <- length(demography_vector)
+
+# all individuals are equally and highly susceptible
+n_susc_groups <- 1L
+susc_guess <- 1.0
+
+susc_uniform <- matrix(
+  data = susc_guess,
+  nrow = n_demo_grps,
+  ncol = n_susc_groups
+)
+
+# Final size calculations also need to know the proportion of each demographic group {𝑖} 
+# that falls into the susceptibility group {𝑗}. This distribution of age groups into 
+# susceptibility groups can be represented by the demography-susceptibility distribution matrix.
+p_susc_uniform <- matrix(
+  data = 1.0,
+  nrow = n_demo_grps,
+  ncol = n_susc_groups
+)
+
+
+output <- finalsize::final_size(
+  r0 = r0_input,
+  contact_matrix = contact_matrix,
+  demography_vector = demography_vector,
+  susceptibility = susc_uniform,
+  p_susceptibility = p_susc_uniform
+)
+
+output
+
+output %>% 
+  mutate(demo_grp = as_factor(demo_grp)) %>% 
+  ggplot(aes(x = demo_grp, y = p_infected)) +
+  geom_col() +
+  ylim(0,1) +
+  labs(
+    x = "Age group",
+    y = "Proportion infected",
+    title = "Final size of an SIR epidemic",
+    subtitle = "Fully susceptible population"
+  )
+```
+
+
+## Steps in detail
+
+<!-- OPTIONAL -->
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- This assume equal probability of infection in demographic and susceptibility groups. 
+    - You can vary the probability of infection across demographic and susceptibility groups following the [Guide to construct susceptibility matrices](https://epiverse-trace.github.io/finalsize/articles/susceptibility_matrices.html)
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+
+## Related
+
+- [Explanation on Modelling heterogeneous social contacts](https://epiverse-trace.github.io/finalsize/articles/varying_contacts.html)
+- [Explanation on Guide to constructing susceptibility matrices](https://epiverse-trace.github.io/finalsize/articles/susceptibility_matrices.html)
