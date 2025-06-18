@@ -112,6 +112,8 @@ ggplot2::ggplot(data = outbreak_size1) +
 ```
 
 ```{r}
+#| warning: false
+
 # Change transmission chain statistic to length ---------------------------
 
 scenarios$statistic <- "length"
@@ -168,6 +170,8 @@ ggplot2::ggplot(data = outbreak_length) +
 ```
 
 ```{r}
+#| warning: false
+
 # Change offspring distribution to Negative binomial ----------------------
 
 statistic <- "size"
@@ -240,6 +244,8 @@ ggplot2::ggplot(data = outbreak_size2) +
 ```
 
 ```{r}
+#| warning: false
+
 # Simulating outbreak sizes for past outbreaks ----------------------------
 
 offspring_dists <- epiparameter::epiparameter_db(
