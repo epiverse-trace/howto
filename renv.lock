@@ -2289,7 +2289,7 @@
       "Package": "sodium",
       "Version": "1.4.0",
       "Source": "Repository",
-      "Repository": "https://cloud.r-project.org",
+      "Repository": "CRAN",
       "Hash": "ae00d33a499e429a04409bc1167c4995"
     },
     "stringi": {
