@@ -21,14 +21,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Ingredients
+## What do we have?
 
-- `example_confirmed` dataset from the `{EpiNow2}` R package
-- `convolve_and_scale()` from the `{EpiNow2}` R package
-- `estimate_secondary()` from the `{EpiNow2}` R package
-- `mcmc_hist()` from the `{bayesplot}` R package
-- `labs()` from the `{ggplot2}` R package
-- `detectCores()` from the `{parallel}` R package
+- Data frame with the number of primary and secondary observations per day.
+- A prior of the ascertainment rate of the secondary observations from the primary ones.
+
+
 
 ## Steps in code
 
@@ -104,7 +102,7 @@ plot(frac_obs_plot)
 
 - We use `detectCores()` to detect and use available cores on your local machine to fit the stan models. This improves the speed of the model fitting runs.
 - We use `convolve_and_scale()` to simulate secondary observations from the reported cases data (`example_confirmed`). To do this, we assume that only 40 percent of cases are reported (`scaling = 0.4`).
-  - To use the convolve_and_scale() function, which assumes a lognormal distribution, we also add the parameters of the assumed log normal delay distribution (meanlog and sdlog) as columns in the dataset.
+  - To use the `convolve_and_scale()` function, which assumes a lognormal distribution, we also add the parameters of the assumed log normal delay distribution (meanlog and sdlog) as columns in the dataset.
 - We then generate the dataset that contains the secondary observations using the `estimate_secondary()` function.
   - We use an observation model and set a `Normal(mean = 0.2, sd = 0.2)` prior on the ascertainment rate for obtaining the posterior
 - The parameters posterior manifests in the data returned by EpiNow2 as the column `params[N]`, where $N$ is the id of the parameter
@@ -114,3 +112,9 @@ plot(frac_obs_plot)
 <!-- must: keep to warn users on how to install packages -->
 
 Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+# Related
+
+- [Explanation on Estimate a Secondary Observation from a Primary Observation](https://epiforecasts.io/EpiNow2/reference/estimate_secondary.html)
+- [Explanation on Estimating the proportion of cases that are ascertained during an outbreak using {cfr}](https://epiverse-trace.github.io/cfr/articles/estimate_ascertainment.html)
+
