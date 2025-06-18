@@ -1,5 +1,5 @@
 ---
-title: "How to estimate the fraction of cases that are observed (ascertainment) using EpiNow2"
+title: "Estimate the fraction of cases that are observed (ascertainment) using EpiNow2"
 author:
   - name: "James M. Azam"
     orcid: "0000-0001-5782-7330"
@@ -47,30 +47,43 @@ library(EpiNow2)
 # Incidence data example
 # make some example secondary incidence data
 df <- example_confirmed
-df <- as.data.table(df)[, primary := confirm]
+df <- data.table::as.data.table(df)[, primary := confirm]
 # 1. Assume that only 40 percent of cases are reported (scaling)
 # 2. Add parameters of the assumed log normal delay distribution
 # for use with the convolve_and_scale() function.
 df[, `:=`(scaling = 0.4, meanlog = 1.8, sdlog = 0.5)]
 
 # Simulate secondary cases
-df <- convolve_and_scale(df, type = "incidence")
-#
-# fit model to example data specifying a weak prior for fraction reported
+df <- EpiNow2::convolve_and_scale(df, type = "incidence")
+
+# Print input data frame 
+df
+
+# Fit model to example data specifying a weak prior for fraction reported
 # (scale) with a secondary case
-res <- estimate_secondary(
+res <- EpiNow2::estimate_secondary(
   df,
   obs = obs_opts(
-    scale = Normal(mean = 0.2, sd = 0.2),
+    scale = EpiNow2::Normal(mean = 0.2, sd = 0.2),
     week_effect = FALSE
   )
 )
 
+# Plot primary and secondary observations with fitted model
+# From infections to reported cases
+# plot(res, primary = TRUE)
+
+# Print the fit to find the row named: params[1]
+# res$fit
+
 # Construct frac_obs parameter
 frac_obs_var <- paste0("params[", res$data$frac_obs_id, "]")
 
+# Summary of the ascertainment rate posterior
+res$posterior[variable == frac_obs_var]
+
 # Plot density
-frac_obs_plot <- mcmc_hist(
+frac_obs_plot <- bayesplot::mcmc_hist(
   x = res$fit,
   pars = frac_obs_var
 ) +
