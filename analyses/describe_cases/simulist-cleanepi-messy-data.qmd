@@ -1,0 +1,209 @@
+---
+title: "Simulated linelist, Clean, Validate, and plot Epidemic curves"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## What do we have?
+
+- Messy line list data frame
+    - Inconsistent sex entries
+    - Age as numbers written
+    - Date as characters
+
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+## Clean and validate and plot outbreak data
+
+# Load required R packages ------------------------------------------------
+
+library(simulist)
+library(cleanepi)
+library(numberize)
+library(incidence2)
+library(tibble)
+library(tidyr)
+library(dplyr)
+
+# Choose a seed that results in suitable and reproducible outbreak --------
+
+set.seed(1)
+
+# Simulate outbreak -------------------------------------------------------
+
+line_list <- simulist::sim_linelist() %>% 
+  # to tibble for tidier printing
+  tibble::as_tibble()
+
+line_list
+
+# Create messy line list data ---------------------------------------------
+
+line_list <- simulist::messy_linelist(line_list, inconsistent_dates = TRUE)
+
+line_list
+
+# Tag line list of data validation ----------------------------------------
+
+# see what tags are available
+linelist::tags_names()
+
+# in this case the tags have the same name but line list columns can be
+# named differently from the tag names
+line_list <- linelist::make_linelist(
+  x = line_list,
+  date_onset = "date_onset",
+  date_admission = "date_admission",
+  date_outcome = "date_outcome"
+)
+line_list
+
+# line list can be validated using tags
+# this will error due to the line list being messy
+# linelist::validate_linelist(line_list)
+
+# Scan line list data for issues ------------------------------------------
+
+# see {cleanepi} website: https://epiverse-trace.github.io/cleanepi/
+cleanepi::scan_data(line_list)
+
+# Clean line list ---------------------------------------------------------
+
+line_list$age <- numberize::numberize(line_list$age)
+line_list$age
+
+line_list$id <- numberize::numberize(line_list$id)
+line_list$id
+
+cleanepi::check_subject_ids(line_list, target_columns = "id", range = c(1, 350))
+
+# routine cleaning steps to tidy column names and remove duplicated rows
+line_list <- line_list %>%
+  cleanepi::standardize_column_names() %>%
+  cleanepi::remove_constants() %>%
+  cleanepi::remove_duplicates()
+
+date_columns <- colnames(line_list)[startsWith(colnames(line_list), "date_")]
+
+line_list <- line_list %>%
+  cleanepi::standardize_dates(target_columns = date_columns)
+
+
+
+# clean inconsistent sex using dictionary ---------------------------------
+
+# Find inconsistencies
+line_list %>% count(sex)
+
+# Define dictionary
+dat_dictionary <- tibble::tribble(
+  ~options,  ~values,     ~grp, ~orders,
+  "1",   "male", "sex",      1L, 
+  "2", "female", "sex",      2L,
+  "M",   "male", "sex",      3L,
+  "F", "female", "sex",      4L,
+  "m",   "male", "sex",      5L,
+  "f", "female", "sex",      6L
+)
+
+# # Apply dictionary
+# line_list <- line_list %>% 
+#   cleanepi::clean_using_dictionary(
+#     dictionary = dat_dictionary
+#   )
+
+# Very coverage of dictionary to solve the inconsistencies 
+line_list %>% count(sex)
+
+# clean spelling mistakes using dictionary
+line_list$case_type[agrep(pattern = "suspected", x = line_list$case_type)] <- "suspected"
+line_list$case_type[agrep(pattern = "probable", x = line_list$case_type)] <- "probable"
+line_list$case_type[agrep(pattern = "confirmed", x = line_list$case_type)] <- "confirmed"
+
+line_list$outcome[agrep(pattern = "recovered", x = line_list$outcome)] <- "recovered"
+line_list$outcome[agrep(pattern = "died", x = line_list$outcome)] <- "died"
+
+# Validate clean line list ------------------------------------------------
+
+# line list is now valid after cleaning
+line_list_validated <- linelist::validate_linelist(line_list)
+
+# Now, get data frame with tagged columns only
+line_list_validated_tags <- linelist::tags_df(line_list_validated)
+
+line_list_validated_tags
+
+# Aggregate and visualise data --------------------------------------------
+
+# see visualising line list data vignette: https://epiverse-trace.github.io/simulist/articles/vis-linelist.html
+# aggregate to daily incidence data
+daily <- incidence2::incidence(
+  x = line_list_validated_tags,
+  date_index = "date_onset",
+  interval = "daily",
+  complete_dates = TRUE
+)
+
+# plot(daily)
+
+# aggregate to epiweek incidence data
+weekly <- incidence2::incidence(
+  x = line_list_validated_tags,
+  date_index = "date_onset",
+  interval = "epiweek",
+  complete_dates = TRUE
+  )
+
+# plot(weekly)
+
+# aggregate and plot onset, hospital admission and death
+weekly_chd <- line_list_validated_tags %>% 
+  incidence2::incidence(
+    date_index = c("date_onset","date_admission","date_outcome"),
+    interval = "epiweek",
+    complete_dates = TRUE
+  )
+
+plot(weekly_chd)
+```
+
+
+## Steps in detail
+
+<!-- OPTIONAL -->
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- `tidyverse` package is loaded to manage data frame objects.
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Reference manual on simulist](https://epiverse-trace.github.io/simulist/)
+- [Reference manual on linelist](https://epiverse-trace.github.io/linelist/)
+- [Reference manual on numberize](https://epiverse-trace.github.io/numberize/)
