@@ -21,9 +21,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Ingredients
+## What do we have?
 
-- Nouns
+- Week aggregate of new COVID confirmed cases
+- Serial interval stored in `{epiparameter}`
+- Incubation period stored in `{epiparameter}`
 
 ## Steps in code
 
