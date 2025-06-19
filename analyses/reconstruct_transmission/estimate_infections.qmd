@@ -1,5 +1,5 @@
 ---
-title: "How to reconstruct infection dynamics from incidence data on delayed outcomes like deaths"
+title: "Reconstruct infection dynamics from incidence data on delayed outcomes like deaths"
 format: 
   html:
     code-link: true
@@ -21,13 +21,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Ingredients
+## What do we have?
 
-- We want to estimate infection dynamics from incidence data on delayed outcomes such as hospitalisations or deaths.
-- What we have:
-  1. Time series of new outcomes (e.g. deaths) per day.
-  2. Estimates of the delay from infection-to-onset and onset-to-death distributions
-- We assume new infections each day have a [prior based on a Gaussian process](https://epiforecasts.io/EpiNow2/articles/estimate_infections.html), which allows for faster estimation from delayed outcome data than modelling the full transmission process (and hence also estimating the time varying reproduction number $R_t$).
+- Time series of new outcomes (e.g. deaths) per day.
+- Estimates of the delay from infection-to-onset and onset-to-death distributions
 
 
 ## Steps in code
@@ -308,6 +305,8 @@ epinow_estimates$plots$infections +
 ```
 
 ## Steps in detail
+
+- We assume new infections each day have a [prior based on a Gaussian process](https://epiforecasts.io/EpiNow2/articles/estimate_infections.html), which allows for faster estimation from delayed outcome data than modelling the full transmission process (and hence also estimating the time varying reproduction number $R_t$).
 
 ### Example 1
 

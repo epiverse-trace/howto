@@ -9,6 +9,9 @@ editor_options:
 date: last-modified
 toc: true
 toc_float: true
+author: 
+  - name: "Adam Kucharski"
+    orcid: "0000-0001-8814-9421"
 ---
 
 ```{r, include = FALSE}
@@ -59,7 +62,7 @@ output_R <- EpiEstim::estimate_R(
 )
 
 # Plot output to visualise
-plot(output_R, "R")
+# plot(output_R, "R")
 
 # get mean mean and sd over time
 r_estimate_mean <- mean(output_R$R$`Mean(R)`)
@@ -144,36 +147,36 @@ data <- dplyr::select(output, param_set, transmission_rate, data) %>%
 
 # Plot outputs ------------------------------------------------------------
 
-# plot the data
-data %>% 
-  dplyr::filter() %>%
-  ggplot() +
-  geom_line(
-    aes(time, new_infections, col = r_value, group = param_set),
-    alpha = 0.3
-  ) +
-  # use qualitative scale to emphasize differences
-  scale_colour_fermenter(
-    palette = "Dark2",
-    name = "R",
-    breaks = c(0, 1, 1.5, 2.0, 3.0),
-    limits = c(0, 3)
-  ) +
-  scale_y_continuous(
-    name = "New infections",
-    labels = scales::label_comma(scale = 1e-3, suffix = "K")
-  ) +
-  labs(
-    x = "Time (days since start of epidemic)"
-  ) +
-  facet_grid(
-    cols = vars(demography_group)
-  ) +
-  theme_bw() +
-  theme(
-    legend.position = "top",
-    legend.key.height = unit(2, "mm")
-  )
+# # plot the data
+# data %>% 
+#   dplyr::filter() %>%
+#   ggplot() +
+#   geom_line(
+#     aes(time, new_infections, col = r_value, group = param_set),
+#     alpha = 0.3
+#   ) +
+#   # use qualitative scale to emphasize differences
+#   scale_colour_fermenter(
+#     palette = "Dark2",
+#     name = "R",
+#     breaks = c(0, 1, 1.5, 2.0, 3.0),
+#     limits = c(0, 3)
+#   ) +
+#   scale_y_continuous(
+#     name = "New infections",
+#     labels = scales::label_comma(scale = 1e-3, suffix = "K")
+#   ) +
+#   labs(
+#     x = "Time (days since start of epidemic)"
+#   ) +
+#   facet_grid(
+#     cols = vars(demography_group)
+#   ) +
+#   theme_bw() +
+#   theme(
+#     legend.position = "top",
+#     legend.key.height = unit(2, "mm")
+#   )
 
 # Add an intervention -----------------------------------------------------
 

@@ -1,5 +1,5 @@
 ---
-title: "How to estimate R and relative susceptibility from age-stratified pre- and post-epidemic serological data?"
+title: "Estimate R and relative susceptibility from age-stratified pre- and post-epidemic serological data"
 format: 
   html:
     code-link: true
@@ -21,11 +21,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Ingredients
+## What do we have?
 
-- Social mixing data from `socialmixr`
 - Serological data measuring rise in influenza titres during the 2009 A/H1N1p pandemic in different age groups (i.e. proxy for infection)
-- Want to estimate the reproduction number and relative susceptibility in older age groups from the pattern of infection, based on the final epidemic size in an age-stratified SIR-like model, following the methods of [Kucharski et al (2014)](https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1004206) and using Markov chain Monte Carlo.
+- Social mixing data from `socialmixr`
 
 
 ## Steps in code
@@ -178,6 +177,8 @@ summary_data %>%
 ```
 
 ## Steps in detail
+
+- Want to estimate the reproduction number and relative susceptibility in older age groups from the pattern of infection, based on the final epidemic size in an age-stratified SIR-like model, following the methods of [Kucharski et al (2014)](https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1004206) and using Markov chain Monte Carlo.
 - We use serological data from the 2009 pandemic in Hong Kong in [Kwok et al (2009)](https://royalsocietypublishing.org/doi/10.1098/rspb.2014.0709), and social mixing data from POLYMOD in the UK as an assumed contact matrix using `{socialmixr}`.
 - We define the likelihood of observing a given serological pattern by simulating age-specific final epidemic size using the `{finalsize}` package.
 - We use [{MCMCpack}](https://cran.r-project.org/web/packages/MCMCpack/index.html) to estimate the parameters using MCMC.

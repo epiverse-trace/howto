@@ -1,5 +1,5 @@
 ---
-title: "Simulated linelist, Clean, Validate, and plot Epidemic curves"
+title: "Simulate, Clean, Validate linelist, and plot Epidemic curves"
 format: 
   html:
     code-link: true
@@ -9,6 +9,9 @@ editor_options:
 date: last-modified
 toc: true
 toc_float: true
+author: 
+  - name: "Joshua W. Lambert"
+    orcid: "0000-0001-5218-3046"
 ---
 
 ```{r, include = FALSE}
