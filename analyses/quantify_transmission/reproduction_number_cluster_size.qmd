@@ -1,5 +1,5 @@
 ---
-title: "How to estimate R and k from cluster size data using Markov chain Monte Carlo?"
+title: "Estimate R and k from cluster size data using Markov chain Monte Carlo"
 format: 
   html:
     code-link: true
@@ -21,11 +21,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Ingredients
+## What do we have?
 
-- Use Bayesian estimation methods to estimate the reproduction number ($R$) and extent of superspreading, represented by the dispersion of a negative binomial distribution for individual-level seconday cases ($k$), from data on MERS-CoV- outbreak clusters.
-
-- We will use [Markov chain Monte Carlo (MCMC)](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo), specifically a simple Metropolis-Hastings algorithm to estimate the parameters.
+- Data on MERS-CoV- outbreak clusters
 
 
 ## Steps in code
@@ -119,6 +117,9 @@ knitr::kable(results_table, caption = "MCMC Comparison Table", align = 'c')
 ```
 
 ## Steps in detail
+
+- Use Bayesian estimation methods to estimate the reproduction number ($R$) and extent of superspreading, represented by the dispersion of a negative binomial distribution for individual-level seconday cases ($k$), from data on MERS-CoV- outbreak clusters.
+- We will use [Markov chain Monte Carlo (MCMC)](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo), specifically a simple Metropolis-Hastings algorithm to estimate the parameters.
 - We use MERS cluster sizes from [Cauchemez et al, Lancet Inf Dis, 2013](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(13)70304-9/fulltext).
 - The `{epichains}` package is loaded for the likelihood functions and `{MCMCpack}` for MCMC fitting.
 - The likelihood is defined using the `likelihood()` function in epichains, with a negative binomial used (`rnbinom`). This allows us to define the likelihood of observing a specific cluster size distribution, assuming the $R$ and $k$

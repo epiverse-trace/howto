@@ -1,5 +1,5 @@
 ---
-title: "How to project the future trajectory of the outbreak?"
+title: "Project the future trajectory of the outbreak"
 format: 
   html:
     code-link: true
@@ -9,6 +9,9 @@ editor_options:
 date: last-modified
 toc: true
 toc_float: true
+author: 
+  - name: "Andree Valle-Campos"
+    orcid: "0000-0002-7779-481X"
 ---
 
 ```{r, include = FALSE}
@@ -18,15 +21,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Ingredients
+## What do we have?
 
-- Project the future daily incidence based of past incidence, a selection of plausible basic reproduction numbers, and the distribution of the serial interval, using the `{projections}` package.
-- Get the basic reproductive number from the growth rate, given a generation time distribution, using the `{epitrix}` package.
-- Use the serial interval time as proxy of the generation time.
-- Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015.
-- Use the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the `{outbreaks}` R package.
-- Keep the first 48 weeks as period of analysis.
-- Use the `date of onset` column to calculate the daily growth rate. 
+- Simulated outbreak data of Ebola Virus Disease that matches some key properties of the West African Ebola outbreak of 2014-2015 from the package `{outbreaks}`
+- Serial interval stored in `{epiparameter}`
 
 ## Steps in code
 
@@ -168,7 +166,14 @@ incidence1_filter %>%
 
 ## Steps in detail
 
-- (pending)
+- Project the future daily incidence based of past incidence, a selection of plausible basic reproduction numbers, and the distribution of the serial interval, using the `{projections}` package.
+- Get the basic reproductive number from the growth rate, given a generation time distribution, using the `{epitrix}` package.
+- Use the serial interval time as proxy of the generation time.
+- Use the serial interval distribution parameters of Ebola Virus Disease estimated from the WHO Ebola Response Team in 2015.
+- Use the linelist from the Simulated Ebola outbreak ebola_sim_clean object from the `{outbreaks}` R package.
+- Keep the first 48 weeks as period of analysis.
+- Use the `date of onset` column to calculate the daily growth rate. 
+
 
 ## Related
 
