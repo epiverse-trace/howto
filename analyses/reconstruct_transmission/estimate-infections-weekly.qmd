@@ -1,5 +1,5 @@
 ---
-title: "How to estimate Rt from weekly reported SARS-CoV-2 infections?"
+title: "Estimate Effective Reproduction Number (Rt) from Weekly Reported Confirmed Cases"
 format: 
   html:
     code-link: true
