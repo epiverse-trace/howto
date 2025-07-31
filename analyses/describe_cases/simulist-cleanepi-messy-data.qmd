@@ -77,6 +77,7 @@ line_list <- linelist::make_linelist(
   date_admission = "date_admission",
   date_outcome = "date_outcome"
 )
+
 line_list
 
 # line list can be validated using tags
@@ -96,7 +97,7 @@ line_list$age
 line_list$id <- numberize::numberize(line_list$id)
 line_list$id
 
-cleanepi::check_subject_ids(line_list, target_columns = "id", range = c(1, 350))
+cleanepi::check_subject_ids(line_list, target_columns = "id", range = c(1, nrow(line_list)))
 
 # routine cleaning steps to tidy column names and remove duplicated rows
 line_list <- line_list %>%
