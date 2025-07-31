@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 ## Ingredients
 
 - Calculate the daily growth rate stratified by groups.
-- Use the `covidregionaldataUK` data set from the `{covidregionaldata}` R package.
+- Use the `covidregionaldataUK` data set from the `{incidence2}` R package.
 - Use the "date of report" in `cases_new` column of `covidregionaldataUK` to calculate the case counts.
 - Keep the first 4 months in `covidregionaldataUK` as period of analysis.
 
@@ -34,7 +34,6 @@ knitr::opts_chunk$set(
 
 # Load required packages
 library(tidyverse)
-library(covidregionaldata)
 library(incidence2)
 library(i2extras)
 

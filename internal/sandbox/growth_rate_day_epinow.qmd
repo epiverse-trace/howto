@@ -15,7 +15,6 @@ toc_float: true
 #| echo: false
 
 library(tidyverse)
-library(covidregionaldata)
 library(incidence2)
 library(EpiNow2)
 
