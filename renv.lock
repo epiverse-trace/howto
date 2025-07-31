@@ -78,16 +78,16 @@
     },
     "EpiEstim": {
       "Package": "EpiEstim",
-      "Version": "2.2-5",
-      "Source": "Repository",
+      "Version": "2.4",
+      "Source": "GitHub",
       "Title": "Estimate Time Varying Reproduction Numbers from Epidemic Curves",
-      "Authors@R": "c(person(\"Anne\", \"Cori\", email = \"a.cori@imperial.ac.uk\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-8443-9162\")),  person(\"Simon\", \"Cauchemez\", role = \"ctb\"), person(\"Neil M.\", \"Ferguson\", role = \"ctb\", comment = c(ORCID = \"0000-0002-1154-8093\")), person(\"Christophe\", \"Fraser\", role = \"ctb\", comment = c(ORCID = \"0000-0003-2399-9657\")), person(\"Elisabeth\", \"Dahlqwist\", role = \"ctb\", comment = c(ORCID = \"0000-0001-5797-6803\")), person(\"P. Alex\", \"Demarsh\", role = \"ctb\"), person(\"Thibaut\", \"Jombart\", role = \"ctb\", comment = c(ORCID = \"0000-0003-2226-8692\")), person(\"Zhian N.\", \"Kamvar\", role = \"ctb\", comment = c(ORCID = \"0000-0003-1458-7108\")), person(\"Justin\", \"Lessler\", role = \"ctb\", comment = c(ORCID = \"0000-0002-9741-8109\")), person(\"Shikun\", \"Li\", role = \"ctb\"), person(\"Jonathan A.\", \"Polonsky\", role = \"ctb\", comment = c(ORCID = \"0000-0002-8634-4255\")), person(\"Jake\", \"Stockwin\", role = \"ctb\"), person(\"Robin\", \"Thompson\", role = \"ctb\", comment = c(ORCID = \"0000-0001-8545-5212\")), person(\"Rolina\", \"van Gaalen\", role = \"ctb\") )",
+      "Authors@R": "c(person(\"Anne\", \"Cori\", email = \"a.cori@imperial.ac.uk\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-8443-9162\")),  person(\"Simon\", \"Cauchemez\", role = \"ctb\"), person(\"Neil M.\", \"Ferguson\", role = \"ctb\", comment = c(ORCID = \"0000-0002-1154-8093\")), person(\"Christophe\", \"Fraser\", role = \"ctb\", comment = c(ORCID = \"0000-0003-2399-9657\")), person(\"Elisabeth\", \"Dahlqwist\", role = \"ctb\", comment = c(ORCID = \"0000-0001-5797-6803\")), person(\"P. Alex\", \"Demarsh\", role = \"ctb\"), person(\"Thibaut\", \"Jombart\", role = \"ctb\", comment = c(ORCID = \"0000-0003-2226-8692\")), person(\"Zhian N.\", \"Kamvar\", role = \"ctb\", comment = c(ORCID = \"0000-0003-1458-7108\")), person(\"Justin\", \"Lessler\", role = \"ctb\", comment = c(ORCID = \"0000-0002-9741-8109\")), person(\"Shikun\", \"Li\", role = \"ctb\"), person(\"Jonathan A.\", \"Polonsky\", role = \"ctb\", comment = c(ORCID = \"0000-0002-8634-4255\")), person(\"Jake\", \"Stockwin\", role = \"ctb\"), person(\"Robin\", \"Thompson\", role = \"ctb\", comment = c(ORCID = \"0000-0001-8545-5212\")), person(\"Rolina\", \"van Gaalen\", role = \"ctb\"), person(\"Rebecca\", \"Nash\", email = \"r.nash@imperial.ac.uk\", role = \"ctb\", comment = c(ORCID = \"0000-0002-5213-4364\")), person(\"Sangeeta\", \"Bhatia\", role = \"ctb\", comment = c(ORCID = \"0000-0001-6525-101X\")), person(\"Jack\", \"Wardle\", role = \"ctb\", comment = c(ORCID = \"0000-0002-5363-1653\")), person(\"Andrea\", \"Brizzi\", role = \"ctb\", comment = c(ORCID = \"0000-0002-5639-8260\")) )",
       "Maintainer": "Anne Cori <a.cori@imperial.ac.uk>",
       "Description": "Tools to quantify transmissibility throughout an epidemic from the analysis of time series of incidence as described in Cori et al. (2013) <doi:10.1093/aje/kwt133> and Wallinga and Teunis (2004)  <doi:10.1093/aje/kwh255>.",
       "URL": "https://github.com/mrc-ide/EpiEstim",
       "BugReports": "https://github.com/mrc-ide/EpiEstim/issues",
       "Depends": [
-        "R (>= 2.10)"
+        "R (>= 3.5.0)"
       ],
       "Imports": [
         "coarseDataTools (>= 0.6-4)",
@@ -100,7 +100,11 @@
         "coda",
         "incidence (>= 1.7.0)",
         "scales",
-        "grDevices"
+        "grDevices",
+        "abind",
+        "epitrix",
+        "distcrete",
+        "patchwork (>= 1.2.0)"
       ],
       "Suggests": [
         "testthat",
@@ -108,16 +112,29 @@
         "vdiffr",
         "covr",
         "knitr",
-        "rmarkdown"
+        "rmarkdown",
+        "kableExtra",
+        "hrbrthemes",
+        "MCMCglmm",
+        "projections",
+        "dplyr",
+        "readxl",
+        "gghighlight"
       ],
-      "License": "GPL (>= 2)",
+      "License": "GPL (>=2)",
       "LazyLoad": "yes",
       "Encoding": "UTF-8",
       "RoxygenNote": "7.3.2",
       "VignetteBuilder": "knitr",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "EpiEstim",
+      "RemoteUsername": "mrc-ide",
+      "RemotePkgRef": "mrc-ide/EpiEstim",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "0b50c55a2ed12ef935690647ee2acc81f27aa7fb",
       "NeedsCompilation": "no",
-      "Author": "Anne Cori [aut, cre] (ORCID: <https://orcid.org/0000-0002-8443-9162>), Simon Cauchemez [ctb], Neil M. Ferguson [ctb] (ORCID: <https://orcid.org/0000-0002-1154-8093>), Christophe Fraser [ctb] (ORCID: <https://orcid.org/0000-0003-2399-9657>), Elisabeth Dahlqwist [ctb] (ORCID: <https://orcid.org/0000-0001-5797-6803>), P. Alex Demarsh [ctb], Thibaut Jombart [ctb] (ORCID: <https://orcid.org/0000-0003-2226-8692>), Zhian N. Kamvar [ctb] (ORCID: <https://orcid.org/0000-0003-1458-7108>), Justin Lessler [ctb] (ORCID: <https://orcid.org/0000-0002-9741-8109>), Shikun Li [ctb], Jonathan A. Polonsky [ctb] (ORCID: <https://orcid.org/0000-0002-8634-4255>), Jake Stockwin [ctb], Robin Thompson [ctb] (ORCID: <https://orcid.org/0000-0001-8545-5212>), Rolina van Gaalen [ctb]",
-      "Repository": "CRAN"
+      "Author": "Anne Cori [aut, cre] (ORCID: <https://orcid.org/0000-0002-8443-9162>), Simon Cauchemez [ctb], Neil M. Ferguson [ctb] (ORCID: <https://orcid.org/0000-0002-1154-8093>), Christophe Fraser [ctb] (ORCID: <https://orcid.org/0000-0003-2399-9657>), Elisabeth Dahlqwist [ctb] (ORCID: <https://orcid.org/0000-0001-5797-6803>), P. Alex Demarsh [ctb], Thibaut Jombart [ctb] (ORCID: <https://orcid.org/0000-0003-2226-8692>), Zhian N. Kamvar [ctb] (ORCID: <https://orcid.org/0000-0003-1458-7108>), Justin Lessler [ctb] (ORCID: <https://orcid.org/0000-0002-9741-8109>), Shikun Li [ctb], Jonathan A. Polonsky [ctb] (ORCID: <https://orcid.org/0000-0002-8634-4255>), Jake Stockwin [ctb], Robin Thompson [ctb] (ORCID: <https://orcid.org/0000-0001-8545-5212>), Rolina van Gaalen [ctb], Rebecca Nash [ctb] (ORCID: <https://orcid.org/0000-0002-5213-4364>), Sangeeta Bhatia [ctb] (ORCID: <https://orcid.org/0000-0001-6525-101X>), Jack Wardle [ctb] (ORCID: <https://orcid.org/0000-0002-5363-1653>), Andrea Brizzi [ctb] (ORCID: <https://orcid.org/0000-0002-5639-8260>)"
     },
     "EpiNow2": {
       "Package": "EpiNow2",
