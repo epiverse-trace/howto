@@ -85,17 +85,6 @@ initial_conditions <- base::matrix(
   ncol = 4L, byrow = TRUE
 ) * demography_vector
 
-# an intervention to close schools
-close_schools <- epidemics::intervention(
-  type = "contacts",
-  time_begin = 200,
-  time_end = 260,
-  reduction = base::matrix(c(0.15,0.15,0.15))
-)
-
-# view the intervention
-close_schools
-
 # Define an epidemic SEIR model in {odin}
 seir <- odin::odin({
   # NOTE: crude time-dependence of transmission rate
