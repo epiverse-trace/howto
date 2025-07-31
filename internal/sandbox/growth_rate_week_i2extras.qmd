@@ -35,7 +35,6 @@ knitr::opts_chunk$set(
 # Load required packages
 library(outbreaks)
 library(incidence2)
-library(i2extras)
 library(dplyr)
 
 # Load the simulated Ebola outbreak data
@@ -63,18 +62,49 @@ incidence2_week
 incidence2_filter <- incidence2_week[1:20,]
 
 # Model the incidence
-incidence2_fit <- 
-  i2extras::fit_curve(
-    incidence2_filter, 
-    model = "poisson", 
-    alpha = 0.05
-  )
+fitted <- 
+  incidence2_filter %>% 
+  nest(.key = "data") %>% 
+    mutate(
+        model  = lapply(
+            data,
+            function(x) glm(count ~ date_index, data = x, family = poisson)
+        )
+    )
 
 # Print the model result
-i2extras::growth_rate(incidence2_fit)
+intervals <-
+    fitted %>%
+    mutate(result = Map(
+        function(data, model) {
+            data %>%
+                ciTools::add_ci(
+                    model,
+                    alpha = 0.05,
+                    names = c("lower_ci", "upper_ci")
+                ) %>%
+                as_tibble()
+        },
+        data,
+        model
+    )) %>%
+    select(result) %>%
+    unnest(result)
 
 # Plot the model result with prediction intervals
-plot(incidence2_fit, ci = FALSE, pi = TRUE)
+plot(incidence2_filter, angle = 45) +
+    ggplot2::geom_line(
+        ggplot2::aes(date_index, y = pred),
+        data = intervals,
+        inherit.aes = FALSE
+    ) +
+    ggplot2::geom_ribbon(
+        ggplot2::aes(date_index, ymin = lower_ci, ymax = upper_ci),
+        alpha = 0.2,
+        data = intervals,
+        inherit.aes = FALSE,
+        fill = "#BBB67E"
+    )
 
 # Read plot documentation for an incidence2_fit object
 # ?plot.incidence2_fit

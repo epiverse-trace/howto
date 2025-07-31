@@ -35,7 +35,6 @@ knitr::opts_chunk$set(
 # Load required packages
 library(tidyverse)
 library(incidence2)
-library(i2extras)
 
 # Load covid outbreak data
 raw_dat <- 
@@ -69,18 +68,49 @@ dat_group <-
 dat_group
 
 # Model the incidence
-out_group <- 
-  i2extras::fit_curve(
-    dat_group, 
-    model = "poisson", 
-    alpha = 0.05
-  )
+fitted <- 
+  dat_group %>% 
+  nest(.key = "data") %>% 
+    mutate(
+        model  = lapply(
+            data,
+            function(x) glm(count ~ date_index, data = x, family = poisson)
+        )
+    )
 
 # Print the model result
-i2extras::growth_rate(out_group)
+intervals <-
+    fitted %>%
+    mutate(result = Map(
+        function(data, model) {
+            data %>%
+                ciTools::add_ci(
+                    model,
+                    alpha = 0.05,
+                    names = c("lower_ci", "upper_ci")
+                ) %>%
+                as_tibble()
+        },
+        data,
+        model
+    )) %>%
+    select(region, result) %>%
+    unnest(result)
 
 # Plot the model result with prediction intervals
-plot(out_group, ci = FALSE, pi = TRUE)
+plot(dat_group, angle = 45) +
+    ggplot2::geom_line(
+        ggplot2::aes(date_index, y = pred),
+        data = intervals,
+        inherit.aes = FALSE
+    ) +
+    ggplot2::geom_ribbon(
+        ggplot2::aes(date_index, ymin = lower_ci, ymax = upper_ci),
+        alpha = 0.2,
+        data = intervals,
+        inherit.aes = FALSE,
+        fill = "#BBB67E"
+    )
 
 # Read plot documentation for an incidence2_fit object
 # ?plot.incidence2_fit
