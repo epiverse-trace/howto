@@ -148,8 +148,8 @@ superspreading::proportion_cluster_size(
 
 superspreading::proportion_transmission(
   R = R, 
-  k = k, 
-  percent_transmission = 0.8
+  k = k,
+  prop_transmission = 0.8
 )
 
 # Estimate probability of outbreak extinction -----------------------------
