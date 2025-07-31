@@ -36,7 +36,6 @@ knitr::opts_chunk$set(
 # Load required packages
 library(outbreaks)
 library(incidence2)
-library(i2extras)
 library(epiparameter)
 library(distcrete)
 library(epitrix)
@@ -69,11 +68,14 @@ incidence1_filter <-
 
 # Model the incidence
 incidence2_fit <- 
-  i2extras::fit_curve(
-    x = incidence2_filter,
-    model = "poisson",
-    alpha = 0.05
-  )
+  incidence2_filter %>% 
+    nest(.key = "data") %>% 
+    mutate(
+        model  = lapply(
+            data,
+            function(x) glm(count ~ date_index, data = x, family = poisson)
+        )
+    )
 
 # Extract parameter by disease, distribution, author
 epidist_ebola_si <- 
