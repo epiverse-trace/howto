@@ -27,7 +27,6 @@ toc_float: true
 # Load required packages
 library(tidyverse)
 library(outbreaks)
-library(covidregionaldata)
 library(incidence2)
 
 # Load covid outbreak data
