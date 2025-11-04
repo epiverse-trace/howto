@@ -70,7 +70,7 @@ contact_net <- epicontacts::make_epicontacts(
 
 # Plot transmission network -----------------------------------------------
 
-transmission_net <- outbreak$contacts[outbreak$contacts$was_case == "Y", ]
+transmission_net <- outbreak$contacts[outbreak$contacts$was_case == TRUE, ]
 
 transmission_net <- epicontacts::make_epicontacts(
   linelist = outbreak$linelist,
@@ -81,6 +81,8 @@ transmission_net <- epicontacts::make_epicontacts(
   directed = TRUE
 )
 
+transmission_net
+
 # plot(transmission_net)
 
 # Extract secondary case data from outbreak -------------------------------
@@ -88,7 +90,7 @@ transmission_net <- epicontacts::make_epicontacts(
 contacts <- outbreak$contacts
 
 # subset to contacts that caused transmission
-infections <- contacts[contacts$was_case == "Y", ]
+infections <- contacts[contacts$was_case == TRUE, ]
 
 # Tabulate number of infections from each infector
 secondary_cases <- table(infections$from)
