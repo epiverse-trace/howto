@@ -215,7 +215,7 @@ rt_plot <- ggplot() +
     data = Rt_ts_epiestim,
     aes(
       x = date,
-      ymin = quantile_0_25_r,
+      ymin = quantile_0_025_r,
       ymax = quantile_0_975_r,
       fill = method
     ),
@@ -236,8 +236,8 @@ rt_plot <- ggplot() +
     data = Rt_ts_epinow,
     aes(
       x = date,
-      ymin = lower_75,
-      ymax = upper_97_5,
+      ymin = lower_90,
+      ymax = upper_90,
       fill = method
     ),
     alpha = 0.4
