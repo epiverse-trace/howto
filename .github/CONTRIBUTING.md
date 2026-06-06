@@ -92,6 +92,16 @@ Use the [**Render** button](https://quarto.org/docs/get-started/hello/rstudio.ht
 
 To render the whole website, use the **Render Website** button within the [Build pane](https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html).
 
+Alternatively, run in the R console:
+
+```r
+# Preview a single file with live reload
+quarto::quarto_preview("analyses/<task>/file.qmd")
+
+# Render the whole website
+quarto::quarto_render()
+```
+
 If the task (folder) of your entry is not listed in the `index.qmd` page, First, add a new task entry to the `listing:` section in the YAML on top. In the template below, edit the `id:` and `contents:` with for the corresponding task (folder name). For example, for the task `"Describe case data"` with used as ID `describe-cases` and detailed the folder path `analyses/describe_cases/*.qmd`:
 
 ```
