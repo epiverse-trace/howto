@@ -24,6 +24,11 @@ The goal of `{howto}` is to collect reproducible **how-to guides** of Outbreak d
 
 Visualize this content as a webpage at <https://epiverse-trace.github.io/howto/>
 
+```{r, eval = FALSE}
+# Render the website locally
+quarto::quarto_render()
+```
+
 ## Contributing
 
 Contributions are always welcome!

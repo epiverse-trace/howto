@@ -19,6 +19,11 @@ Outbreak data analysis tasks using `R` packages.
 Visualize this content as a webpage at
 <https://epiverse-trace.github.io/howto/>
 
+``` r
+# Render the website locally
+quarto::quarto_render()
+```
+
 ## Contributing
 
 Contributions are always welcome!
@@ -39,9 +44,7 @@ Please see our [Getting help guide](/.github/SUPPORT.md) for support.
 
 ## Citation
 
-    #> 
-    #> Valle A (2023). "howto: How-To Guides For Outbreak Analytics R
-    #> Packages."
+    #> Valle A (2023). "howto: How-To Guides For Outbreak Analytics R Packages."
     #> 
     #> A BibTeX entry for LaTeX users is
     #> 
