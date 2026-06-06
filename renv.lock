@@ -3347,8 +3347,8 @@
     },
     "grates": {
       "Package": "grates",
-      "Version": "1.8.0",
-      "Source": "Repository",
+      "Version": "1.8.0.9000",
+      "Source": "GitHub",
       "Title": "Grouped Date Classes",
       "Authors@R": "c( person( given = \"Tim\", family = \"Taylor\", role = c(\"aut\", \"cre\"), email = \"tim.taylor@hiddenelephants.co.uk\", comment = c(ORCID = \"0000-0002-8587-7113\") ) )",
       "Description": "Provides a coherent interface and implementation for creating grouped date classes.",
@@ -3356,6 +3356,7 @@
       "BugReports": "https://github.com/reconverse/grates/issues",
       "License": "MIT + file LICENSE",
       "Encoding": "UTF-8",
+      "Roxygen": "list(markdown = TRUE)",
       "RoxygenNote": "7.3.3",
       "Depends": [
         "R (>= 3.6.0)"
@@ -3377,10 +3378,17 @@
         "utils",
         "fastymd"
       ],
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "grates",
+      "RemoteUsername": "reconverse",
+      "RemotePkgRef": "reconverse/grates/pkg",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "dff3eba8b998b32ce47a5da5696cfba518122912",
+      "RemoteSubdir": "pkg",
       "NeedsCompilation": "no",
       "Author": "Tim Taylor [aut, cre] (ORCID: <https://orcid.org/0000-0002-8587-7113>)",
-      "Maintainer": "Tim Taylor <tim.taylor@hiddenelephants.co.uk>",
-      "Repository": "CRAN"
+      "Maintainer": "Tim Taylor <tim.taylor@hiddenelephants.co.uk>"
     },
     "gridExtra": {
       "Package": "gridExtra",
@@ -3811,8 +3819,8 @@
     },
     "incidence2": {
       "Package": "incidence2",
-      "Version": "2.6.4",
-      "Source": "Repository",
+      "Version": "2.6.4.9000",
+      "Source": "GitHub",
       "Type": "Package",
       "Title": "Compute, Handle and Plot Incidence of Dated Events",
       "Authors@R": "c( person(\"Tim\", \"Taylor\", role = c(\"aut\", \"cre\"), email = \"tim.taylor@hiddenelephants.co.uk\", comment = c(ORCID = \"0000-0002-8587-7113\")), person(\"Thibaut\", \"Jombart\", role = \"ctb\", email = \"thibautjombart@gmail.com\") )",
@@ -3822,7 +3830,7 @@
       "URL": "https://www.reconverse.org/incidence2/, https://github.com/reconverse/incidence2",
       "BugReports": "https://github.com/reconverse/incidence2/issues",
       "Depends": [
-        "grates (>= 1.3.0)",
+        "grates (>= 1.8.0)",
         "R (>= 4.1.0)"
       ],
       "Imports": [
@@ -3840,6 +3848,7 @@
         "ympes (>= 1.3.0)"
       ],
       "RoxygenNote": "7.3.3",
+      "Roxygen": "list(markdown = TRUE)",
       "Suggests": [
         "outbreaks",
         "ggplot2",
@@ -3855,10 +3864,18 @@
       "Config/testthat/parallel": "true",
       "Config/testthat/start-first": "plot, incidence, bootstrap",
       "LazyData": "true",
+      "Remotes": "reconverse/grates/pkg",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "incidence2",
+      "RemoteUsername": "reconverse",
+      "RemotePkgRef": "reconverse/incidence2/pkg",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "443fd4c0d0ec4d1c4a5a1bb1de8afb22205d59fd",
+      "RemoteSubdir": "pkg",
       "NeedsCompilation": "no",
       "Author": "Tim Taylor [aut, cre] (ORCID: <https://orcid.org/0000-0002-8587-7113>), Thibaut Jombart [ctb]",
-      "Maintainer": "Tim Taylor <tim.taylor@hiddenelephants.co.uk>",
-      "Repository": "CRAN"
+      "Maintainer": "Tim Taylor <tim.taylor@hiddenelephants.co.uk>"
     },
     "inline": {
       "Package": "inline",
