@@ -5,6 +5,10 @@
       {
         "Name": "CRAN",
         "URL": "https://cran.rstudio.com"
+      },
+      {
+        "Name": "mrc-ide",
+        "URL": "https://mrc-ide.r-universe.dev"
       }
     ]
   },
