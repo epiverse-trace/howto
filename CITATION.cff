@@ -1,23 +1,40 @@
-# -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.5.0
-# See also: https://docs.ropensci.org/cffr/
-# -----------------------------------------------------------
- 
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
 cff-version: 1.2.0
+title: 'howto: How-To Guides For Outbreak Analytics R Packages'
 message: 'To cite package "howto" in publications use:'
 type: software
-license: CC-BY-4.0
-title: 'howto: How-To Guides For Outbreak Analytics R Packages'
-version: 0.0.0.9000
-abstract: Collection of reproducible how-to guides of Outbreak data analysis tasks
-  using R packages.
 authors:
-- family-names: Valle
-  given-names: Andree
-  email: andree.valle-campos@lshtm.ac.uk
-  orcid: https://orcid.org/0000-0002-7779-481X
+  - family-names: Valle
+    given-names: Andree
+    email: andree.valle-campos@lshtm.ac.uk
+    orcid: 'https://orcid.org/0000-0002-7779-481X'
+  - family-names: Gupte
+    given-names: Pratik
+    email: pratik.gupte@lshtm.ac.uk
+    orcid: 'https://orcid.org/0000-0001-5294-7819'
+  - family-names: Kucharski
+    given-names: Adam
+    email: adam.kucharski@lshtm.ac.uk
+    orcid: 'https://orcid.org/0000-0001-8814-9421'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21539192
+repository-code: 'https://github.com/epiverse-trace/howto/'
+url: 'https://epiverse-trace.github.io/howto/'
+abstract: >-
+  Collection of reproducible how-to guides of Outbreak data
+  analysis tasks using R packages.
+keywords:
+  - outbreak-analytics
+  - howto
+  - epiverse
+license: CC-BY-4.0
+version: v2026-07-24
+date-released: '2026-07-24'
 contact:
-- family-names: Valle
-  given-names: Andree
-  email: andree.valle-campos@lshtm.ac.uk
-  orcid: https://orcid.org/0000-0002-7779-481X
+  - family-names: Valle
+    given-names: Andree
+    email: andree.valle-campos@lshtm.ac.uk
+    orcid: 'https://orcid.org/0000-0002-7779-481X'

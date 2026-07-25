@@ -1,9 +1,14 @@
 Package: howto
 Title: How-To Guides For Outbreak Analytics R Packages
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R: c(
     person("Andree", "Valle", , "andree.valle-campos@lshtm.ac.uk", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-7779-481X"))
+           comment = c(ORCID = "0000-0002-7779-481X")),
+    person("Pratik", "Gupte", , "pratik.gupte@lshtm.ac.uk", role = "aut",
+           comment = c(ORCID = "0000-0001-5294-7819")),
+    person("Adam", "Kucharski", , "adam.kucharski@lshtm.ac.uk", role = "aut",
+           comment = c(ORCID = "0000-0001-8814-9421"))
+  )
 Description: Collection of reproducible how-to guides of Outbreak data analysis tasks using R packages.
 License: CC BY 4.0
 Encoding: UTF-8
