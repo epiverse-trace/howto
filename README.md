@@ -44,14 +44,29 @@ Please see our [Getting help guide](/.github/SUPPORT.md) for support.
 
 ## Citation
 
-    #> Valle A (2023). "howto: How-To Guides For Outbreak Analytics R Packages."
-    #> 
-    #> A BibTeX entry for LaTeX users is
-    #> 
-    #>   @Misc{epiversehowto,
-    #>     year = {2023},
-    #>     title = {howto: How-To Guides For Outbreak Analytics R Packages},
-    #>     author = {Andree Valle},
-    #>     abstract = {Collection of reproducible how-to guides of Outbreak data analysis tasks using R packages.},
-    #>     version = {0.0.0.9000},
-    #>   }
+See [CITATION.cff](CITATION.cff) for citation information, including a
+list of authors. ([Read more about the Citation File Format and how to
+use it](https://citation-file-format.github.io/).)
+
+To cite these tutorials in publications use:
+
+    Valle A, Gupte P, Kucharski A (2026). "howto: How-To Guides For Outbreak Analytics R Packages."
+    <https://epiverse-trace.github.io/howto/>.
+
+A BibTeX entry for LaTeX users is:
+
+    @Misc{valle_etall:2026,
+      title = {howto: How-To Guides For Outbreak Analytics R Packages},
+      author = {Andree Valle and Pratik Gupte and Adam Kucharski},
+      year = {2026},
+      url = {https://epiverse-trace.github.io/howto/},
+      abstract = {Collection of reproducible how-to guides of Outbreak data analysis tasks using R packages.},
+      keywords = {outbreak-analytics,howto,epiverse},
+      version = {v2026-07-24},
+    }
+
+## Contact
+
+Please contact [Andree
+Valle-Campos](mailto:andree.valle-campos@lshtm.ac.uk) with any questions
+about this repository.

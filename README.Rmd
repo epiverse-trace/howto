@@ -47,6 +47,20 @@ Please see our [Getting help guide](/.github/SUPPORT.md) for support.
 
 ## Citation
 
-```{r,echo=FALSE}
-readCitationFile(file = "inst/CITATION")
+See [CITATION.cff](CITATION.cff) for citation information, including a list of authors.
+([Read more about the Citation File Format and how to use it](https://citation-file-format.github.io/).)
+
+To cite these tutorials in publications use:
+
+```{r,eval=TRUE,echo=FALSE,comment=""}
+cffr::as_bibentry(x = "CITATION.cff")
 ```
+
+A BibTeX entry for LaTeX users is:
+
+```{r,eval=TRUE,echo=FALSE,comment=""}
+utils::toBibtex(cffr::as_bibentry(x = "CITATION.cff"))
+```
+
+## Contact
+Please contact [Andree Valle-Campos](mailto:andree.valle-campos@lshtm.ac.uk) with any questions about this repository.
