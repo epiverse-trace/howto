@@ -1,0 +1,129 @@
+---
+title: "How to (active verb) ... ?"
+format: 
+  html:
+    code-link: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+date: last-modified
+toc: true
+toc_float: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Ingredients
+
+- Nouns
+
+## Steps in code
+
+```{r}
+#| warning: false
+
+# Load packages
+library(cleanepi)
+library(linelist)
+library(incidence2)
+library(epiparameter)
+library(EpiNow2)
+library(tidyverse)
+
+# Read cases dataset
+reported_cases <- incidence2::covidregionaldataUK %>%
+  # use {tidyr} to preprocess missing values
+  tidyr::replace_na(base::list(cases_new = 0)) %>%
+  # use {incidence2} to compute the daily incidence of reported cases
+  incidence2::incidence(
+    date_index = "date",
+    counts = "cases_new",
+    # rename column outputs for interoperability with {epinow2}
+    count_values_to = "confirm",
+    date_names_to = "date",
+    complete_dates = TRUE
+  ) %>%
+  # keep date range for the first 90 days of this data
+  dplyr::slice(1:90) %>%
+  # drop column for interoperability with {epinow2}
+  dplyr::select(-count_variable)
+
+# Print cases by date of report
+reported_cases
+
+# Generation time ---------------------------------------------------------
+
+# Generation time
+generation_time_fixed <- EpiNow2::LogNormal(
+  mean = 3.6,
+  sd = 3.1,
+  max = 20
+)
+
+# Delays from infection to observed data ----------------------------------
+
+# Incubation period
+incubation_period_fixed <- EpiNow2::Gamma(
+  mean = 4,
+  sd = 2,
+  max = 20
+)
+
+reporting_delay_variable <- EpiNow2::LogNormal(
+  mean = EpiNow2::Normal(mean = 2, sd = 0.5),
+  sd = EpiNow2::Normal(mean = 1, sd = 0.5),
+  max = 10
+)
+
+# Estimate transmissibility and forecast ----------------------------------
+
+# Define observation model
+# Assume that from this data
+# we observe 40% cases with 1% standard deviation
+obs_scale <- base::list(mean = 0.4, sd = 0.01)
+
+# define Rt prior distribution
+rt_prior <- EpiNow2::rt_opts(prior = base::list(mean = 2, sd = 2))
+
+# WAIT this takes around 5 minutes
+# tictoc::tic()
+estimates <- EpiNow2::epinow(
+  data = reported_cases,
+  generation_time = EpiNow2::generation_time_opts(generation_time_fixed),
+  delays = EpiNow2::delay_opts(incubation_period_fixed + reporting_delay_variable),
+  rt = rt_prior,
+  # Add observation model
+  obs = EpiNow2::obs_opts(scale = obs_scale),
+  # Number of days into the future to forecast
+  horizon = 14
+)
+# tictoc::toc()
+
+# Plot estimates
+plot(estimates)
+```
+
+## Steps in detail
+
+<!-- OPTIONAL -->
+
+<!-- reduce length of strings with a large language model like chatgpt -->
+
+- `tidyverse` package is loaded to manage data frame objects.
+
+<!-- must: keep to warn users on how to install packages -->
+
+Please note that the code assumes the necessary packages are already installed. If they are not, you can install them using first the `install.packages("pak")` function and then the `pak::pak()` function for both packages in CRAN or GitHub before loading them with `library()`. 
+
+<!-- optional: erase if no assumed distribution is needed -->
+
+Additionally, make sure to adjust the serial interval distribution parameters according to the specific outbreak you are analyzing.
+
+## Related
+
+- [Explanation on topic](link)
